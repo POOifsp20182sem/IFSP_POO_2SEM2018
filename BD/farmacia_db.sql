@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cliente` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
   `endereco` varchar(50) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `cliente` (
   `cnpj` varchar(14) DEFAULT NULL,
   `data_nascimento` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15'),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +57,7 @@ DROP TABLE IF EXISTS `funcionario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
   `endereco` varchar(50) NOT NULL,
@@ -92,7 +93,7 @@ CREATE TABLE `itens_pedido` (
   `quantidade` int(11) NOT NULL,
   `preco_unitario` double NOT NULL,
   `desconto` double DEFAULT '0',
-  KEY `produto_id` (`produto_id`),
+  PRIMARY KEY (`produto_id`,`pedido_id`),
   KEY `pedido_id` (`pedido_id`),
   CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`),
   CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`)
@@ -116,7 +117,7 @@ DROP TABLE IF EXISTS `pedido`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pedido` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `data_compra` date DEFAULT NULL,
   `cliente_id` int(11) DEFAULT NULL,
   `funcionario_id` int(11) DEFAULT NULL,
@@ -147,7 +148,7 @@ DROP TABLE IF EXISTS `produto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `produto` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome_comercial` varchar(50) DEFAULT NULL,
   `apresentacao` varchar(50) DEFAULT NULL,
   `forma_farmaco` varchar(30) DEFAULT NULL,
@@ -176,6 +177,119 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'farmacia'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `alterar_cliente` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_cliente`(
+IN p_id int,
+IN p_nome varchar(50),
+IN p_email varchar(50),
+IN p_endereco varchar(50),
+IN p_telefone varchar(10),
+IN p_celular varchar(11),
+IN p_tipo_cliente enum('juridica','fisica'),
+IN p_cpf varchar(11) ,
+IN p_cnpj varchar(14),
+IN p_data_nascimento date
+)
+BEGIN
+
+IF p_tipo_cliente = 'fisica' THEN
+
+	UPDATE cliente
+	SET
+		nome = p_nome, 
+		email = p_email, 
+		endereco = p_endereco, 
+		telefone = p_telefone, 
+		celular = p_celular, 
+		tipo_cliente = p_tipo_cliente,
+		cnpj = NULL,
+		cpf = p_cpf, 
+		data_nascimento = p_data_nascimento
+	WHERE id = p_id;
+
+ELSE 
+	UPDATE cliente
+	SET
+		nome = p_nome, 
+		email = p_email, 
+		endereco = p_endereco, 
+		telefone = p_telefone, 
+		celular = p_celular, 
+		tipo_cliente = p_tipo_cliente,
+		cnpj = p_cnpj,
+		cpf = NULL, 
+		data_nascimento = p_data_nascimento
+	WHERE id = p_id;
+
+END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `criar_cliente` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `criar_cliente`(
+IN p_nome varchar(50),
+IN p_email varchar(50),
+IN p_endereco varchar(50),
+IN p_telefone varchar(10),
+IN p_celular varchar(11),
+IN p_tipo_cliente enum('juridica','fisica'),
+IN p_cpf varchar(11) ,
+IN p_cnpj varchar(14),
+IN p_data_nascimento date
+)
+BEGIN
+
+INSERT INTO cliente
+	(nome, email, endereco, telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento) 
+VALUES
+	(p_nome, p_email, p_endereco, p_telefone, p_celular, p_tipo_cliente, p_cpf, p_cnpj, p_data_nascimento);
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `excluir_cliente` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_cliente`(IN p_id int)
+BEGIN
+	DELETE FROM cliente where id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -186,4 +300,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-19 14:59:25
+-- Dump completed on 2018-08-19 16:28:57
