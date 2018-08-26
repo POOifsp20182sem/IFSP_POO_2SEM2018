@@ -31,3 +31,8 @@ hs_err_pid*
 flycheck_*.el
 projectile-bookmarks.eld
 .dir-locals.el
+/.metadata/
+
+# recommenders directory
+/.recommenders
+/Farmacia/.classpath
