@@ -1,4 +1,4 @@
-package MySqlConnection;
+package Model.Persistence;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
