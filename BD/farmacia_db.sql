@@ -68,7 +68,7 @@ CREATE TABLE `funcionario` (
   `tipo_funcionario` enum('gerente','atendente') NOT NULL,
   `salario` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,6 +77,7 @@ CREATE TABLE `funcionario` (
 
 LOCK TABLES `funcionario` WRITE;
 /*!40000 ALTER TABLE `funcionario` DISABLE KEYS */;
+INSERT INTO `funcionario` VALUES (2,'batatao','eder@gmail.com','Rua x','3534652870','99999999999','12409536619','2000-12-12','atendente',1200);
 /*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +93,6 @@ CREATE TABLE `itens_pedido` (
   `pedido_id` int(11) NOT NULL,
   `quantidade` int(11) NOT NULL,
   `preco_unitario` double NOT NULL,
-  `desconto` double DEFAULT '0',
   PRIMARY KEY (`produto_id`,`pedido_id`),
   KEY `pedido_id` (`pedido_id`),
   CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`),
@@ -128,7 +128,7 @@ CREATE TABLE `pedido` (
   KEY `funcionario_id` (`funcionario_id`),
   CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`funcionario_id`) REFERENCES `funcionario` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +137,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
+INSERT INTO `pedido` VALUES (2,'2005-10-29',7,2,100,0.1);
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,16 +150,18 @@ DROP TABLE IF EXISTS `produto`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `produto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome_comercial` varchar(50) DEFAULT NULL,
-  `apresentacao` varchar(50) DEFAULT NULL,
-  `forma_farmaco` varchar(30) DEFAULT NULL,
-  `fabricante` varchar(60) DEFAULT NULL,
-  `principio_ativo` varchar(50) DEFAULT NULL,
-  `unidade_medida` varchar(40) DEFAULT NULL,
+  `nome_comercial` varchar(50) NOT NULL,
+  `apresentacao` varchar(50) NOT NULL,
+  `forma_farmaco` varchar(30) NOT NULL,
+  `fabricante` varchar(60) NOT NULL,
+  `principio_ativo` varchar(50) NOT NULL,
+  `unidade_medida` varchar(40) NOT NULL,
   `registro_ms` varchar(11) DEFAULT NULL,
   `codigo_barras` varchar(13) DEFAULT NULL,
+  `classe_terapeutica` varchar(40) NOT NULL,
+  `qtde_estoque` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,6 +170,7 @@ CREATE TABLE `produto` (
 
 LOCK TABLES `produto` WRITE;
 /*!40000 ALTER TABLE `produto` DISABLE KEYS */;
+INSERT INTO `produto` VALUES (2,'Remédio','ZZ','pílula','fabricante','PX','kilo','512545asa','nao sei','preguica',42);
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +241,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `criar_cliente` */;
+/*!50003 DROP PROCEDURE IF EXISTS `alterar_funcionario` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -247,24 +251,144 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `criar_cliente`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_funcionario`(
+IN p_id int,
 IN p_nome varchar(50),
-IN p_email varchar(50),
-IN p_endereco varchar(50),
+IN p_email varchar(50) ,
+IN p_endereco varchar(50) ,
 IN p_telefone varchar(10),
 IN p_celular varchar(11),
-IN p_tipo_cliente enum('juridica','fisica'),
-IN p_cpf varchar(11) ,
-IN p_cnpj varchar(14),
-IN p_data_nascimento date
+IN p_cpf varchar(11),
+IN p_data_nascimento date,
+IN p_tipo_funcionario enum('gerente','atendente'),
+IN p_salario double
 )
 BEGIN
-
-INSERT INTO cliente
-	(nome, email, endereco, telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento) 
-VALUES
-	(p_nome, p_email, p_endereco, p_telefone, p_celular, p_tipo_cliente, p_cpf, p_cnpj, p_data_nascimento);
-
+	
+    UPDATE funcionario 
+    SET
+    nome = p_nome,
+    email = p_email,
+    endereco = p_endereco,
+    telefone = p_telefone,
+    celular = p_celular,
+    cpf = p_cpf,
+    data_nascimento = p_data_nascimento,
+    tipo_funcionario = p_tipo_funcionario,
+    salario = p_salario
+    WHERE
+    id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `alterar_itens_pedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_itens_pedido`(
+IN p_old_produto_id	int(11),
+IN p_old_pedido_id	int(11),
+IN p_new_produto_id	int(11),
+IN p_new_pedido_id	int(11),
+IN p_quantidade	int(11),
+IN p_preco_unitario	double
+)
+BEGIN
+	UPDATE itens_pedido 
+    SET
+    produto_id = p_new_produto_id,
+    pedido_id= p_new_pedido_id,
+    quantidade = p_quantidade,
+    preco_unitario = p_preco_unitario
+    WHERE 
+    produto_id = p_old_produto_id 
+    AND
+    pedido_id= p_old_pedido_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `alterar_pedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_pedido`(
+IN p_id int(11),
+IN p_cliente_id int(11),
+IN p_funcionario_id int(11),
+IN p_desconto double,
+IN p_total double,
+IN p_data_compra date
+)
+BEGIN
+	UPDATE pedido
+    SET 
+    cliente_id = p_cliente_id,
+    funcionario_id = p_funcionario_id,
+    desconto = p_desconto,
+    total = p_total,
+    data_compra = p_data_compra
+    WHERE 
+    id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `alterar_produto` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alterar_produto`(
+IN p_id int(11),
+IN p_nome_comercial varchar(50),
+IN p_apresentacao varchar(50),
+IN p_forma_farmaco varchar(30),
+IN p_fabricante	varchar(60),
+IN p_principio_ativo varchar(50),
+IN p_unidade_medida	varchar(40),
+IN p_registro_ms varchar(11),
+IN p_codigo_barras varchar(13),
+IN p_classe_terapeutica varchar(40),
+IN p_qtde_estoque int(11))
+BEGIN
+	UPDATE produto SET
+    nome_comercial = p_nome_comercial,
+    apresentacao = p_apresentacao,
+    forma_farmaco = p_forma_farmaco,
+    fabricante = p_fabricante,
+    principio_ativo = p_principio_ativo,
+    unidade_medida = p_unidade_medida,
+    registro_ms = p_registro_ms,
+    codigo_barras = p_codigo_barras,
+    classe_terapeutica = p_classe_terapeutica,
+    qtde_estoque = p_qtde_estoque
+    WHERE 
+    id = p_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -290,6 +414,278 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `excluir_funcionario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_funcionario`(IN p_id int)
+BEGIN
+	DELETE FROM funcionario where id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `excluir_itens_pedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_itens_pedido`(
+IN p_produto_id	int(11),
+IN p_pedido_id	int(11)
+)
+BEGIN
+	DELETE from itens_pedido where produto_id = p_produto_id AND pedido_id = p_pedido_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `excluir_pedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_pedido`(
+IN p_id int(11)
+)
+BEGIN
+	DELETE FROM pedido where id = p_id;
+	#posso colocar um variavel para o status e também uma para ocultar
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `excluir_produto` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_produto`(IN p_id int)
+BEGIN
+	DELETE FROM produto where id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_cliente` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_cliente`(
+IN p_nome varchar(50),
+IN p_email varchar(50),
+IN p_endereco varchar(50),
+IN p_telefone varchar(10),
+IN p_celular varchar(11),
+IN p_tipo_cliente enum('juridica','fisica'),
+IN p_cpf varchar(11) ,
+IN p_cnpj varchar(14),
+IN p_data_nascimento date
+)
+BEGIN
+
+INSERT INTO cliente
+	(nome, email, endereco, telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento) 
+VALUES
+	(
+    p_nome,
+    p_email,
+    p_endereco,
+    p_telefone,
+    p_celular,
+    p_tipo_cliente,
+    p_cpf, p_cnpj,
+    p_data_nascimento
+    );
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_funcionario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_funcionario`(
+IN p_nome varchar(50),
+IN p_email varchar(50) ,
+IN p_endereco varchar(50) ,
+IN p_telefone varchar(10),
+IN p_celular varchar(11),
+IN p_cpf varchar(11),
+IN p_data_nascimento date,
+IN p_tipo_funcionario enum('gerente','atendente'),
+IN p_salario double
+)
+BEGIN
+	INSERT INTO funcionario values
+    (default,
+    p_nome,
+    p_email,
+    p_endereco,
+    p_telefone,
+    p_celular,
+    p_cpf,
+    p_data_nascimento,
+    p_tipo_funcionario,
+    p_salario
+    );
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_itens_pedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_itens_pedido`(
+IN p_produto_id	int(11),
+IN p_pedido_id	int(11),
+IN p_quantidade	int(11),
+IN p_preco_unitario	double
+)
+BEGIN
+	INSERT INTO itens_pedido 
+    VALUES
+    (
+    p_produto_id,
+    p_pedido_id,
+    p_quantidade,
+    p_preco_unitario
+    );
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_pedido` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_pedido`(
+IN p_cliente_id int(11),
+IN p_funcionario_id int(11),
+IN p_desconto double,
+IN p_total double,
+IN p_data_compra date
+)
+BEGIN
+	INSERT INTO pedido
+    (cliente_id, funcionario_id,desconto,total,data_compra)
+    VALUES
+    (
+    p_cliente_id,
+    p_funcionario_id,
+    p_desconto,
+    p_total,
+    p_data_compra
+    );
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_produto` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_produto`(
+IN p_nome_comercial varchar(50),
+IN p_apresentacao varchar(50),
+IN p_forma_farmaco varchar(30),
+IN p_fabricante	varchar(60),
+IN p_principio_ativo varchar(50),
+IN p_unidade_medida	varchar(40),
+IN p_registro_ms varchar(11),
+IN p_codigo_barras varchar(13),
+IN p_classe_terapeutica varchar(40),
+IN p_qtde_estoque int(11))
+BEGIN
+	INSERT INTO produto
+    VALUES
+    (DEFAULT,
+    p_nome_comercial,
+    p_apresentacao,
+    p_forma_farmaco,
+    p_fabricante,
+    p_principio_ativo,
+    p_unidade_medida,
+    p_registro_ms,
+    p_codigo_barras,
+    p_classe_terapeutica,
+    p_qtde_estoque);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -300,4 +696,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-19 16:28:57
+-- Dump completed on 2018-08-26 23:52:20
