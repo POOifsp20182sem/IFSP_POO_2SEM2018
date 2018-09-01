@@ -1,4 +1,4 @@
-package Model.Persistence;
+package model.persistence;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

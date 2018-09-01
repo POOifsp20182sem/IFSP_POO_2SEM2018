@@ -1,4 +1,4 @@
-package Model.Entities;
+package model.entities;
 
 public enum EnumFuncionario {
 	GERENTE("gerente"), ATENDENTE("atendente");

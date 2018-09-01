@@ -1,4 +1,4 @@
-package Model.Entities;
+package model.entities;
 
 public enum EnumCliente {
 	FISICA("fisica"), JURIDICA("juridica");
