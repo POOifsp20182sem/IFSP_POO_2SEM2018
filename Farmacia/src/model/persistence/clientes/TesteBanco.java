@@ -35,7 +35,7 @@ public class TesteBanco {
 		//cli.setId(12);
 		//cliDaoImpl.updateCliente(cli);
 		
-		//teste delete PAssou!!!
+		//teste delete PASsou!!!
 		//cli.setId(13);
 		//cliDaoImpl.deleteCliente(cli);
 		

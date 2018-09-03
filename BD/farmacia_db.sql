@@ -36,7 +36,7 @@ CREATE TABLE `cliente` (
   `cnpj` varchar(14) DEFAULT NULL,
   `data_nascimento` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15'),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12');
+INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15'),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(14,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','fisica','12409534612','','1995-00-04'),(15,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04'),(16,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,6 +107,41 @@ CREATE TABLE `itens_pedido` (
 LOCK TABLES `itens_pedido` WRITE;
 /*!40000 ALTER TABLE `itens_pedido` DISABLE KEYS */;
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `movimento`
+--
+
+DROP TABLE IF EXISTS `movimento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movimento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sessao_id` int(11) NOT NULL,
+  `pedido_id` int(11) DEFAULT NULL,
+  `descricao` varchar(50) NOT NULL,
+  `data_movimento` datetime NOT NULL,
+  `valor_entrada` double NOT NULL,
+  `valor_saida` double NOT NULL,
+  `troco` double NOT NULL,
+  `saldo` double NOT NULL,
+  `forma_pagamento` enum('cartao','dinheiro') DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sessao_id` (`sessao_id`),
+  KEY `pedido_id` (`pedido_id`),
+  CONSTRAINT `movimento_ibfk_1` FOREIGN KEY (`sessao_id`) REFERENCES `sessao` (`id`),
+  CONSTRAINT `movimento_ibfk_2` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `movimento`
+--
+
+LOCK TABLES `movimento` WRITE;
+/*!40000 ALTER TABLE `movimento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `movimento` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -175,6 +210,38 @@ INSERT INTO `produto` VALUES (2,'Remédio','ZZ','pílula','fabricante','PX','kil
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sessao`
+--
+
+DROP TABLE IF EXISTS `sessao`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `func_abertura_id` int(11) NOT NULL,
+  `func_fechamento_id` int(11) NOT NULL,
+  `saldo_inicial` double NOT NULL,
+  `saldo_final` double NOT NULL,
+  `data_abertura` datetime DEFAULT NULL,
+  `data_fechamento` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `func_abertura_id` (`func_abertura_id`),
+  KEY `func_fechamento_id` (`func_fechamento_id`),
+  CONSTRAINT `sessao_ibfk_1` FOREIGN KEY (`func_abertura_id`) REFERENCES `funcionario` (`id`),
+  CONSTRAINT `sessao_ibfk_2` FOREIGN KEY (`func_fechamento_id`) REFERENCES `funcionario` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessao`
+--
+
+LOCK TABLES `sessao` WRITE;
+/*!40000 ALTER TABLE `sessao` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sessao` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping events for database 'farmacia'
 --
 
@@ -199,8 +266,7 @@ IN p_endereco varchar(50),
 IN p_telefone varchar(10),
 IN p_celular varchar(11),
 IN p_tipo_cliente enum('juridica','fisica'),
-IN p_cpf varchar(11) ,
-IN p_cnpj varchar(14),
+IN p_documento varchar(14) ,
 IN p_data_nascimento date
 )
 BEGIN
@@ -216,7 +282,7 @@ IF p_tipo_cliente = 'fisica' THEN
 		celular = p_celular, 
 		tipo_cliente = p_tipo_cliente,
 		cnpj = NULL,
-		cpf = p_cpf, 
+		cpf = p_documento, 
 		data_nascimento = p_data_nascimento
 	WHERE id = p_id;
 
@@ -229,7 +295,7 @@ ELSE
 		telefone = p_telefone, 
 		celular = p_celular, 
 		tipo_cliente = p_tipo_cliente,
-		cnpj = p_cnpj,
+		cnpj = p_documento,
 		cpf = NULL, 
 		data_nascimento = p_data_nascimento
 	WHERE id = p_id;
@@ -696,4 +762,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-26 23:52:20
+-- Dump completed on 2018-09-03 13:14:23
