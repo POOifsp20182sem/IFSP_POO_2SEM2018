@@ -7,14 +7,14 @@ public abstract class Pessoa {
 	private Calendar dataNascimento;
 	private Endereco endereco;
 	private String email;
-	private String contato;  // rever isso
+	private String telefone;  // rever isso
 
-	public Pessoa(String nome, Calendar dataNascimento, Endereco endereco, String email, String contato) {
+	public Pessoa(String nome, Calendar dataNascimento, Endereco endereco, String email, String telefone) {
 		this.setNome(nome);
 		this.setDataNascimento(dataNascimento);
 		this.setEndereco(endereco);
 		this.setEmail(email);
-		this.setContato(contato);
+		this.setTelefone(telefone);
 	}
 
 	public Pessoa() {}	
@@ -51,11 +51,11 @@ public abstract class Pessoa {
 		this.email = email;
 	}
 
-	public String getContato() {
-		return contato;
+	public String getTelefone() {
+		return telefone;
 	}
 
-	public void setContato(String contato) {
-		this.contato = contato;
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 }

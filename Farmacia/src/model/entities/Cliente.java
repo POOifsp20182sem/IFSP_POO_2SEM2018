@@ -5,15 +5,18 @@ import java.util.Calendar;
 public class Cliente extends Pessoa {
 	private EnumCliente tipoCliente;
 	private String documento;  // CNPJ/CPF
-	private boolean especial;  // aposentado 
+	private boolean especial;  // aposentado
+	//rever isso
+	private String celular;
 
-	public Cliente(String nome, Calendar dataNascimento, Endereco endereco, String email, String contato,
-			EnumCliente tipoCliente, String documento, boolean especial) {
-		super(nome, dataNascimento, endereco, email, contato);
+	public Cliente(String nome, Calendar dataNascimento, Endereco endereco, String email, String telefone,
+			 String celular, EnumCliente tipoCliente, String documento, boolean especial) {
+		super(nome, dataNascimento, endereco, email, telefone);
 
 		this.setTipoCliente(tipoCliente);
 		this.setDocumento(documento);
 		this.setEspecial(especial);
+		this.setCelular(celular);
 	}
 
 	public Cliente() {}
@@ -41,4 +44,13 @@ public class Cliente extends Pessoa {
 	public void setEspecial(boolean isEspecial) {
 		this.especial = isEspecial;
 	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+	
 }
