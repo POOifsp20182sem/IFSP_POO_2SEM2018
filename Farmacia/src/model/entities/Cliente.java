@@ -3,6 +3,7 @@ package model.entities;
 import java.util.Calendar;
 
 public class Cliente extends Pessoa {
+	private int id;
 	private EnumCliente tipoCliente;
 	private String documento;  // CNPJ/CPF
 	private boolean especial;  // aposentado
@@ -51,6 +52,14 @@ public class Cliente extends Pessoa {
 
 	public void setCelular(String celular) {
 		this.celular = celular;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

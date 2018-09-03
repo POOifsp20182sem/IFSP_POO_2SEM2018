@@ -24,11 +24,22 @@ public class TesteBanco {
 	    Date date = f.parse("12/01/1995");
 		Calendar calendar = toCalendar(date);
 		
-		Cliente cli2 = new Cliente("Éder", calendar , end, "eder@gmail", "1988845", "154544", EnumCliente.JURIDICA, "12409534612", false);
+		Cliente cli = new Cliente("Éder", calendar , end, "eder@gmail", "1988845", "154544", EnumCliente.JURIDICA, "12409534612", false);
 		
+		ClienteDaoImpl cliDaoImpl= new ClienteDaoImpl();
+		/* Insert Passou
+		cliDaoImpl.insertCliente(cli2);
+		*/
 		
-		ClienteDaoImpl cdi = new ClienteDaoImpl();
-		cdi.insertCliente(cli2);
+		//teste Update Passou!!
+		//cli.setId(12);
+		//cliDaoImpl.updateCliente(cli);
+		
+		//teste delete PAssou!!!
+		//cli.setId(13);
+		//cliDaoImpl.deleteCliente(cli);
+		
+		//teste select cliente -> fazendo preocedure ...
 		
 	}
 	
