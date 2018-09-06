@@ -1,11 +1,9 @@
 package model.persistence.clientes;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
-
+import java.util.Calendar;
 import model.entities.Cliente;
 import model.entities.EnumCliente;
 import model.persistence.MySqlConnection;
@@ -18,18 +16,15 @@ public class ClienteDaoImpl implements ClienteDao{
 		this.conn = MySqlConnection.getConnection();;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static String dateToString(Date date) {
-		//vou procurar o modo mais adequado depois
-		int ano =  date.getYear();
-		int mes = date.getMonth();
-		int dia = date.getDay();
+	private static String calendarToString(Calendar date) {
 
-		return ano + "-" + mes + "-" + dia;
+		return date.get(Calendar.YEAR) + "-" + 
+		date.get(Calendar.MONTH) + "-" + 
+		date.get(Calendar.DAY_OF_MONTH);
 	}
 
 	@Override
-	public boolean insertCliente(Cliente cli) {
+	public boolean insertCliente(Cliente cli) throws SQLException {
 		try {
 
 			//definir procedimento e quantidade de parametros
@@ -53,27 +48,29 @@ public class ClienteDaoImpl implements ClienteDao{
 				ps.setString(8, cli.getDocumento());
 				ps.setString(7, "");
 			}
-			ps.setString(9,dateToString(cli.getDataNascimento().getTime()));
-
-			if(ps.executeQuery() == null) {
+			ps.setString(9,calendarToString(cli.getDataNascimento()));
+			
+			if(ps.executeUpdate() == 0) {
 				System.out.println("Erro ao inserir!");
-				return false;
 			}
 			else {
 				System.out.println("Dado inserido com sucesso!");
+				ps.close();
+				//teria que fechar a conexao aqui e nos métodos abaixo
 				return true;
 			}
-
-
+			ps.close();
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			conn.close();
 		}
 
 		return false;
 	}
 
 	@Override
-	public boolean updateCliente(Cliente cli) {
+	public boolean updateCliente(Cliente cli) throws SQLException {
 		
 		try {
 
@@ -91,27 +88,28 @@ public class ClienteDaoImpl implements ClienteDao{
 			ps.setString(6, cli.getCelular());
 			ps.setString(7, cli.getTipoCliente().toString());
 			ps.setString(8, cli.getDocumento());
-			ps.setString(9,dateToString(cli.getDataNascimento().getTime()));
+			ps.setString(9,calendarToString(cli.getDataNascimento()));
 
-			if(ps.executeQuery() == null) {
+			if(ps.executeUpdate() == 0) {
 				System.out.println("Erro ao alterar!");
-				return false;
 			}
 			else {
 				System.out.println("Dado alterado com sucesso!");
+				ps.close();
 				return true;
 			}
-
-
+			ps.close();
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			conn.close();
 		}
 
 		return false;
 	}
 
 	@Override
-	public boolean deleteCliente(Cliente cli) {
+	public boolean deleteCliente(Cliente cli) throws SQLException {
 		try {
 
 			//definir procedimento e quantidade de parametros
@@ -122,20 +120,24 @@ public class ClienteDaoImpl implements ClienteDao{
 			
 			ps.setInt(1, cli.getId());
 
-			if(ps.executeQuery() == null) {
+			//retorna a quantidade de linhas afetadas,
+			//caso não tenha executado nada retorna 0
+			//talvez eu mude isso futuramente
+			if(ps.executeUpdate() == 0) {
 				System.out.println("Erro ao excluir!");
-				return false;
 			}
 			else {
 				System.out.println("Dado excluído com sucesso!");
+				ps.close();
 				return true;
 			}
-
+			ps.close();
 
 		}catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			conn.close();
 		}
-
 		return false;
 	}
 

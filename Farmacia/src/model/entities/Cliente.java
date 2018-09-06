@@ -3,6 +3,7 @@ package model.entities;
 import java.util.Calendar;
 
 public class Cliente extends Pessoa {
+	//não inserido no construtor
 	private int id;
 	private EnumCliente tipoCliente;
 	private String documento;  // CNPJ/CPF

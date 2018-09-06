@@ -1,12 +1,15 @@
 package model.persistence.clientes;
 
+import java.sql.SQLException;
+
 import model.entities.Cliente;
 
 public interface ClienteDao {
 	
-	public boolean insertCliente(Cliente cli);
-	public boolean updateCliente(Cliente cli);
-	public boolean deleteCliente(Cliente cli);
-	public Cliente[] selectCliente(String filter);
-	public Cliente[] selectCliente();
+	//repensar sobre o retorno
+	public boolean insertCliente(Cliente cli) throws SQLException;
+	public boolean updateCliente(Cliente cli) throws SQLException;
+	public boolean deleteCliente(Cliente cli) throws SQLException;
+	public Cliente[] selectCliente(String filter) throws SQLException;
+	public Cliente[] selectCliente() throws SQLException;
 }

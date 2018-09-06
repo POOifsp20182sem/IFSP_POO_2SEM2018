@@ -12,7 +12,7 @@ import model.entities.EnumCliente;
 public class TesteBanco {
 
 	public static void main(String[] args) throws java.text.ParseException, SQLException {
-		
+		/*
 		Endereco end = new Endereco();
 		end.setLogradouro("Irineu Bernardi");
 		end.setNumero("97");
@@ -27,7 +27,7 @@ public class TesteBanco {
 		Cliente cli = new Cliente("Éder", calendar , end, "eder@gmail", "1988845", "154544", EnumCliente.JURIDICA, "12409534612", false);
 		
 		ClienteDaoImpl cliDaoImpl= new ClienteDaoImpl();
-		/* Insert Passou
+		 Insert Passou
 		cliDaoImpl.insertCliente(cli2);
 		*/
 		
@@ -36,7 +36,7 @@ public class TesteBanco {
 		//cliDaoImpl.updateCliente(cli);
 		
 		//teste delete PASsou!!!
-		//cli.setId(13);
+		//cli.setId(15);
 		//cliDaoImpl.deleteCliente(cli);
 		
 		//teste select cliente -> fazendo preocedure ...
