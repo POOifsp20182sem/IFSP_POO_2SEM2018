@@ -1,8 +1,8 @@
-package testes;
+package br.ifsp.farmacia.testes;
 
 import java.io.IOException;
 
-import model.persistence.DBProperties;;
+import br.ifsp.farmacia.model.persistence.DBProperties;;
 
 
 public class TesteDBProperties {

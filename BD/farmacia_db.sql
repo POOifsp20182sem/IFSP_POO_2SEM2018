@@ -109,6 +109,26 @@ LOCK TABLES `itens_pedido` WRITE;
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
+DROP TABLE IF EXISTS `nota_fiscal`;
+CREATE TABLE `nota_fiscal` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `numero_nf` INT NOT NULL AUTO_INCREMENT,
+    `status_nf` enum('AUTORIZADA', 'CANCELADA', 'PROCESSANDO') NOT NULL,
+    `chave_nf` VARCHAR(45) NOT NULL,
+    `protocolo_nf` VARCHAR(40) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nota_fiscal`
+--
+
+LOCK TABLES `nota_fiscal` WRITE;
+/*!40000 ALTER TABLE `nota_fiscal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nota_fiscal` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `movimento`
 --
@@ -127,11 +147,14 @@ CREATE TABLE `movimento` (
   `troco` double NOT NULL,
   `saldo` double NOT NULL,
   `forma_pagamento` enum('cartao','dinheiro') DEFAULT NULL,
+  `nota_fiscal_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sessao_id` (`sessao_id`),
   KEY `pedido_id` (`pedido_id`),
+  KEY `nota_fiscal_id` (`nota_fiscal_id`),
   CONSTRAINT `movimento_ibfk_1` FOREIGN KEY (`sessao_id`) REFERENCES `sessao` (`id`),
-  CONSTRAINT `movimento_ibfk_2` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`)
+  CONSTRAINT `movimento_ibfk_2` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`),
+  CONSTRAINT `movimento_ibfk_3` FOREIGN KEY (`nota_fiscal_id`) REFERENCES `nota_fiscal` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

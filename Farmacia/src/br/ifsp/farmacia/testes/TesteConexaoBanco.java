@@ -1,10 +1,10 @@
-package testes;
+package br.ifsp.farmacia.testes;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import model.persistence.*;
+import br.ifsp.farmacia.model.persistence.MySqlConnection;
 
 public class TesteConexaoBanco {
 	public static void main(String args[]) throws IOException {
@@ -12,7 +12,7 @@ public class TesteConexaoBanco {
 			Connection conn = MySqlConnection.getConnection();
 
 			if (conn == null)
-				throw new SQLException("Conexão não realizada.");
+				throw new SQLException("Conexï¿½o nï¿½o realizada.");
 
 			System.out.println("Conectado.");			
 		} catch (SQLException sqle) {

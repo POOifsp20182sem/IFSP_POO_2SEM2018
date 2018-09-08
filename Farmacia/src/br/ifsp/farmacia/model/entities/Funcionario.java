@@ -1,22 +1,16 @@
-package model.entities;
+package br.ifsp.farmacia.model.entities;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Funcionario extends Pessoa {
-	//não inserido no construtor
 	private int id;
 	private double salario;
 	private EnumFuncionario tipoFuncionario;
 	private String celular;
-	
-	/*
-	 * Será que o melhor é usar id mesmo? Ou usar o cpf do funcionário?
-	 * */
-	
 
-	public Funcionario(String nome, Calendar dataNascimento, Endereco endereco, String email, String telefone,
-			String celular,double salario, EnumFuncionario tipoFuncionario) {
-		super(nome, dataNascimento, endereco, email, telefone);
+	public Funcionario(String nome, LocalDate dataNascimento, Endereco endereco, String email, String telefone,
+			String celular,double salario, EnumFuncionario tipoFuncionario, String documento) {
+		super(nome, dataNascimento, endereco, email, telefone, documento);
 
 		this.setCelular(celular);
 		this.setSalario(salario);
@@ -54,6 +48,4 @@ public class Funcionario extends Pessoa {
 	public void setId(int id) {
 		this.id = id;
 	}	
-	
-	
 }

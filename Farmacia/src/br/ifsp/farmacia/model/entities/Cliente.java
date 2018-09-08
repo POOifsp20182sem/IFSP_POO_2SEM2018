@@ -1,19 +1,16 @@
-package model.entities;
+package br.ifsp.farmacia.model.entities;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Cliente extends Pessoa {
-	//não inserido no construtor
 	private int id;
 	private EnumCliente tipoCliente;
-	private String documento;  // CNPJ/CPF
-	private boolean especial;  // aposentado
-	//rever isso
+	private boolean especial;
 	private String celular;
 
-	public Cliente(String nome, Calendar dataNascimento, Endereco endereco, String email, String telefone,
-			 String celular, EnumCliente tipoCliente, String documento, boolean especial) {
-		super(nome, dataNascimento, endereco, email, telefone);
+	public Cliente(String nome, LocalDate dataNascimento, Endereco endereco, String email, String telefone,
+			String celular, EnumCliente tipoCliente, String documento, boolean especial) {
+		super(nome, dataNascimento, endereco, email, telefone, documento);
 
 		this.setTipoCliente(tipoCliente);
 		this.setDocumento(documento);
@@ -29,14 +26,6 @@ public class Cliente extends Pessoa {
 
 	public void setTipoCliente(EnumCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
-	}
-
-	public String getDocumento() {
-		return this.documento;
-	}
-
-	public void setDocumento(String documento) {
-		this.documento = documento;
 	}
 
 	public boolean isEspecial() {
@@ -58,9 +47,8 @@ public class Cliente extends Pessoa {
 	public int getId() {
 		return id;
 	}
-
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 }

@@ -1,4 +1,4 @@
-package model.entities;
+package br.ifsp.farmacia.model.entities;
 
 public enum EnumFuncionario {
 	GERENTE("gerente"), ATENDENTE("atendente");

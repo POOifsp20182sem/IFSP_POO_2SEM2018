@@ -1,4 +1,4 @@
-package model.entities;
+package br.ifsp.farmacia.model.entities;
 
 public class Endereco {
 	private String logradouro;

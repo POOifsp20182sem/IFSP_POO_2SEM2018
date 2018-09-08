@@ -1,4 +1,4 @@
-package model.persistence;
+package br.ifsp.farmacia.model.persistence;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
