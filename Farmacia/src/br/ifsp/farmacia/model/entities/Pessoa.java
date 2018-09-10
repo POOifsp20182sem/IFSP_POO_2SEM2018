@@ -40,6 +40,13 @@ public abstract class Pessoa {
 				this.dataNascimento.getYear();
 	}
 	
+	//TODO: formatada para o banco
+	public String getDataNascFormatado() {
+		return this.dataNascimento.getYear() + "-" +
+				this.dataNascimento.getMonthValue() + "-" +
+				this.dataNascimento.getDayOfMonth();
+	}
+	
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}

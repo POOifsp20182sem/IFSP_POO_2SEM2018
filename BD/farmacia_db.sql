@@ -18,6 +18,29 @@ USE `farmacia`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `classe_terapeutica`
+--
+
+DROP TABLE IF EXISTS `classe_terapeutica`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `classe_terapeutica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `classe_terapeutica`
+--
+
+LOCK TABLES `classe_terapeutica` WRITE;
+/*!40000 ALTER TABLE `classe_terapeutica` DISABLE KEYS */;
+/*!40000 ALTER TABLE `classe_terapeutica` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cliente`
 --
 
@@ -36,7 +59,7 @@ CREATE TABLE `cliente` (
   `cnpj` varchar(14) DEFAULT NULL,
   `data_nascimento` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +68,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15'),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(14,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','fisica','12409534612','','1995-00-04'),(15,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04'),(16,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04');
+INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15'),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(14,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','fisica','12409534612','','1995-00-04'),(15,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04'),(16,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04'),(17,'aaa','asdasd','rua x','145454','45454','fisica','cpf',NULL,'1992-12-12'),(18,'aaa','asdasd','null, null, null, null','145454','45454','fisica','cpf',NULL,'2018-09-10'),(19,'aaa','asdasd','null, null, null, null','145454','45454','fisica','cpf',NULL,'2018-09-10');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,26 +132,6 @@ LOCK TABLES `itens_pedido` WRITE;
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
-DROP TABLE IF EXISTS `nota_fiscal`;
-CREATE TABLE `nota_fiscal` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `numero_nf` INT NOT NULL AUTO_INCREMENT,
-    `status_nf` enum('AUTORIZADA', 'CANCELADA', 'PROCESSANDO') NOT NULL,
-    `chave_nf` VARCHAR(45) NOT NULL,
-    `protocolo_nf` VARCHAR(40) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `nota_fiscal`
---
-
-LOCK TABLES `nota_fiscal` WRITE;
-/*!40000 ALTER TABLE `nota_fiscal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `nota_fiscal` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `movimento`
 --
@@ -168,6 +171,33 @@ LOCK TABLES `movimento` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `nota_fiscal`
+--
+
+DROP TABLE IF EXISTS `nota_fiscal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `nota_fiscal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `numero_nf` int(11) NOT NULL,
+  `status_nf` enum('AUTORIZADA','CANCELADA','PROCESSANDO') NOT NULL,
+  `chave_nf` varchar(45) NOT NULL,
+  `protocolo_nf` varchar(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `numero_nf_UNIQUE` (`numero_nf`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nota_fiscal`
+--
+
+LOCK TABLES `nota_fiscal` WRITE;
+/*!40000 ALTER TABLE `nota_fiscal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nota_fiscal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `pedido`
 --
 
@@ -200,6 +230,29 @@ INSERT INTO `pedido` VALUES (2,'2005-10-29',7,2,100,0.1);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `pricipio_ativo`
+--
+
+DROP TABLE IF EXISTS `pricipio_ativo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pricipio_ativo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pricipio_ativo`
+--
+
+LOCK TABLES `pricipio_ativo` WRITE;
+/*!40000 ALTER TABLE `pricipio_ativo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pricipio_ativo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `produto`
 --
 
@@ -219,7 +272,7 @@ CREATE TABLE `produto` (
   `classe_terapeutica` varchar(40) NOT NULL,
   `qtde_estoque` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +281,7 @@ CREATE TABLE `produto` (
 
 LOCK TABLES `produto` WRITE;
 /*!40000 ALTER TABLE `produto` DISABLE KEYS */;
-INSERT INTO `produto` VALUES (2,'Remédio','ZZ','pílula','fabricante','PX','kilo','512545asa','nao sei','preguica',42);
+INSERT INTO `produto` VALUES (2,'Remédio','ZZ','pílula','fabricante','PX','kilo','512545asa','nao sei','preguica',42),(3,'Remédio','Poderoso','DRAGEA','eu que fiz','batata frita','tonela cúbica','42666404','numero aqui','psicotropico',120),(4,'Remédio forte','Poderoso','DRAGEA','eu que fiz','batata frita','tonela cúbica','42666404','numero aqui','psicotropico',120),(5,'Remédio','Poderoso','DRAGEA','eu que fiz','batata frita','tonela cúbica','42666404','numero aqui','psicotropico',120);
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -602,25 +655,44 @@ IN p_endereco varchar(50),
 IN p_telefone varchar(10),
 IN p_celular varchar(11),
 IN p_tipo_cliente enum('juridica','fisica'),
-IN p_cpf varchar(11) ,
-IN p_cnpj varchar(14),
+IN p_documento varchar(14) ,
 IN p_data_nascimento date
 )
 BEGIN
 
-INSERT INTO cliente
-	(nome, email, endereco, telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento) 
-VALUES
-	(
-    p_nome,
-    p_email,
-    p_endereco,
-    p_telefone,
-    p_celular,
-    p_tipo_cliente,
-    p_cpf, p_cnpj,
-    p_data_nascimento
-    );
+# criar um campo para documento (generico) ou fazer este processo sempre?
+
+IF p_tipo_cliente = 'fisica' THEN
+
+	INSERT INTO cliente
+		(nome, email, endereco, telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento) 
+	VALUES
+		(
+		p_nome,
+		p_email,
+		p_endereco,
+		p_telefone,
+		p_celular,
+		p_tipo_cliente,
+		p_documento, null,
+		p_data_nascimento
+		);
+ELSE
+	INSERT INTO cliente
+		(nome, email, endereco, telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento) 
+	VALUES
+		(
+		p_nome,
+		p_email,
+		p_endereco,
+		p_telefone,
+		p_celular,
+		p_tipo_cliente,
+		null, p_documento,
+		p_data_nascimento
+		);
+
+END IF;
 
 END ;;
 DELIMITER ;
@@ -785,4 +857,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-03 13:14:23
+-- Dump completed on 2018-09-10 14:20:39

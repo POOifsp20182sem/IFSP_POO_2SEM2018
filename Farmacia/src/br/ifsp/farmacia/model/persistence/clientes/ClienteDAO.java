@@ -22,7 +22,7 @@ public class ClienteDAO implements IClienteDAO {
 		try {
 			conn = MySqlConnection.getConnection();
 			
-			String query = "{call inserir_cliente(?, ?, ?, ?, ?, ?, ?, ?, ?)}"; 
+			String query = "{call inserir_cliente(?, ?, ?, ?, ?, ?, ?, ?)}"; 
 
 			ps = conn.prepareStatement(query);		
 
@@ -33,7 +33,7 @@ public class ClienteDAO implements IClienteDAO {
 			ps.setString(5, cli.getCelular());
 			ps.setString(6, cli.getTipoCliente().toString());
 			ps.setString(7, cli.getDocumento());
-			ps.setString(8, cli.getStrDataNascimento());
+			ps.setString(8, cli.getDataNascFormatado());
 
 			if(ps.executeUpdate() == 0) {
 				System.out.println("Erro ao inserir!");

@@ -9,6 +9,7 @@ import br.ifsp.farmacia.model.entities.Funcionario;
 import br.ifsp.farmacia.model.persistence.MySqlConnection;
 
 public class FuncionarioDAO implements IFuncionarioDAO{
+	
 	@Override
 	public boolean insertFuncionario(Funcionario func) throws SQLException {
 		Connection conn = null;
@@ -36,6 +37,7 @@ public class FuncionarioDAO implements IFuncionarioDAO{
 				System.out.println("Dado inserido com sucesso!");
 				return true;
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -49,6 +51,7 @@ public class FuncionarioDAO implements IFuncionarioDAO{
 	public boolean updateFuncionario(Funcionario func) throws SQLException {
 		PreparedStatement ps = null;
 		Connection conn = null;
+		
 		try {
 			String query = "{call alterar_funcionario(?,?,?,?,?,?,?,?,?,?) }"; 
 
@@ -85,6 +88,7 @@ public class FuncionarioDAO implements IFuncionarioDAO{
 	public boolean deleteFuncionario(Funcionario func) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		
 		try {
 			String query = "{call excluir_funcionario(?) }"; 
 

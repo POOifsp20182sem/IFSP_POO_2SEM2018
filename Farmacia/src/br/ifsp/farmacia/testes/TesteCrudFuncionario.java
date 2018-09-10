@@ -22,6 +22,7 @@ public class TesteCrudFuncionario {
 				"77777777", "65794333548", 2000.50, EnumFuncionario.GERENTE, "194944444");
 
 		try {
+			/* TODO: fazer o consoli parar de apagar os meus comentarios
 			FuncionarioDAO funcImpl = new FuncionarioDAO();
 			funcImpl.insertFuncionario(func);
 
@@ -30,7 +31,7 @@ public class TesteCrudFuncionario {
 
 			func.setId(3);
 			funcImpl.deleteFuncionario(func);
-
+			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
