@@ -132,6 +132,29 @@ LOCK TABLES `itens_pedido` WRITE;
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
+<<<<<<< HEAD
+=======
+DROP TABLE IF EXISTS `nota_fiscal`;
+CREATE TABLE `nota_fiscal` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `numero_nf` INT UNIQUE NOT NULL,
+    `status_nf` enum('AUTORIZADA', 'CANCELADA', 'PROCESSANDO') NOT NULL,
+    `chave_nf` VARCHAR(45) NOT NULL,
+    `protocolo_nf` VARCHAR(40) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nota_fiscal`
+--
+
+LOCK TABLES `nota_fiscal` WRITE;
+/*!40000 ALTER TABLE `nota_fiscal` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nota_fiscal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+>>>>>>> 95126c1a0c904ef875ae6307bcd1e314bc266c97
 --
 -- Table structure for table `movimento`
 --
