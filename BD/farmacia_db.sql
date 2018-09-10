@@ -112,7 +112,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `nota_fiscal`;
 CREATE TABLE `nota_fiscal` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `numero_nf` INT NOT NULL AUTO_INCREMENT,
+    `numero_nf` INT UNIQUE NOT NULL,
     `status_nf` enum('AUTORIZADA', 'CANCELADA', 'PROCESSANDO') NOT NULL,
     `chave_nf` VARCHAR(45) NOT NULL,
     `protocolo_nf` VARCHAR(40) NOT NULL,
