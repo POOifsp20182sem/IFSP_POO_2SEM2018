@@ -5,11 +5,12 @@ import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class ComponentsLogin {
+public class ComponentesExtras {
 
-	public Component criarImagem() {
-		ImageIcon imagem = new ImageIcon(getClass().getResource("icone.png"));
+	public Component criarImagem(String icone) {
+		ImageIcon imagem = new ImageIcon(getClass().getResource(icone));
 		JLabel ico = new JLabel(imagem);
 		return ico;
 	}
+
 }
