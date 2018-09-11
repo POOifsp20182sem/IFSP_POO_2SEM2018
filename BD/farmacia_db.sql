@@ -132,29 +132,6 @@ LOCK TABLES `itens_pedido` WRITE;
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
-<<<<<<< HEAD
-=======
-DROP TABLE IF EXISTS `nota_fiscal`;
-CREATE TABLE `nota_fiscal` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `numero_nf` INT UNIQUE NOT NULL,
-    `status_nf` enum('AUTORIZADA', 'CANCELADA', 'PROCESSANDO') NOT NULL,
-    `chave_nf` VARCHAR(45) NOT NULL,
-    `protocolo_nf` VARCHAR(40) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `nota_fiscal`
---
-
-LOCK TABLES `nota_fiscal` WRITE;
-/*!40000 ALTER TABLE `nota_fiscal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `nota_fiscal` ENABLE KEYS */;
-UNLOCK TABLES;
-
->>>>>>> 95126c1a0c904ef875ae6307bcd1e314bc266c97
 --
 -- Table structure for table `movimento`
 --
@@ -207,7 +184,7 @@ CREATE TABLE `nota_fiscal` (
   `chave_nf` varchar(45) NOT NULL,
   `protocolo_nf` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `numero_nf_UNIQUE` (`numero_nf`)
+  UNIQUE KEY `numero_nf` (`numero_nf`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -560,6 +537,153 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_clientes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_clientes`(IN filter varchar(50))
+BEGIN
+
+# pensar em diferentes modos de filtragem de dados
+# converter todos os dados para upper ou converter apenas na busca?
+
+	IF filter IS NULL THEN
+		SELECT * FROM cliente;
+	ELSE
+		SELECT * FROM cliente
+			WHERE 
+				nome LIKE CONCAT('%', filter,'%') OR
+				email LIKE CONCAT('%', filter,'%') OR
+				endereco LIKE CONCAT('%', filter,'%') OR
+				telefone LIKE CONCAT('%', filter,'%') OR
+				celular LIKE CONCAT('%', filter,'%') OR
+				tipo_cliente LIKE CONCAT('%', filter,'%') OR
+				cpf LIKE CONCAT('%', filter,'%') OR
+				cnpj LIKE CONCAT('%', filter,'%');
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_funcionarios` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_funcionarios`(IN filter varchar(50))
+BEGIN
+
+# pensar em diferentes modos de filtragem de dados
+# converter todos os dados para upper ou converter apenas na busca?
+
+	IF filter IS NULL THEN
+		SELECT * FROM funcionario;
+	ELSE
+		SELECT * FROM funcionario
+			WHERE 
+				nome LIKE CONCAT('%', filter,'%') OR
+				email LIKE CONCAT('%', filter,'%') OR
+				endereco LIKE CONCAT('%', filter,'%') OR
+				telefone LIKE CONCAT('%', filter,'%') OR
+				celular LIKE CONCAT('%', filter,'%') OR
+				tipo_funcionario LIKE CONCAT('%', filter,'%') OR
+				cpf LIKE CONCAT('%', filter,'%');
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_pedidos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_pedidos`(IN filter varchar(50))
+BEGIN
+
+# pensar em um modo de pesquisa por período
+# e um modo eficiente de procurar só com através do id
+
+	IF filter IS NULL THEN
+		SELECT p.id, p.data_compra, p.cliente_id,c.nome, p.funcionario_id,f.nome, p.total, p.desconto
+			FROM pedido as p 
+				INNER JOIN cliente c on (p.cliente_id = c.id)
+				INNER JOIN funcionario f on (p.funcionario_id = f.id);
+	ELSE
+		SELECT p.id, p.data_compra, p.cliente_id,c.nome, p.funcionario_id,f.nome, p.total, p.desconto
+			FROM pedido as p 
+				INNER JOIN cliente c on (p.cliente_id = c.id)
+				INNER JOIN funcionario f on (p.funcionario_id = f.id)
+					WHERE  
+						p.id LIKE CONCAT('%', filter,'%') OR
+						f.nome LIKE CONCAT('%', filter,'%') OR
+						c.nome LIKE CONCAT('%', filter,'%') OR
+						data_compra LIKE CONCAT('%', filter,'%');
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_produtos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_produtos`(IN filter varchar(50))
+BEGIN
+
+# pensar em diferentes modos de filtragem de dados
+# converter todos os dados para upper ou converter apenas na busca?
+
+	IF filter IS NULL THEN
+		SELECT * FROM produto;
+	ELSE
+		SELECT * FROM produto
+			WHERE 
+				nome_comercial LIKE CONCAT('%', filter,'%') OR
+				apresentacao LIKE CONCAT('%', filter,'%') OR
+				forma_farmaco LIKE CONCAT('%', filter,'%') OR
+				fabricante LIKE CONCAT('%', filter,'%') OR
+				principio_ativo LIKE CONCAT('%', filter,'%') OR
+                # rever a necessidade do campo unidade medida
+				unidade_medida LIKE CONCAT('%', filter,'%') OR
+				registro_ms LIKE CONCAT('%', filter,'%') OR
+				codigo_barras LIKE CONCAT('%', filter,'%') OR
+				classe_terapeutica LIKE CONCAT('%', filter,'%');
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `excluir_cliente` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -880,4 +1004,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-10 14:20:39
+-- Dump completed on 2018-09-11 11:19:32
