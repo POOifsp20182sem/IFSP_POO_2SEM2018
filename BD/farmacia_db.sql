@@ -26,9 +26,9 @@ DROP TABLE IF EXISTS `classe_terapeutica`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `classe_terapeutica` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `classe_terapeutica` (
 
 LOCK TABLES `classe_terapeutica` WRITE;
 /*!40000 ALTER TABLE `classe_terapeutica` DISABLE KEYS */;
+INSERT INTO `classe_terapeutica` VALUES (1,'teste');
 /*!40000 ALTER TABLE `classe_terapeutica` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,8 +59,9 @@ CREATE TABLE `cliente` (
   `cpf` varchar(11) DEFAULT NULL,
   `cnpj` varchar(14) DEFAULT NULL,
   `data_nascimento` date NOT NULL,
+  `ativo` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +70,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15'),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12'),(14,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','fisica','12409534612','','1995-00-04'),(15,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04'),(16,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04'),(17,'aaa','asdasd','rua x','145454','45454','fisica','cpf',NULL,'1992-12-12'),(18,'aaa','asdasd','null, null, null, null','145454','45454','fisica','cpf',NULL,'2018-09-10'),(19,'aaa','asdasd','null, null, null, null','145454','45454','fisica','cpf',NULL,'2018-09-10');
+INSERT INTO `cliente` VALUES (7,'zé mane','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12',0),(8,'zé mane','ze@gmail.com','Rua 7','123213213','5454848444','juridica',NULL,'12409536619123','2000-10-15',1),(10,'Batman','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12',1),(11,'Éder','eder@gmail.com','Rua x','3534652870','99999999999','fisica','12409536619',NULL,'2000-12-12',1),(14,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','fisica','12409534612','','1995-00-04',1),(15,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04',1),(16,'Éder','eder@gmail','Monte Sião, Irineu Bernardi, 97, ','1988845','154544','juridica','','12409534612','1995-00-04',1),(17,'aaa','asdasd','rua x','145454','45454','fisica','cpf',NULL,'1992-12-12',1),(20,'eder','adsad','asdasd','1213','12423','juridica',NULL,'1asdasd','1992-12-12',1);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,8 +92,9 @@ CREATE TABLE `funcionario` (
   `data_nascimento` date NOT NULL,
   `tipo_funcionario` enum('gerente','atendente') NOT NULL,
   `salario` double NOT NULL,
+  `ativo` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +103,7 @@ CREATE TABLE `funcionario` (
 
 LOCK TABLES `funcionario` WRITE;
 /*!40000 ALTER TABLE `funcionario` DISABLE KEYS */;
-INSERT INTO `funcionario` VALUES (2,'batatao','eder@gmail.com','Rua x','3534652870','99999999999','12409536619','2000-12-12','atendente',1200);
+INSERT INTO `funcionario` VALUES (2,'batatao','eder@gmail.com','Rua x','3534652870','99999999999','12409536619','2000-12-12','atendente',1200,1),(3,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','',123,1),(4,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','',123,1),(5,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','atendente',123,1);
 /*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,26 +233,27 @@ INSERT INTO `pedido` VALUES (2,'2005-10-29',7,2,100,0.1);
 UNLOCK TABLES;
 
 --
--- Table structure for table `pricipio_ativo`
+-- Table structure for table `principio_ativo`
 --
 
-DROP TABLE IF EXISTS `pricipio_ativo`;
+DROP TABLE IF EXISTS `principio_ativo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pricipio_ativo` (
+CREATE TABLE `principio_ativo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pricipio_ativo`
+-- Dumping data for table `principio_ativo`
 --
 
-LOCK TABLES `pricipio_ativo` WRITE;
-/*!40000 ALTER TABLE `pricipio_ativo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pricipio_ativo` ENABLE KEYS */;
+LOCK TABLES `principio_ativo` WRITE;
+/*!40000 ALTER TABLE `principio_ativo` DISABLE KEYS */;
+INSERT INTO `principio_ativo` VALUES (1,'teste');
+/*!40000 ALTER TABLE `principio_ativo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -265,14 +269,19 @@ CREATE TABLE `produto` (
   `apresentacao` varchar(50) NOT NULL,
   `forma_farmaco` varchar(30) NOT NULL,
   `fabricante` varchar(60) NOT NULL,
-  `principio_ativo` varchar(50) NOT NULL,
   `unidade_medida` varchar(40) NOT NULL,
   `registro_ms` varchar(11) DEFAULT NULL,
   `codigo_barras` varchar(13) DEFAULT NULL,
-  `classe_terapeutica` varchar(40) NOT NULL,
   `qtde_estoque` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `ativo` tinyint(1) DEFAULT '1',
+  `classe_terapeutica_id` int(11) NOT NULL,
+  `principio_ativo_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `classe_terapeutica_id` (`classe_terapeutica_id`),
+  KEY `principio_ativo_id` (`principio_ativo_id`),
+  CONSTRAINT `produto_ibfk_1` FOREIGN KEY (`classe_terapeutica_id`) REFERENCES `classe_terapeutica` (`id`),
+  CONSTRAINT `produto_ibfk_2` FOREIGN KEY (`principio_ativo_id`) REFERENCES `principio_ativo` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +290,7 @@ CREATE TABLE `produto` (
 
 LOCK TABLES `produto` WRITE;
 /*!40000 ALTER TABLE `produto` DISABLE KEYS */;
-INSERT INTO `produto` VALUES (2,'Remédio','ZZ','pílula','fabricante','PX','kilo','512545asa','nao sei','preguica',42),(3,'Remédio','Poderoso','DRAGEA','eu que fiz','batata frita','tonela cúbica','42666404','numero aqui','psicotropico',120),(4,'Remédio forte','Poderoso','DRAGEA','eu que fiz','batata frita','tonela cúbica','42666404','numero aqui','psicotropico',120),(5,'Remédio','Poderoso','DRAGEA','eu que fiz','batata frita','tonela cúbica','42666404','numero aqui','psicotropico',120);
+INSERT INTO `produto` VALUES (6,'asas','asd','asdasa','asd','asd','asd','asd',12,1,1,1);
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,19 +562,19 @@ BEGIN
 # pensar em diferentes modos de filtragem de dados
 # converter todos os dados para upper ou converter apenas na busca?
 
-	IF filter IS NULL THEN
-		SELECT * FROM cliente;
+	IF filter LIKE '' THEN
+		SELECT * FROM cliente WHERE ativo IS TRUE;
 	ELSE
 		SELECT * FROM cliente
 			WHERE 
-				nome LIKE CONCAT('%', filter,'%') OR
+				(nome LIKE CONCAT('%', filter,'%') OR
 				email LIKE CONCAT('%', filter,'%') OR
 				endereco LIKE CONCAT('%', filter,'%') OR
 				telefone LIKE CONCAT('%', filter,'%') OR
 				celular LIKE CONCAT('%', filter,'%') OR
 				tipo_cliente LIKE CONCAT('%', filter,'%') OR
 				cpf LIKE CONCAT('%', filter,'%') OR
-				cnpj LIKE CONCAT('%', filter,'%');
+				cnpj LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
 END ;;
 DELIMITER ;
@@ -589,18 +598,18 @@ BEGIN
 # pensar em diferentes modos de filtragem de dados
 # converter todos os dados para upper ou converter apenas na busca?
 
-	IF filter IS NULL THEN
-		SELECT * FROM funcionario;
+	IF filter LIKE '' THEN
+		SELECT * FROM funcionario WHERE ativo IS TRUE;
 	ELSE
 		SELECT * FROM funcionario
 			WHERE 
-				nome LIKE CONCAT('%', filter,'%') OR
+				(nome LIKE CONCAT('%', filter,'%') OR
 				email LIKE CONCAT('%', filter,'%') OR
 				endereco LIKE CONCAT('%', filter,'%') OR
 				telefone LIKE CONCAT('%', filter,'%') OR
 				celular LIKE CONCAT('%', filter,'%') OR
 				tipo_funcionario LIKE CONCAT('%', filter,'%') OR
-				cpf LIKE CONCAT('%', filter,'%');
+				cpf LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
 END ;;
 DELIMITER ;
@@ -661,22 +670,21 @@ BEGIN
 
 # pensar em diferentes modos de filtragem de dados
 # converter todos os dados para upper ou converter apenas na busca?
+# fazer inner join para buscar por classe terapeutica e princípio ativo?
 
-	IF filter IS NULL THEN
-		SELECT * FROM produto;
+	IF filter LIKE '' THEN
+		SELECT * FROM produto WHERE ativo is TRUE;
 	ELSE
 		SELECT * FROM produto
 			WHERE 
-				nome_comercial LIKE CONCAT('%', filter,'%') OR
+				(nome_comercial LIKE CONCAT('%', filter,'%') OR
 				apresentacao LIKE CONCAT('%', filter,'%') OR
 				forma_farmaco LIKE CONCAT('%', filter,'%') OR
 				fabricante LIKE CONCAT('%', filter,'%') OR
-				principio_ativo LIKE CONCAT('%', filter,'%') OR
                 # rever a necessidade do campo unidade medida
 				unidade_medida LIKE CONCAT('%', filter,'%') OR
 				registro_ms LIKE CONCAT('%', filter,'%') OR
-				codigo_barras LIKE CONCAT('%', filter,'%') OR
-				classe_terapeutica LIKE CONCAT('%', filter,'%');
+				codigo_barras LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
 END ;;
 DELIMITER ;
@@ -696,7 +704,16 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_cliente`(IN p_id int)
 BEGIN
-	DELETE FROM cliente where id = p_id;
+	
+    # if the cliente has any association he has the field ativo modify to false
+	IF EXISTS(SELECT id FROM pedido where cliente_id = p_id) THEN
+		UPDATE cliente SET
+			ativo = FALSE 
+				WHERE id = p_id;
+	# if the cliente does not have any association with another table he can be deleted
+    ELSE
+		DELETE FROM cliente where id = p_id;
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -715,7 +732,14 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_funcionario`(IN p_id int)
 BEGIN
-	DELETE FROM funcionario where id = p_id;
+	IF EXISTS(SELECT id FROM pedido where funcionario_id = p_id) THEN
+		UPDATE funcionario SET
+			ativo = FALSE 
+				WHERE id = p_id;
+    ELSE
+			DELETE FROM funcionario where id = p_id;
+    END IF;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -778,7 +802,16 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `excluir_produto`(IN p_id int)
 BEGIN
-	DELETE FROM produto where id = p_id;
+
+	IF EXISTS(SELECT id FROM itens_pedido where produto_id = p_id) THEN
+		UPDATE produto SET
+			ativo = FALSE 
+				WHERE id = p_id;
+    ELSE
+			DELETE FROM produto where id = p_id;
+    END IF;
+    
+    
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -869,9 +902,10 @@ IN p_tipo_funcionario enum('gerente','atendente'),
 IN p_salario double
 )
 BEGIN
-	INSERT INTO funcionario values
-    (default,
-    p_nome,
+	INSERT INTO funcionario
+    (nome, email, endereco, telefone, celular, cpf, data_nascimento, tipo_funcionario, salario)
+    VALUES
+    (p_nome,
     p_email,
     p_endereco,
     p_telefone,
@@ -968,26 +1002,27 @@ IN p_nome_comercial varchar(50),
 IN p_apresentacao varchar(50),
 IN p_forma_farmaco varchar(30),
 IN p_fabricante	varchar(60),
-IN p_principio_ativo varchar(50),
 IN p_unidade_medida	varchar(40),
 IN p_registro_ms varchar(11),
 IN p_codigo_barras varchar(13),
-IN p_classe_terapeutica varchar(40),
+IN p_principio_ativo_id int(11),
+IN p_classe_terapeutica_id int(11),
 IN p_qtde_estoque int(11))
 BEGIN
 	INSERT INTO produto
+    (nome_comercial, apresentacao, forma_farmaco, fabricante, unidade_medida, registro_ms, codigo_barras, qtde_estoque, classe_terapeutica_id, principio_ativo_id)
     VALUES
-    (DEFAULT,
-    p_nome_comercial,
-    p_apresentacao,
-    p_forma_farmaco,
-    p_fabricante,
-    p_principio_ativo,
-    p_unidade_medida,
-    p_registro_ms,
-    p_codigo_barras,
-    p_classe_terapeutica,
-    p_qtde_estoque);
+    (p_nome_comercial,
+	p_apresentacao,
+	p_forma_farmaco,
+	p_fabricante,
+	p_unidade_medida,
+	p_registro_ms,
+	p_codigo_barras,
+	p_qtde_estoque,
+	p_classe_terapeutica_id,
+	p_principio_ativo_id
+	);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1004,4 +1039,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-11 11:19:32
+-- Dump completed on 2018-09-13 12:28:05
