@@ -136,6 +136,30 @@ LOCK TABLES `itens_pedido` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `login`
+--
+
+DROP TABLE IF EXISTS `login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(40) DEFAULT NULL,
+  `senha` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `login`
+--
+
+LOCK TABLES `login` WRITE;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `movimento`
 --
 
@@ -563,19 +587,23 @@ BEGIN
 # converter todos os dados para upper ou converter apenas na busca?
 
 	IF filter LIKE '' THEN
-		SELECT * FROM cliente WHERE ativo IS TRUE;
+		SELECT id, nome, email, endereco,telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento 
+			FROM cliente 
+				WHERE ativo IS TRUE;
 	ELSE
-		SELECT * FROM cliente
-			WHERE 
-				(nome LIKE CONCAT('%', filter,'%') OR
-				email LIKE CONCAT('%', filter,'%') OR
-				endereco LIKE CONCAT('%', filter,'%') OR
-				telefone LIKE CONCAT('%', filter,'%') OR
-				celular LIKE CONCAT('%', filter,'%') OR
-				tipo_cliente LIKE CONCAT('%', filter,'%') OR
-				cpf LIKE CONCAT('%', filter,'%') OR
-				cnpj LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
+		SELECT id, nome, email, endereco,telefone, celular, tipo_cliente, cpf, cnpj, data_nascimento
+			FROM cliente
+				WHERE 
+					(nome LIKE CONCAT('%', filter,'%') OR
+					email LIKE CONCAT('%', filter,'%') OR
+					endereco LIKE CONCAT('%', filter,'%') OR
+					telefone LIKE CONCAT('%', filter,'%') OR
+					celular LIKE CONCAT('%', filter,'%') OR
+					tipo_cliente LIKE CONCAT('%', filter,'%') OR
+					cpf LIKE CONCAT('%', filter,'%') OR
+					cnpj LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
+   
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -673,18 +701,21 @@ BEGIN
 # fazer inner join para buscar por classe terapeutica e princípio ativo?
 
 	IF filter LIKE '' THEN
-		SELECT * FROM produto WHERE ativo is TRUE;
+		SELECT id, nome_comercial, apresentacao, forma_farmaco,fabricante, unidade_medida, registro_ms, codigo_barras, qtde_estoque, classe_terapeutica_id, principio_ativo_id
+			FROM produto 
+				WHERE ativo is TRUE;
 	ELSE
-		SELECT * FROM produto
-			WHERE 
-				(nome_comercial LIKE CONCAT('%', filter,'%') OR
-				apresentacao LIKE CONCAT('%', filter,'%') OR
-				forma_farmaco LIKE CONCAT('%', filter,'%') OR
-				fabricante LIKE CONCAT('%', filter,'%') OR
-                # rever a necessidade do campo unidade medida
-				unidade_medida LIKE CONCAT('%', filter,'%') OR
-				registro_ms LIKE CONCAT('%', filter,'%') OR
-				codigo_barras LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
+		SELECT id, nome_comercial, apresentacao, forma_farmaco,fabricante, unidade_medida, registro_ms, codigo_barras, qtde_estoque, classe_terapeutica_id, principio_ativo_id
+			FROM produto
+				WHERE 
+					(nome_comercial LIKE CONCAT('%', filter,'%') OR
+					apresentacao LIKE CONCAT('%', filter,'%') OR
+					forma_farmaco LIKE CONCAT('%', filter,'%') OR
+					fabricante LIKE CONCAT('%', filter,'%') OR
+					# rever a necessidade do campo unidade medida
+					unidade_medida LIKE CONCAT('%', filter,'%') OR
+					registro_ms LIKE CONCAT('%', filter,'%') OR
+					codigo_barras LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
 END ;;
 DELIMITER ;
@@ -1039,4 +1070,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-13 12:28:05
+-- Dump completed on 2018-09-14 15:39:19

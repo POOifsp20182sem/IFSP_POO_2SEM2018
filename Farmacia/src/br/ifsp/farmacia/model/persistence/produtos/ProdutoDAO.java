@@ -2,9 +2,13 @@ package br.ifsp.farmacia.model.persistence.produtos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Produto;
 import br.ifsp.farmacia.model.persistence.MySqlConnection;
 
@@ -124,14 +128,61 @@ public class ProdutoDAO implements IProdutoDAO {
 
 	@Override
 	public ArrayList<Produto> selectProduto(String filter) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		ArrayList<Produto> listProdutos = new ArrayList<>();
+		Produto prod = new Produto();
+		
+		try {
+			String query = "{call buscar_produtos(?)}"; 
+
+			conn = MySqlConnection.getConnection();
+			ps = conn.prepareStatement(query);		
+
+			ps.setString(1, filter);
+
+			ResultSet result = ps.executeQuery();
+			/***
+			 * Gera um produto no mesmo espaço de memória
+			 */
+			while(result.next()) {
+				prod = new Produto();
+				
+				prod.setId(result.getInt("id"));
+				prod.setNomeComercial(result.getString("nome_comercial"));
+				prod.setApresentacao(result.getString("apresentacao"));
+				
+				// TODO:2018-09-14:ed:criar sobrecarga para lidar com a conversão
+				//prod.setFormaFarmaco(result.getString("forma_farmaco"));
+				
+				prod.setFabricante(result.getString("fabricante"));
+				prod.setUnidadeMedida(result.getString("unidade_medida"));
+				prod.setRegistroMS(result.getString("registro_ms"));
+				prod.setCodigoBarras(result.getString("codigo_barras"));
+				prod.setQtde(result.getInt("id"));
+				
+				// TODO:2018-09-14:ed:Por esses dados serem chaves estrangeiras
+				// o modo de abordar o problema precisa mudar.
+				//prod.setClasseTerapeutica(classeTerapeutica);
+				//prod.setPrincipioAtivo();
+				
+				listProdutos.add(prod);
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
+		
+		return listProdutos;
+		
 	}
 
 	@Override
 	public ArrayList<Produto> selectProduto() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return selectProduto("");
 	}
 
 }

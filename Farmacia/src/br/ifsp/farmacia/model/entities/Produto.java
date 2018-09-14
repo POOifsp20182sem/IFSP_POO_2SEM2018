@@ -32,6 +32,9 @@ public class Produto {
 		this.qtde = qtde;
 	}
 
+	public Produto() {
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -119,5 +122,15 @@ public class Produto {
 	public void setQtde(int qtde) {
 		this.qtde = qtde;
 	}
+
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", nomeComercial=" + nomeComercial + ", apresentacao=" + apresentacao
+				+ ", formaFarmaco=" + formaFarmaco + ", fabricante=" + fabricante + ", principioAtivo=" + principioAtivo
+				+ ", unidadeMedida=" + unidadeMedida + ", registroMS=" + registroMS + ", codigoBarras=" + codigoBarras
+				+ ", classeTerapeutica=" + classeTerapeutica + ", qtde=" + qtde + "]";
+	}
+	
+	
 	
 }

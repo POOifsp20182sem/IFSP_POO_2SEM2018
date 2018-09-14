@@ -27,6 +27,7 @@ public class Cliente extends Pessoa {
 	public void setTipoCliente(EnumCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
+	
 
 	public boolean isEspecial() {
 		return this.especial;
@@ -51,4 +52,11 @@ public class Cliente extends Pessoa {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", tipoCliente=" + tipoCliente + ", especial=" + especial + ", celular=" + celular
+				+ "]";
+	}
+	
 }

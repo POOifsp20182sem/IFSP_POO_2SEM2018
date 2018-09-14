@@ -19,7 +19,11 @@ public class TesteClienteDAO {
 		ClienteDAO clienteDAO = new ClienteDAO();
 		
 		try {
-			clienteDAO.insertCliente(cli);
+			//clienteDAO.insertCliente(cli);
+			//Funcionando
+			for (Cliente c : clienteDAO.selectCliente()) {
+				System.out.println(c.toString());
+			} 
 		} catch (Exception e) {
 			e.getMessage();
 		}

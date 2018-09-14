@@ -22,6 +22,10 @@ public class TesteCrudProduto {
 			prodDAO.updateProduto(prod);
 			*/
 			
+			for(Produto p: prodDAO.selectProduto()) {
+				System.out.println(p.toString());
+			}
+				
 		} catch (Exception e) {
 			e.getMessage();
 		}
