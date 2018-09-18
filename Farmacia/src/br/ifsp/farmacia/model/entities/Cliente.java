@@ -8,6 +8,7 @@ public class Cliente extends Pessoa {
 	private boolean especial;
 	private String celular;
 
+
 	public Cliente(String nome, LocalDate dataNascimento, Endereco endereco, String email, String telefone,
 			String celular, EnumCliente tipoCliente, String documento, boolean especial) {
 		super(nome, dataNascimento, endereco, email, telefone, documento);
