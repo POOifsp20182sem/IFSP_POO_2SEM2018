@@ -1,126 +1,104 @@
 package br.ifsp.farmacia.view.gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.text.ParseException;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollBar;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
-public class Cliente extends JFrame {
+public class Cliente {
 
-	private JPanel contentPane;
-	private JTextField txtNome;
-	private JTextField txtEndereco;
-	private JTextField txtEmail;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Cliente frame = new Cliente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 * @throws ParseException 
-	 */
-	public Cliente() throws ParseException {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 622, 396);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	public static void main(String[] args) throws ParseException {
 		
+		JFrame frame = new JFrame("Cliente");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel painel = new JPanel();
+		JPanel painel2 = new JPanel();
+		JPanel painel3 = new JPanel();
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 29, 46, 14);
-		contentPane.add(lblNome);
-		
-		JLabel lblDataNascimento = new JLabel("Data Nascimento:");
-		lblDataNascimento.setBounds(10, 63, 97, 14);
-		contentPane.add(lblDataNascimento);
-		
+		JLabel lblDNasc = new JLabel("Data Nascimento:");
+		JLabel lblEndereco = new JLabel("Endereço:");
+		JLabel lblEmail = new JLabel("E-mail:");
 		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(10, 104, 52, 14);
-		contentPane.add(lblTelefone);
-		
-		JLabel lblEndereco = new JLabel("Endere\u00E7o:");
-		lblEndereco.setBounds(10, 148, 63, 14);
-		contentPane.add(lblEndereco);
-		
 		JLabel lblCelular = new JLabel("Celular:");
-		lblCelular.setBounds(204, 104, 46, 14);
-		contentPane.add(lblCelular);
-		
-		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(10, 186, 46, 14);
-		contentPane.add(lblEmail);
-		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(10, 227, 46, 14);
-		contentPane.add(lblTipo);
+		JLabel lblDocumento = new JLabel("Documento:"); // mudar
 		
-		JLabel lblDocumento = new JLabel("Documento:");
-		lblDocumento.setBounds(10, 274, 77, 14);
-		contentPane.add(lblDocumento);
+		JTextField nome = new JTextField(10);
+		JTextField endereco = new JTextField(10);
+		JTextField email = new JTextField(10);
+		JTextField documento = new JTextField(10);
+		JComboBox tipo = new JComboBox();
 		
-		txtNome = new JTextField();
-		txtNome.setBounds(53, 26, 124, 20);
-		contentPane.add(txtNome);
-		txtNome.setColumns(10);
+		JButton salvar = new JButton("Salvar");
+		JButton alterar = new JButton("Alterar");
+		JButton excluir = new JButton("Excluir");
+		JButton sair = new JButton("Sair");
+		JButton pesquisar = new JButton("Pesquisar");
 		
 		MaskFormatter formData = new MaskFormatter("##/##/####");
-		JFormattedTextField mskDataNasc = new JFormattedTextField(formData);
-		mskDataNasc.setBounds(117, 60, 77, 20);
-		contentPane.add(mskDataNasc);
+		JFormattedTextField dataNasc = new JFormattedTextField(formData);
 		
-		JFormattedTextField mskTelefone = new JFormattedTextField();
-		mskTelefone.setBounds(67, 101, 110, 20);
-		contentPane.add(mskTelefone);
+		MaskFormatter formTelefone = new MaskFormatter("(##) ####-####");
+		JFormattedTextField telefone = new JFormattedTextField(formTelefone);
 		
-		JFormattedTextField mskCelular = new JFormattedTextField();
-		mskCelular.setBounds(249, 101, 97, 20);
-		contentPane.add(mskCelular);
+		MaskFormatter formCelular = new MaskFormatter("(##) #####-####");
+		JFormattedTextField celular = new JFormattedTextField(formCelular);
 		
-		txtEndereco = new JTextField();
-		txtEndereco.setBounds(66, 145, 128, 20);
-		contentPane.add(txtEndereco);
-		txtEndereco.setColumns(10);
+		tipo.addItem("Física");
+		tipo.addItem("Jurídica");
 		
-		txtEmail = new JTextField();
-		txtEmail.setBounds(53, 183, 141, 20);
-		contentPane.add(txtEmail);
-		txtEmail.setColumns(10);
+		JTable clientes = new JTable();
 		
-		JFormattedTextField mskDocumento = new JFormattedTextField();
-		mskDocumento.setBounds(78, 271, 116, 20);
-		contentPane.add(mskDocumento);
+		painel.setLayout(new BoxLayout(painel, BoxLayout.PAGE_AXIS));
+		painel.add(lblNome);
+		painel.add(nome);
+		painel.add(lblDNasc);
+		painel.add(dataNasc);
+		painel.add(lblEndereco);
+		painel.add(endereco);
+		painel.add(lblEmail);
+		painel.add(email);
+		painel.add(lblTelefone);
+		painel.add(telefone);
+		painel.add(lblCelular);
+		painel.add(celular);
+		painel.add(lblTipo);
+		painel.add(tipo);
+		painel.add(lblDocumento);
+		painel.add(documento);
 		
-		JComboBox cboTipo = new JComboBox();
-		cboTipo.setModel(new DefaultComboBoxModel(new String[] {"F\u00EDsica", "Jur\u00EDdica"}));
-		cboTipo.setBounds(53, 224, 116, 20);
-		contentPane.add(cboTipo);
+		painel2.setLayout(new FlowLayout());
+		painel2.add(salvar);
+		painel2.add(alterar);
+		painel2.add(excluir);
+		painel2.add(sair);
 		
-		JList list = new JList();
-		list.setBounds(425, 284, 109, -263);
+		JScrollPane scPane = new JScrollPane(clientes);
+		clientes.setFillsViewportHeight(true);
+		painel3.add(clientes);
+		
+		ComponentesExtras component = new ComponentesExtras();
+		
+		frame.setContentPane(painel);
+		frame.add(component.criarImagem("cliente.png"));
+		frame.add(painel2);
+		frame.add(scPane);
+		frame.pack();
+		frame.setVisible(true);
+		frame.setLocation(350, 200);
+		
 	}
+
 }

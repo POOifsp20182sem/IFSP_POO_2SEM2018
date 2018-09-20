@@ -93,10 +93,7 @@ CREATE TABLE `funcionario` (
   `tipo_funcionario` enum('gerente','atendente') NOT NULL,
   `salario` double NOT NULL,
   `ativo` tinyint(1) DEFAULT '1',
-  `login_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `login_id_fk` (`login_id`),
-  CONSTRAINT `login_id_fk` FOREIGN KEY (`login_id`) REFERENCES `login` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -106,7 +103,7 @@ CREATE TABLE `funcionario` (
 
 LOCK TABLES `funcionario` WRITE;
 /*!40000 ALTER TABLE `funcionario` DISABLE KEYS */;
-INSERT INTO `funcionario` VALUES (2,'batatao','eder@gmail.com','Rua x','3534652870','99999999999','12409536619','2000-12-12','atendente',1200,1,1),(3,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','',123,1,1),(4,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','',123,1,1),(5,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','atendente',123,1,1);
+INSERT INTO `funcionario` VALUES (2,'batatao','eder@gmail.com','Rua x','3534652870','99999999999','12409536619','2000-12-12','atendente',1200,1),(3,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','',123,1),(4,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','',123,1),(5,'aaa','aaa','aaa','aaa','aa','aaa','1987-12-12','atendente',123,1);
 /*!40000 ALTER TABLE `funcionario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,10 +144,10 @@ DROP TABLE IF EXISTS `login`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `login` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(40) NOT NULL,
-  `senha` varchar(40) NOT NULL,
+  `nome` varchar(40) DEFAULT NULL,
+  `senha` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +156,6 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'eder','123'),(2,'consoli','321');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -361,31 +357,6 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'farmacia'
 --
-/*!50003 DROP FUNCTION IF EXISTS `validar_login` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` FUNCTION `validar_login`(
-p_nome VARCHAR(40),
-p_senha VARCHAR(40)) RETURNS double
-BEGIN
-	#binary faz com que os campos sejam case sensitive, porém não tenho informação de quão performatico isso é.
-	IF(EXISTS(SELECT id FROM login WHERE BINARY nome LIKE p_nome AND BINARY senha LIKE p_senha )) THEN
-		RETURN TRUE;
-    END IF;
-RETURN FALSE;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `alterar_cliente` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -656,21 +627,18 @@ BEGIN
 # converter todos os dados para upper ou converter apenas na busca?
 
 	IF filter LIKE '' THEN
-		SELECT id, nome, email, endereco, telefone, celular, cpf, data_nascimento, tipo_funcionario, salario
-        FROM funcionario WHERE ativo IS TRUE;
+		SELECT * FROM funcionario WHERE ativo IS TRUE;
 	ELSE
-		SELECT id, nome,email, endereco, telefone, celular, cpf, data_nascimento, tipo_funcionario, salario
-			FROM funcionario
-				WHERE 
-					(nome LIKE CONCAT('%', filter,'%') OR
-					email LIKE CONCAT('%', filter,'%') OR
-					endereco LIKE CONCAT('%', filter,'%') OR
-					telefone LIKE CONCAT('%', filter,'%') OR
-					celular LIKE CONCAT('%', filter,'%') OR
-					tipo_funcionario LIKE CONCAT('%', filter,'%') OR
-					cpf LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
+		SELECT * FROM funcionario
+			WHERE 
+				(nome LIKE CONCAT('%', filter,'%') OR
+				email LIKE CONCAT('%', filter,'%') OR
+				endereco LIKE CONCAT('%', filter,'%') OR
+				telefone LIKE CONCAT('%', filter,'%') OR
+				celular LIKE CONCAT('%', filter,'%') OR
+				tipo_funcionario LIKE CONCAT('%', filter,'%') OR
+				cpf LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
-
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1102,4 +1070,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-19 12:50:15
+-- Dump completed on 2018-09-14 15:39:19
