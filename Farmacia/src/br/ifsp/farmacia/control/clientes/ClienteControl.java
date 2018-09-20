@@ -14,7 +14,7 @@ import model.entities.Cliente;
 
 public class ClienteControl {
 	
-	public String cadastrarCliente(Cliente cli) throws ParseException
+	public String cadastrarClienteEspecial(Cliente cli) throws ParseException
 	{
 		ICLienteDAO ce = new IClienteDAO();
 		
@@ -22,35 +22,19 @@ public class ClienteControl {
 		
 		int ano;
 		
-		if(cli.getDocumento().trim().length() < 11)
+		if(cli.getCpf().trim().length() < 14)
 		{
-			mensagem = "Por favor, insira um cpf para o cliente!";
+			mensagem = "Por favor, insere um cpf para o cliente!";
 			return mensagem;
 		}
-		else if(cli.getDataNascFormatado().trim().length() < 8)
+		else if(cli.getDataNascimento().trim().length() < 9)
 		{
-			mensagem = "Por favor, insira uma data de nascimento para o cliente!";
+			mensagem = "Por favor, insere uma data de nascimento para o cliente!";
 			return mensagem;
 		}
 		else if(cli.getNome().trim().length() == 0)
 		{
-			mensagem = "Por favor, insira um nome para o cliente!";
-			return mensagem;
-		}
-		else if (cli.getEmail().trim().lenght() == 0) {
-			mensagem = "Por favor, insira um e-mail do cliente!";
-			return mensagem;
-		}
-		else if (cli.getEndereco().trim().lenght() == 0) {
-			mensagem = "Por favor, insira o endereço do cliente!";
-			return mensagem;
-		}
-		else if (cli.getTelefone().trim().lenght() == 0) {
-			mensagem = "Por favor, insira um telefone fixo do cliente!";
-			return mensagem;
-		}
-		else if (cli.getCelular().trim().lenght() == 0) {
-			mensagem = "Por favor, insira um celular do cliente!";
+			mensagem = "Por favor, insere um nome para o cliente!";
 			return mensagem;
 		}
 		
@@ -59,7 +43,7 @@ public class ClienteControl {
 		Calendar cal = GregorianCalendar.getInstance();
 		GregorianCalendar anoData = new GregorianCalendar();
 		
-		data = usuario.parse(cli.getDataNascFormatado());
+		data = usuario.parse(cli.getDataNascimento());
 		
 		anoData.setTime(data);
 		
@@ -92,18 +76,18 @@ public class ClienteControl {
 		Calendar cal = GregorianCalendar.getInstance();
 		GregorianCalendar anoData = new GregorianCalendar();
 		
-		data = usuario.parse(cli.getDataNascFormatado());
+		data = usuario.parse(cli.getDataNascimento());
 		
 		anoData.setTime(data);
 		
 		ano = cal.get(Calendar.YEAR) - anoData.get(Calendar.YEAR);
 		
-		if(cli.getDocumento().trim().length() < 11)
+		if(cli.getCpf().trim().length() < 14)
 		{
 			mensagem = "Por favor, insira um cpf para o cliente!";
 			return mensagem;
 		}
-		else if(cli.getDataNascFormatado().trim().length() < 8)
+		else if(cli.getDataNascimento().trim().length() < 9)
 		{
 			mensagem = "Por favor, insira uma data de nascimento para o cliente!";
 			return mensagem;
@@ -111,22 +95,6 @@ public class ClienteControl {
 		else if(cli.getNome().trim().length() == 0)
 		{
 			mensagem = "Por favor, insira um nome para o cliente!";
-			return mensagem;
-		}
-		else if (cli.getEmail().trim().lenght() == 0) {
-			mensagem = "Por favor, insira um e-mail do cliente!";
-			return mensagem;
-		}
-		else if (cli.getEndereco().trim().lenght() == 0) {
-			mensagem = "Por favor, insira o endereço do cliente!";
-			return mensagem;
-		}
-		else if (cli.getTelefone().trim().lenght() == 0) {
-			mensagem = "Por favor, insira um telefone fixo do cliente!";
-			return mensagem;
-		}
-		else if (cli.getCelular().trim().lenght() == 0) {
-			mensagem = "Por favor, insira um celular do cliente!";
 			return mensagem;
 		}
 		else if(ano < 60 )
