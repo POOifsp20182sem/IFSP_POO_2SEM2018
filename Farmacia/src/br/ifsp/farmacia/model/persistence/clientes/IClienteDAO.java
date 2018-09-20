@@ -7,9 +7,9 @@ import br.ifsp.farmacia.model.entities.Cliente;
 
 public interface IClienteDAO {
 	
-	public boolean insertCliente(Cliente cli);
-	public boolean updateCliente(Cliente cli);
-	public boolean deleteCliente(Cliente cli);
+	public boolean insertCliente(Cliente cli) throws SQLException;
+	public boolean updateCliente(Cliente cli) throws SQLException;
+	public boolean deleteCliente(Cliente cli) throws SQLException;
 	public ArrayList<Cliente> selectCliente(String filter) throws SQLException;
 	public ArrayList<Cliente> selectCliente() throws SQLException;
 }
