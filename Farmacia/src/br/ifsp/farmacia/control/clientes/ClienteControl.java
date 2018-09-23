@@ -8,6 +8,7 @@ import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
 
 public class ClienteControl {
+	
 	IClienteDAO cd = new ClienteDAO();
 	
 	public void CadastrarCliente (Cliente cli) throws SQLException{
@@ -20,5 +21,9 @@ public class ClienteControl {
 	
 	public void DeletarCliente (Cliente cli) throws SQLException{
 		cd.deleteCliente(cli);
+	}
+	
+	public void listarCliente (Cliente cli) throws SQLException {
+		cd.selectCliente();
 	}
 }
