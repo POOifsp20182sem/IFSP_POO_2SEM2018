@@ -4,25 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.text.ParseException;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollBar;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import br.ifsp.farmacia.model.entities.EnumCliente;
+import javax.swing.JButton;
 
-public class Cliente extends JFrame {
+import br.ifsp.farmacia.model.entities.EnumFuncionario;
+
+public class Funcionario extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNome;
-	private JTextField txtEndereco;
-	private JTextField txtEmail;
 
 	/**
 	 * Launch the application.
@@ -31,7 +28,7 @@ public class Cliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cliente frame = new Cliente();
+					Funcionario frame = new Funcionario();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,16 +41,17 @@ public class Cliente extends JFrame {
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
-	public Cliente() throws ParseException {
+	public Funcionario() throws ParseException {
+		setTitle("Funcion\u00E1rio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 622, 396);
+		setBounds(100, 100, 588, 468);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 29, 46, 14);
+		lblNome.setBounds(10, 22, 39, 14);
 		contentPane.add(lblNome);
 		
 		JLabel lblDataNascimento = new JLabel("Data Nascimento:");
@@ -84,8 +82,8 @@ public class Cliente extends JFrame {
 		lblDocumento.setBounds(10, 274, 77, 14);
 		contentPane.add(lblDocumento);
 		
-		txtNome = new JTextField();
-		txtNome.setBounds(53, 26, 124, 20);
+		JTextField txtNome = new JTextField();
+		txtNome.setBounds(59, 19, 124, 20);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		
@@ -104,40 +102,65 @@ public class Cliente extends JFrame {
 		mskCelular.setBounds(249, 101, 97, 20);
 		contentPane.add(mskCelular);
 		
-		txtEndereco = new JTextField();
+		JTextField txtEndereco = new JTextField();
 		txtEndereco.setBounds(66, 145, 128, 20);
 		contentPane.add(txtEndereco);
 		txtEndereco.setColumns(10);
 		
-		txtEmail = new JTextField();
+		JTextField txtEmail = new JTextField();
 		txtEmail.setBounds(53, 183, 141, 20);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 		
+		JComboBox cboTipo = new JComboBox();
+		cboTipo.setModel(new DefaultComboBoxModel(EnumFuncionario.values()));
+		cboTipo.setBounds(53, 224, 141, 20);
+		contentPane.add(cboTipo);
+		
 		MaskFormatter forCpf = new MaskFormatter("###.###.###-##");
 		JFormattedTextField mskCpf = new JFormattedTextField(forCpf);
+		mskCpf.setBounds(82, 268, 112, 20);
+		
 		MaskFormatter forCnpj = new MaskFormatter("##.###.###/####-##");
 		JFormattedTextField mskCnpj = new JFormattedTextField(forCnpj);
+		mskCnpj.setBounds(82, 295, 150, 20);
 		
 		
-		/*mskCpf.setVisible(false);
-		mskCnpj.setVisible(false);*/
-		
-		/*mskCpf.setVisible(true);
-		mskCnpj.setVisible(true);*/
-		
-		mskCpf.setBounds(97, 271, 116, 20);
 		contentPane.add(mskCpf);
-		mskCnpj.setBounds(67, 299, 127, 20);
 		contentPane.add(mskCnpj);
 		
-		JComboBox cboTipo = new JComboBox();
-		cboTipo.setModel(new DefaultComboBoxModel(EnumCliente.values()));
-		cboTipo.setBounds(53, 224, 124, 20);
-		contentPane.add(cboTipo);
-			
+		JLabel lblSalario = new JLabel("Sal\u00E1rio:");
+		lblSalario.setBounds(10, 342, 46, 14);
+		contentPane.add(lblSalario);
 		
-		JList list = new JList();
-		list.setBounds(425, 284, 109, -263);
+		MaskFormatter forSalario = new MaskFormatter("R$ ####,##");
+		JFormattedTextField mskSalario = new JFormattedTextField(forSalario);
+		mskSalario.setBounds(67, 339, 110, 20);
+		contentPane.add(mskSalario);
+		
+		JLabel lblPesquisar = new JLabel("Pesquisar:");
+		lblPesquisar.setBounds(10, 393, 66, 14);
+		contentPane.add(lblPesquisar);
+		
+		JTextField txtPesquisar = new JTextField();
+		txtPesquisar.setBounds(78, 390, 136, 20);
+		contentPane.add(txtPesquisar);
+		txtPesquisar.setColumns(10);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(468, 384, 89, 23);
+		contentPane.add(btnSalvar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(468, 271, 89, 23);
+		contentPane.add(btnExcluir);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setBounds(468, 321, 89, 23);
+		contentPane.add(btnAlterar);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setBounds(236, 389, 89, 23);
+		contentPane.add(btnPesquisar);
 	}
 }
