@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import br.ifsp.farmacia.model.entities.EnumFormaFarmaco;
 import javax.swing.JSpinner;
+import javax.swing.JButton;
 
 public class Medicamento extends JFrame {
 
@@ -23,7 +24,8 @@ public class Medicamento extends JFrame {
 	private JTextField txtUnidadeMedida;
 	private JTextField txtRegistroMs;
 	private JTextField txtCodigoBarras;
-	private JTextField textField;
+	private JTextField txtClasseTerapeutica;
+	private JTextField txtPesquisar;
 
 	/**
 	 * Launch the application.
@@ -47,7 +49,7 @@ public class Medicamento extends JFrame {
 	public Medicamento() {
 		setTitle("Medicamento");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 628, 440);
+		setBounds(100, 100, 639, 473);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -129,17 +131,42 @@ public class Medicamento extends JFrame {
 		lblClasseTerapeutica.setBounds(314, 71, 97, 14);
 		contentPane.add(lblClasseTerapeutica);
 		
-		textField = new JTextField();
-		textField.setBounds(421, 68, 136, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtClasseTerapeutica = new JTextField();
+		txtClasseTerapeutica.setBounds(421, 68, 136, 20);
+		contentPane.add(txtClasseTerapeutica);
+		txtClasseTerapeutica.setColumns(10);
 		
 		JLabel lblQuantidade = new JLabel("Quantidade:");
 		lblQuantidade.setBounds(345, 120, 66, 14);
 		contentPane.add(lblQuantidade);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(421, 117, 42, 20);
-		contentPane.add(spinner);
+		JSpinner spnQuantidade = new JSpinner();
+		spnQuantidade.setBounds(421, 117, 42, 20);
+		contentPane.add(spnQuantidade);
+		
+		JLabel lblPesquisar = new JLabel("Pesquisar:");
+		lblPesquisar.setBounds(10, 393, 66, 14);
+		contentPane.add(lblPesquisar);
+		
+		txtPesquisar = new JTextField();
+		txtPesquisar.setBounds(78, 390, 136, 20);
+		contentPane.add(txtPesquisar);
+		txtPesquisar.setColumns(10);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(468, 384, 89, 23);
+		contentPane.add(btnSalvar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(468, 271, 89, 23);
+		contentPane.add(btnExcluir);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.setBounds(468, 321, 89, 23);
+		contentPane.add(btnAlterar);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setBounds(236, 389, 89, 23);
+		contentPane.add(btnPesquisar);
 	}
 }
