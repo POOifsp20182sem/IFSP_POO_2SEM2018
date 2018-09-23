@@ -88,16 +88,18 @@ public class Cliente extends JFrame {
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		
-		MaskFormatter formData = new MaskFormatter("##/##/####");
-		JFormattedTextField mskDataNasc = new JFormattedTextField(formData);
+		MaskFormatter forData = new MaskFormatter("##/##/####");
+		JFormattedTextField mskDataNasc = new JFormattedTextField(forData);
 		mskDataNasc.setBounds(117, 60, 77, 20);
 		contentPane.add(mskDataNasc);
 		
-		JFormattedTextField mskTelefone = new JFormattedTextField();
+		MaskFormatter forTelefone = new MaskFormatter("(##) ####-####");
+		JFormattedTextField mskTelefone = new JFormattedTextField(forTelefone);
 		mskTelefone.setBounds(67, 101, 110, 20);
 		contentPane.add(mskTelefone);
 		
-		JFormattedTextField mskCelular = new JFormattedTextField();
+		MaskFormatter forCelular = new MaskFormatter("(##) #####-####");
+		JFormattedTextField mskCelular = new JFormattedTextField(forCelular);
 		mskCelular.setBounds(249, 101, 97, 20);
 		contentPane.add(mskCelular);
 		
@@ -111,14 +113,39 @@ public class Cliente extends JFrame {
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 		
-		JFormattedTextField mskDocumento = new JFormattedTextField();
-		mskDocumento.setBounds(78, 271, 116, 20);
-		contentPane.add(mskDocumento);
+		MaskFormatter forCpf = new MaskFormatter("###.###.###-##");
+		JFormattedTextField mskCpf = new JFormattedTextField(forCpf);
+		MaskFormatter forCnpj = new MaskFormatter("##.###.###/####-##");
+		JFormattedTextField mskCnpj = new JFormattedTextField(forCnpj);
 		
-		JComboBox cboTipo = new JComboBox();
+		JComboBox cboTipo = new JComboBox() {{
+			if(getSelectedIndex() == 0) {
+				mskCpf.setVisible(true);
+				mskCnpj.setVisible(false);
+			}
+			else if(getSelectedIndex() == 1) {
+				mskCnpj.setVisible(true);
+				mskCpf.setVisible(false);
+			}
+		}};
+		
 		cboTipo.setModel(new DefaultComboBoxModel(new String[] {"F\u00EDsica", "Jur\u00EDdica"}));
+		cboTipo.setSelectedItem(-1);
 		cboTipo.setBounds(53, 224, 116, 20);
 		contentPane.add(cboTipo);
+		
+		
+		/*mskCpf.setVisible(false);
+		mskCnpj.setVisible(false);*/
+		
+		/*mskCpf.setVisible(true);
+		mskCnpj.setVisible(true);*/
+		
+		mskCpf.setBounds(97, 271, 116, 20);
+		contentPane.add(mskCpf);
+		mskCnpj.setBounds(67, 299, 127, 20);
+		contentPane.add(mskCnpj);
+			
 		
 		JList list = new JList();
 		list.setBounds(425, 284, 109, -263);
