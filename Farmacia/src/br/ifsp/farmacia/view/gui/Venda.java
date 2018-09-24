@@ -65,7 +65,7 @@ public class Venda extends JFrame {
 		contentPane.add(lblCliente);
 		
 		JComboBox cboCliente = new JComboBox();
-		cboCliente.setBounds(53, 27, 211, 20);
+		cboCliente.setBounds(69, 27, 211, 20);
 		contentPane.add(cboCliente);
 		
 		JButton btnRemover = new JButton("Remover");
@@ -77,45 +77,45 @@ public class Venda extends JFrame {
 		contentPane.add(btnConcluir);
 		
 		JLabel lblMedicamento = new JLabel("Medicamento:");
-		lblMedicamento.setBounds(10, 75, 77, 14);
+		lblMedicamento.setBounds(10, 75, 93, 14);
 		contentPane.add(lblMedicamento);
 		
 		JComboBox cboMedicamento = new JComboBox();
-		cboMedicamento.setBounds(97, 72, 167, 20);
+		cboMedicamento.setBounds(113, 72, 167, 20);
 		contentPane.add(cboMedicamento);
 		
 		JLabel lblValorTotal = new JLabel("Valor Total:");
-		lblValorTotal.setBounds(10, 248, 55, 14);
+		lblValorTotal.setBounds(10, 248, 68, 14);
 		contentPane.add(lblValorTotal);
 		
 		JLabel lblDesconto = new JLabel("Desconto:");
-		lblDesconto.setBounds(10, 273, 55, 14);
+		lblDesconto.setBounds(10, 273, 68, 14);
 		contentPane.add(lblDesconto);
 		
 		JLabel lblValorFinal = new JLabel("Valor Final:");
-		lblValorFinal.setBounds(10, 300, 55, 14);
+		lblValorFinal.setBounds(10, 300, 68, 14);
 		contentPane.add(lblValorFinal);
 		
 		txtValorTotal = new JTextField();
 		txtValorTotal.setEditable(false);
-		txtValorTotal.setBounds(75, 245, 86, 20);
+		txtValorTotal.setBounds(88, 248, 86, 20);
 		contentPane.add(txtValorTotal);
 		txtValorTotal.setColumns(10);
 		
 		txtDesconto = new JTextField();
 		txtDesconto.setEditable(false);
-		txtDesconto.setBounds(75, 270, 86, 20);
+		txtDesconto.setBounds(88, 273, 86, 20);
 		contentPane.add(txtDesconto);
 		txtDesconto.setColumns(10);
 		
 		txtValorFinal = new JTextField();
 		txtValorFinal.setEditable(false);
-		txtValorFinal.setBounds(75, 297, 86, 20);
+		txtValorFinal.setBounds(88, 300, 86, 20);
 		contentPane.add(txtValorFinal);
 		txtValorFinal.setColumns(10);
 		
 		JLabel lblFormaPagamento = new JLabel("Forma Pagamento:");
-		lblFormaPagamento.setBounds(10, 179, 99, 14);
+		lblFormaPagamento.setBounds(10, 179, 115, 14);
 		contentPane.add(lblFormaPagamento);
 		
 		JRadioButton rdbtnDinheiro = new JRadioButton("Dinheiro");
@@ -136,22 +136,22 @@ public class Venda extends JFrame {
 		contentPane.add(mskData);
 		
 		JLabel lblValorPago = new JLabel("Valor Pago:");
-		lblValorPago.setBounds(348, 248, 55, 14);
+		lblValorPago.setBounds(338, 248, 71, 14);
 		contentPane.add(lblValorPago);
 		
 		JLabel lblTroco = new JLabel("Troco:");
-		lblTroco.setBounds(348, 273, 55, 14);
+		lblTroco.setBounds(338, 273, 71, 14);
 		contentPane.add(lblTroco);
 		
 		txtValorPago = new JTextField();
 		txtValorPago.setColumns(10);
-		txtValorPago.setBounds(413, 245, 86, 20);
+		txtValorPago.setBounds(413, 248, 86, 20);
 		contentPane.add(txtValorPago);
 		
 		txtTroco = new JTextField();
 		txtTroco.setEditable(false);
 		txtTroco.setColumns(10);
-		txtTroco.setBounds(413, 270, 86, 20);
+		txtTroco.setBounds(413, 273, 86, 20);
 		contentPane.add(txtTroco);
 	}
 }

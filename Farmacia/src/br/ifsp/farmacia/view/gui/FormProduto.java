@@ -7,25 +7,35 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+import br.ifsp.farmacia.control.produtos.ProdutoControl;
 import br.ifsp.farmacia.model.entities.EnumFormaFarmaco;
+import br.ifsp.farmacia.model.entities.Produto;
+
 import javax.swing.JSpinner;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
-public class Medicamento extends JFrame {
+public class FormProduto extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNomeComercial;
-	private JTextField txtApresentacao;
-	private JTextField txtFabricante;
-	private JTextField txtPrincipioAtivo;
-	private JTextField txtUnidadeMedida;
-	private JTextField txtRegistroMs;
-	private JTextField txtCodigoBarras;
-	private JTextField txtClasseTerapeutica;
-	private JTextField txtPesquisar;
+	private static JTextField txtNomeComercial;
+	private static JTextField txtApresentacao;
+	private static JTextField txtFabricante;
+	private static JTextField txtPrincipioAtivo;
+	private static JTextField txtUnidadeMedida;
+	private static JTextField txtRegistroMs;
+	private static JTextField txtCodigoBarras;
+	private static JTextField txtClasseTerapeutica;
+	private static JTextField txtPesquisar;
 
 	/**
 	 * Launch the application.
@@ -34,7 +44,7 @@ public class Medicamento extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Medicamento frame = new Medicamento();
+					FormProduto frame = new FormProduto();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +56,7 @@ public class Medicamento extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Medicamento() {
+	public FormProduto() {
 		setTitle("Medicamento");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 639, 473);
@@ -153,20 +163,82 @@ public class Medicamento extends JFrame {
 		contentPane.add(txtPesquisar);
 		txtPesquisar.setColumns(10);
 		
+		ProdutoControl ctProduto = new ProdutoControl();
+		Produto produto = new Produto();
+		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					popularMedicamento();
+					ctProduto.cadastrarProduto(produto);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnSalvar.setBounds(468, 384, 89, 23);
 		contentPane.add(btnSalvar);
 		
 		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					popularMedicamento();
+					ctProduto.deletarProduto(produto);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnExcluir.setBounds(468, 271, 89, 23);
 		contentPane.add(btnExcluir);
+
 		
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					popularMedicamento();
+					ctProduto.atualizarProduto(produto);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnAlterar.setBounds(468, 321, 89, 23);
-		contentPane.add(btnAlterar);
+		contentPane.add(btnAlterar);		
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ArrayList produtos = ctProduto.listarProduto(txtPesquisar.toString());
+					JList jlist = new JList((ListModel) produtos);
+					contentPane.add(jlist);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnPesquisar.setBounds(236, 389, 89, 23);
 		contentPane.add(btnPesquisar);
+	}
+	
+	public static void popularMedicamento() {
+		Produto prod = new Produto();
+		prod.setApresentacao(txtApresentacao.toString());
+		prod.setClasseTerapeutica(txtClasseTerapeutica.toString());
+		prod.setCodigoBarras(txtCodigoBarras.toString());
+		prod.setFabricante(txtFabricante.toString());
+		prod.setFormaFarmaco(cboForma.toString());
+		prod.setNomeComercial(txtNomeComercial.toString());
+		prod.setPrincipioAtivo(txtPrincipioAtivo.toString());
+		prod.setQtde(spnQuantidade.toString());
+		prod.setRegistroMS(txtRegistroMs.toString());
+		prod.setUnidadeMedida(txtUnidadeMedida.toString());
 	}
 }

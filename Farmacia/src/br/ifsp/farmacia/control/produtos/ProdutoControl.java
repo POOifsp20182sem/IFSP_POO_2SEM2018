@@ -1,7 +1,6 @@
 package br.ifsp.farmacia.control.produtos;
-
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import br.ifsp.farmacia.model.persistence.produtos.*;
 import br.ifsp.farmacia.model.entities.*;
 
@@ -9,19 +8,23 @@ public class ProdutoControl {
 
 	IProdutoDAO pd = new ProdutoDAO();
 
-	public void cadastrarProduto(Produto prod) throws SQLException {
-		pd.insertProduto(prod);
+	public boolean cadastrarProduto(Produto prod) throws SQLException {
+		return pd.insertProduto(prod);
 	}
 
-	public void atualizarProduto(Produto prod) throws SQLException {
-		pd.updateProduto(prod);
+	public boolean atualizarProduto(Produto prod) throws SQLException {
+		return pd.updateProduto(prod);
 	}
 	
-	public void deletarProduto(Produto prod) throws SQLException {
-		pd.deleteProduto(prod);
+	public boolean deletarProduto(Produto prod) throws SQLException {
+		return pd.deleteProduto(prod);
 	}
 	
-	public void listarProduto (Produto prod) throws SQLException {
-		pd.selectProduto(null);
+	public ArrayList<Produto> listarProduto (String prod) throws SQLException {
+		return pd.selectProduto(null);
+	}
+	
+	public ArrayList<Produto> listarProduto () throws SQLException {
+		return pd.selectProduto(null);
 	}
 }

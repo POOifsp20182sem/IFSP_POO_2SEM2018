@@ -23,6 +23,8 @@ import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.EnumCliente;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
@@ -30,9 +32,9 @@ public class FormCliente extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField txtNome;
-	private JTextField txtEndereco;
-	private JTextField txtEmail;
-	private JTextField txtPesquisar;
+	private static JTextField txtEndereco;
+	private static JTextField txtEmail;
+	private static JTextField txtPesquisar;
 
 	/**
 	 * Launch the application.
@@ -144,6 +146,16 @@ public class FormCliente extends JFrame {
 		JComboBox cboTipo = new JComboBox();
 		cboTipo.setModel(new DefaultComboBoxModel(EnumCliente.values()));
 		cboTipo.setBounds(53, 224, 124, 20);
+		cboTipo.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+	                EnumCliente enu = (EnumCliente ) e.getItem();
+	            }
+			}
+	        });
 		contentPane.add(cboTipo);
 		
 		ClienteControl ctCliente = new ClienteControl();
@@ -218,8 +230,20 @@ public class FormCliente extends JFrame {
 		
 	}
 	
+	
+	
 	public static void popularCliente() {
+		String tipo = cboTipo.values;
 		Cliente cliente = new Cliente();
 		cliente.setNome(txtNome.toString()); 
+		cliente.setCelular(mskCelular.toString());
+		cliente.setEmail(txtEmail.toString());
+		cliente.setEndereco(txtEndereco.toString());
+		cliente.setDataNascimento(mskDataNascimento.toString());
+		cliente.setTelefone(mskTelefone.toString());
+		cliente.setTipoCliente(cliente.getTipoCliente());
+		cliente.setText(enu.getValue());
 	}
+	
+	
 }
