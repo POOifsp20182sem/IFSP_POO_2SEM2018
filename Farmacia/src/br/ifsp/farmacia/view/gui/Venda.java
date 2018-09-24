@@ -3,7 +3,7 @@ package br.ifsp.farmacia.view.gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
-import java.util.Formatter;
+import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
@@ -47,9 +48,10 @@ public class Venda extends JFrame {
 	/**
 	 * Create the frame.
 	 * @throws FileNotFoundException 
+	 * @throws ParseException 
 	 */
 	@SuppressWarnings("serial")
-	public Venda() throws FileNotFoundException {
+	public Venda() throws FileNotFoundException, ParseException {
 		setTitle("Venda");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 525, 390);
@@ -128,7 +130,7 @@ public class Venda extends JFrame {
 		lblData.setBounds(306, 30, 40, 14);
 		contentPane.add(lblData);
 		
-		Formatter forData = new Formatter("##/##/####");
+		MaskFormatter forData = new MaskFormatter("##/##/####");
 		JFormattedTextField mskData = new JFormattedTextField(forData);
 		mskData.setBounds(338, 27, 71, 20);
 		contentPane.add(mskData);

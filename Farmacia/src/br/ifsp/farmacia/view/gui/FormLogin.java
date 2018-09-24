@@ -1,6 +1,7 @@
 package br.ifsp.farmacia.view.gui;
 
 import java.awt.BorderLayout;
+import br.ifsp.farmacia.model.entities.Login;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,8 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Login extends JFrame {
+public class FormLogin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUser;
@@ -30,7 +33,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					FormLogin frame = new FormLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +45,7 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public FormLogin() {
 		setForeground(new Color(240, 248, 255));
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,22 +79,22 @@ public class Login extends JFrame {
 		contentPane.add(pswSenha);
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Login login = new Login(txtUser.toString(), pswSenha.toString());
+				
+			}
+		});
 		btnOk.setBounds(166, 203, 89, 23);
 		contentPane.add(btnOk);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnCancelar.setBounds(271, 203, 89, 23);
 		contentPane.add(btnCancelar);
-		
-		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setLabelFor(this);
-		lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblTipo.setBounds(169, 127, 24, 14);
-		contentPane.add(lblTipo);
-		
-		JComboBox cbxTipo = new JComboBox();
-		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Atendente", "Gerente"}));
-		cbxTipo.setBounds(216, 127, 144, 20);
-		contentPane.add(cbxTipo);
 	}
 }

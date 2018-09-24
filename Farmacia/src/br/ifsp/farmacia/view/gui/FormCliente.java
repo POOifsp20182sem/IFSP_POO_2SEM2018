@@ -3,6 +3,7 @@ package br.ifsp.farmacia.view.gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,17 +13,26 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import br.ifsp.farmacia.model.entities.EnumCliente;
 
-public class Cliente extends JFrame {
+import br.ifsp.farmacia.control.clientes.ClienteControl;
+import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.EnumCliente;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+
+public class FormCliente extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNome;
+	private static JTextField txtNome;
 	private JTextField txtEndereco;
 	private JTextField txtEmail;
+	private JTextField txtPesquisar;
 
 	/**
 	 * Launch the application.
@@ -31,7 +41,7 @@ public class Cliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cliente frame = new Cliente();
+					FormCliente frame = new FormCliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,9 +54,9 @@ public class Cliente extends JFrame {
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
-	public Cliente() throws ParseException {
+	public FormCliente() throws ParseException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 622, 396);
+		setBounds(100, 100, 622, 439);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,7 +95,7 @@ public class Cliente extends JFrame {
 		contentPane.add(lblDocumento);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(53, 26, 124, 20);
+		txtNome.setBounds(53, 26, 293, 20);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		
@@ -135,9 +145,81 @@ public class Cliente extends JFrame {
 		cboTipo.setModel(new DefaultComboBoxModel(EnumCliente.values()));
 		cboTipo.setBounds(53, 224, 124, 20);
 		contentPane.add(cboTipo);
+		
+		ClienteControl ctCliente = new ClienteControl();
+		Cliente cliente = new Cliente();
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ctCliente.CadastrarCliente(cliente);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnSalvar.setBounds(507, 348, 89, 23);
+		contentPane.add(btnSalvar);
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ctCliente.AtualizarCliente(cliente);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnAlterar.setBounds(390, 270, 89, 23);
+		contentPane.add(btnAlterar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ctCliente.DeletarCliente(cliente);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnExcluir.setBounds(507, 270, 89, 23);
+		contentPane.add(btnExcluir);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					ArrayList clientes = ctCliente.listarCliente(txtPesquisar.toString());
+					JList list = new JList((ListModel) clientes);
+					list.setBounds(425, 284, 109, -263);
+					contentPane.add(list);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnPesquisar.setBounds(249, 348, 89, 23);
+		contentPane.add(btnPesquisar);
+		
+		JLabel lblPesquisar = new JLabel("Pesquisar:");
+		lblPesquisar.setBounds(10, 331, 63, 14);
+		contentPane.add(lblPesquisar);
+		
+		txtPesquisar = new JTextField();
+		txtPesquisar.setBounds(10, 349, 209, 20);
+		contentPane.add(txtPesquisar);
+		txtPesquisar.setColumns(10);
 			
 		
-		JList list = new JList();
-		list.setBounds(425, 284, 109, -263);
+		
+	}
+	
+	public static void popularCliente() {
+		Cliente cliente = new Cliente();
+		cliente.setNome(txtNome.toString()); 
 	}
 }
