@@ -50,6 +50,17 @@ public abstract class Pessoa {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+	
+	//TODO:25-09-2018:ed:Overloading de setNascimento
+	//acho que da pra usar lambda ou fazer de modo mais bonito
+	public void setDataNascimento(String dataNascimento) {
+		String [] strings = dataNascimento.split("/"); 
+		int dia,mes,ano;
+		dia = Integer.parseInt(strings[0]);
+		mes = Integer.parseInt(strings[1]);
+		ano = Integer.parseInt(strings[2]);
+		this.dataNascimento = LocalDate.of(ano, mes, dia);
+	}
 
 	public Endereco getEndereco() {
 		return endereco;
@@ -58,7 +69,7 @@ public abstract class Pessoa {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-
+	
 	public String getEmail() {
 		return email;
 	}

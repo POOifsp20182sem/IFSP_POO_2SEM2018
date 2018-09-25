@@ -1,6 +1,5 @@
 package br.ifsp.farmacia.view.gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollBar;
+
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.JFormattedTextField;
@@ -20,7 +19,9 @@ import javax.swing.DefaultComboBoxModel;
 
 import br.ifsp.farmacia.control.clientes.ClienteControl;
 import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.Endereco;
 import br.ifsp.farmacia.model.entities.EnumCliente;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -35,7 +36,10 @@ public class FormCliente extends JFrame {
 	private static JTextField txtEndereco;
 	private static JTextField txtEmail;
 	private static JTextField txtPesquisar;
-
+	private static JFormattedTextField mskDataNasc;
+	private static JFormattedTextField mskTelefone;
+	private static JFormattedTextField mskCelular;
+	private static JComboBox<EnumCliente> cboTipoCliente = new JComboBox<>();
 	/**
 	 * Launch the application.
 	 */
@@ -102,17 +106,17 @@ public class FormCliente extends JFrame {
 		txtNome.setColumns(10);
 		
 		MaskFormatter forData = new MaskFormatter("##/##/####");
-		JFormattedTextField mskDataNasc = new JFormattedTextField(forData);
+		mskDataNasc = new JFormattedTextField(forData);
 		mskDataNasc.setBounds(117, 60, 77, 20);
 		contentPane.add(mskDataNasc);
 		
 		MaskFormatter forTelefone = new MaskFormatter("(##) ####-####");
-		JFormattedTextField mskTelefone = new JFormattedTextField(forTelefone);
+		mskTelefone = new JFormattedTextField(forTelefone);
 		mskTelefone.setBounds(67, 101, 110, 20);
 		contentPane.add(mskTelefone);
 		
 		MaskFormatter forCelular = new MaskFormatter("(##) #####-####");
-		JFormattedTextField mskCelular = new JFormattedTextField(forCelular);
+	    mskCelular = new JFormattedTextField(forCelular);
 		mskCelular.setBounds(249, 101, 97, 20);
 		contentPane.add(mskCelular);
 		
@@ -132,39 +136,23 @@ public class FormCliente extends JFrame {
 		JFormattedTextField mskCnpj = new JFormattedTextField(forCnpj);
 		
 		
-		/*mskCpf.setVisible(false);
-		mskCnpj.setVisible(false);*/
-		
-		/*mskCpf.setVisible(true);
-		mskCnpj.setVisible(true);*/
-		
 		mskCpf.setBounds(97, 271, 116, 20);
 		contentPane.add(mskCpf);
 		mskCnpj.setBounds(67, 299, 127, 20);
 		contentPane.add(mskCnpj);
 		
-		JComboBox cboTipo = new JComboBox();
-		cboTipo.setModel(new DefaultComboBoxModel(EnumCliente.values()));
-		cboTipo.setBounds(53, 224, 124, 20);
-		cboTipo.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-	                EnumCliente enu = (EnumCliente ) e.getItem();
-	            }
-			}
-	        });
-		contentPane.add(cboTipo);
+		cboTipoCliente.setModel(new DefaultComboBoxModel<>(EnumCliente.values()));
+		cboTipoCliente.setBounds(53, 224, 124, 20);
+		contentPane.add(cboTipoCliente);
 		
 		ClienteControl ctCliente = new ClienteControl();
-		Cliente cliente = new Cliente();
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Cliente cliente = new Cliente();
+					popularCliente(cliente);
 					ctCliente.CadastrarCliente(cliente);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -178,6 +166,8 @@ public class FormCliente extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Cliente cliente = new Cliente();
+					popularCliente(cliente);
 					ctCliente.AtualizarCliente(cliente);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -191,6 +181,10 @@ public class FormCliente extends JFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Cliente cliente = new Cliente();
+					//TODO: pode ter um método específico, 
+					//uma vez que é preciso pegar somente o id
+					popularCliente(cliente);
 					ctCliente.DeletarCliente(cliente);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -225,25 +219,22 @@ public class FormCliente extends JFrame {
 		txtPesquisar.setBounds(10, 349, 209, 20);
 		contentPane.add(txtPesquisar);
 		txtPesquisar.setColumns(10);
-			
-		
-		
 	}
 	
 	
 	
-	public static void popularCliente() {
-		/*String tipo = cboTipo.values;
-		Cliente cliente = new Cliente();
-		cliente.setNome(txtNome.toString()); 
-		cliente.setCelular(mskCelular.toString());
-		cliente.setEmail(txtEmail.toString());
-		cliente.setEndereco(txtEndereco.toString());
-		cliente.setDataNascimento(mskDataNascimento.toString());
-		cliente.setTelefone(mskTelefone.toString());
-		cliente.setTipoCliente(cliente.getTipoCliente());
-		cliente.setText(enu.getValue());*/
+	public static void popularCliente(Cliente cliente) {
+		//Texts
+		cliente.setNome(txtNome.getText()); 
+		cliente.setEmail(txtEmail.getText());
+		//TODO:25-09-2018:ed:Pode ser melhor esse endereco
+		cliente.setEndereco(new Endereco(txtEndereco.getText()));
+		//Masks
+		cliente.setCelular(mskCelular.getText());
+		cliente.setDataNascimento(mskDataNasc.getText());
+		cliente.setTelefone(mskTelefone.getText());
+		
+		//combo
+		cliente.setTipoCliente((EnumCliente)cboTipoCliente.getSelectedItem());
 	}
-	
-	
 }
