@@ -17,6 +17,7 @@ import javax.swing.JButton;
 
 import br.ifsp.farmacia.model.entities.EnumFuncionario;
 
+//TODO:25-09-2018:ed:por favor renomear para seguir o padrão
 public class Funcionario extends JFrame {
 
 	private JPanel contentPane;
@@ -43,7 +44,7 @@ public class Funcionario extends JFrame {
 	 */
 	public Funcionario() throws ParseException {
 		setTitle("Funcion\u00E1rio");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 588, 468);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

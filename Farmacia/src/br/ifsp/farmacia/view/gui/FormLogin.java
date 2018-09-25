@@ -1,23 +1,22 @@
 package br.ifsp.farmacia.view.gui;
 
-import java.awt.BorderLayout;
+import br.ifsp.farmacia.control.login.LoginControl;
 import br.ifsp.farmacia.model.entities.Login;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.sun.glass.events.WindowEvent;
+
 import java.awt.Color;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
 import javax.swing.JTextField;
-import javax.swing.BoxLayout;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class FormLogin extends JFrame {
@@ -34,6 +33,7 @@ public class FormLogin extends JFrame {
 			public void run() {
 				try {
 					FormLogin frame = new FormLogin();
+					frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,21 +79,30 @@ public class FormLogin extends JFrame {
 		contentPane.add(pswSenha);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Login login = new Login(txtUser.toString(), pswSenha.toString());
-				
-			}
+		btnOk.addActionListener((e) -> {
+				LoginControl loginControl = new LoginControl();
+				Login login = new Login(txtUser.getText(), pswSenha.getPassword().toString());
+				try {
+					if(loginControl.validarLogin(login)) {
+						MenuPrincipal menuPrincipal = new MenuPrincipal();
+						//o ideial é fechar o login
+						FormLogin.this.setVisible(false);
+						//torna o form visível
+						menuPrincipal.setVisible(true);
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 		});
 		btnOk.setBounds(166, 203, 89, 23);
 		contentPane.add(btnOk);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		
+		btnCancelar.addActionListener((e)-> {
 				System.exit(0);
-			}
 		});
+		
 		btnCancelar.setBounds(271, 203, 89, 23);
 		contentPane.add(btnCancelar);
 	}

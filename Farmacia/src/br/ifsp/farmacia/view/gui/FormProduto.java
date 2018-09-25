@@ -61,8 +61,9 @@ public class FormProduto extends JFrame {
 	 * Create the frame.
 	 */
 	public FormProduto() {
+		
 		setTitle("Medicamento");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 639, 473);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -167,12 +168,11 @@ public class FormProduto extends JFrame {
 		contentPane.add(txtPesquisar);
 		txtPesquisar.setColumns(10);
 
-		ProdutoControl ctProduto = new ProdutoControl();
-
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					ProdutoControl ctProduto = new ProdutoControl();
 					Produto produto = new Produto();
 					popularMedicamento(produto);
 					ctProduto.cadastrarProduto(produto);
@@ -189,6 +189,7 @@ public class FormProduto extends JFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					ProdutoControl ctProduto = new ProdutoControl();
 					Produto produto = new Produto();
 					popularMedicamento(produto);
 					ctProduto.deletarProduto(produto);
@@ -206,6 +207,7 @@ public class FormProduto extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					ProdutoControl ctProduto = new ProdutoControl();
 					Produto produto = new Produto();
 					popularMedicamento(produto);
 					ctProduto.atualizarProduto(produto);
@@ -222,6 +224,7 @@ public class FormProduto extends JFrame {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					ProdutoControl ctProduto = new ProdutoControl();
 					ArrayList produtos = ctProduto.listarProduto(txtPesquisar.toString());
 					JList jlist = new JList((ListModel) produtos);
 					contentPane.add(jlist);

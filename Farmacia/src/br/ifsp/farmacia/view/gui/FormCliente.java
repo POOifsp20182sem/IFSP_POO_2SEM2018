@@ -61,7 +61,7 @@ public class FormCliente extends JFrame {
 	 * @throws ParseException 
 	 */
 	public FormCliente() throws ParseException {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 622, 439);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
