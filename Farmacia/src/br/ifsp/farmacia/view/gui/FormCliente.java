@@ -230,9 +230,10 @@ public class FormCliente extends JFrame {
 		//TODO:25-09-2018:ed:Pode ser melhor esse endereco
 		cliente.setEndereco(new Endereco(txtEndereco.getText()));
 		//Masks
-		cliente.setCelular(mskCelular.getText());
-		cliente.setDataNascimento(mskDataNasc.getText());
-		cliente.setTelefone(mskTelefone.getText());
+		//"\\D" remove todos os elementos que não sejam números   
+		cliente.setCelular(mskCelular.getText().replaceAll("\\D",""));
+		cliente.setDataNascimento((String)mskDataNasc.getText());
+		cliente.setTelefone(mskTelefone.getText().replaceAll("\\D",""));
 		
 		//combo
 		cliente.setTipoCliente((EnumCliente)cboTipoCliente.getSelectedItem());

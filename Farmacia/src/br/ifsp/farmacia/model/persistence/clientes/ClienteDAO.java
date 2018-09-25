@@ -27,7 +27,7 @@ public class ClienteDAO implements IClienteDAO {
 			
 			String query = "{call inserir_cliente(?, ?, ?, ?, ?, ?, ?, ?)}"; 
 
-			ps = conn.prepareStatement(query);		
+			ps = conn.prepareStatement(query);
 
 			ps.setString(1, cli.getNome());
 			ps.setString(2, cli.getEmail());
