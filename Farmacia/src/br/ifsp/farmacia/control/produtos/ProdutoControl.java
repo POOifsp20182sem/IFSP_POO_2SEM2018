@@ -27,4 +27,12 @@ public class ProdutoControl {
 	public ArrayList<Produto> listarProduto () throws SQLException {
 		return pd.selectProduto(null);
 	}
+	
+	public ArrayList<ClasseTerapeutica> listarClasseTerapeutica() throws SQLException{
+		return pd.selectClasseTerapeutica();
+	}
+	
+	public ArrayList<PrincipioAtivo> listarPrincipioAtivo() throws SQLException{
+		return pd.selectPrincipioAtivo();
+	}
 }

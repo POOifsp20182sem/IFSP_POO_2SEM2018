@@ -7,8 +7,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import br.ifsp.farmacia.model.entities.ClasseTerapeutica;
 import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.PrincipioAtivo;
 import br.ifsp.farmacia.model.entities.Produto;
 import br.ifsp.farmacia.model.persistence.MySqlConnection;
 
@@ -29,11 +33,11 @@ public class ProdutoDAO implements IProdutoDAO {
 			ps.setString(2, prod.getApresentacao());
 			ps.setString(3, prod.getFormaFarmaco().toString());
 			ps.setString(4, prod.getFabricante());
-			ps.setString(5, prod.getPrincipioAtivo());
-			ps.setString(6, prod.getUnidadeMedida());
-			ps.setString(7, prod.getRegistroMS());
-			ps.setString(8, prod.getCodigoBarras());
-			ps.setString(9, prod.getClasseTerapeutica());
+			ps.setString(5, prod.getUnidadeMedida());
+			ps.setString(6, prod.getRegistroMS());
+			ps.setString(7, prod.getCodigoBarras());
+			ps.setInt(8, prod.getPrincipioAtivo().getId());
+			ps.setInt(9, prod.getClasseTerapeutica().getId());
 			ps.setInt(10, prod.getQtde());
 
 			if(ps.executeUpdate() == 0) {
@@ -69,11 +73,11 @@ public class ProdutoDAO implements IProdutoDAO {
 			ps.setString(3, prod.getApresentacao());
 			ps.setString(4, prod.getFormaFarmaco().toString());
 			ps.setString(5, prod.getFabricante());
-			ps.setString(6, prod.getPrincipioAtivo());
-			ps.setString(7, prod.getUnidadeMedida());
-			ps.setString(8, prod.getRegistroMS());
-			ps.setString(9, prod.getCodigoBarras());
-			ps.setString(10, prod.getClasseTerapeutica());
+			ps.setString(6, prod.getUnidadeMedida());
+			ps.setString(7, prod.getRegistroMS());
+			ps.setString(8, prod.getCodigoBarras());
+			ps.setInt(9, prod.getPrincipioAtivo().getId());
+			ps.setInt(10, prod.getClasseTerapeutica().getId());
 			ps.setInt(11, prod.getQtde());
 
 			if(ps.executeUpdate() == 0) {
@@ -184,5 +188,63 @@ public class ProdutoDAO implements IProdutoDAO {
 	public ArrayList<Produto> selectProduto() throws SQLException {
 		return selectProduto("");
 	}
+	
+	public ArrayList<PrincipioAtivo> selectPrincipioAtivo() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		ArrayList<PrincipioAtivo> principiosAtivos = new ArrayList<>();
+		PrincipioAtivo princ = new PrincipioAtivo();
+		
+		try {
+			String query = "{call buscar_principio_ativo()}"; 
+			conn = MySqlConnection.getConnection();
+			ps = conn.prepareStatement(query);		
 
+			ResultSet result = ps.executeQuery();
+
+			while(result.next()) {
+				princ = new PrincipioAtivo();
+				princ.setId(result.getInt("id"));
+				princ.setNome(result.getString("nome"));
+				principiosAtivos.add(princ);
+			}
+	
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
+		
+		return principiosAtivos;
+	}
+	
+	public ArrayList<ClasseTerapeutica> selectClasseTerapeutica() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		ArrayList<ClasseTerapeutica> classesTerapeuticas = new ArrayList<>();
+		ClasseTerapeutica cla = new ClasseTerapeutica();
+		
+		try {
+			String query = "{call buscar_classe_terapeutica()}"; 
+			conn = MySqlConnection.getConnection();
+			ps = conn.prepareStatement(query);		
+			
+			ResultSet result = ps.executeQuery();
+			
+			while(result.next()) {
+				cla = new ClasseTerapeutica();
+				cla.setId(result.getInt("id"));
+				cla.setNome(result.getString("nome"));
+				classesTerapeuticas.add(cla);
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
+		return classesTerapeuticas;
+	}
 }

@@ -7,9 +7,9 @@ import br.ifsp.farmacia.model.persistence.produtos.ProdutoDAO;
 public class TesteCrudProduto {
 
 	public static void main(String[] args) {
-		Produto prod = new Produto("Remédio forte", "Poderoso", EnumFormaFarmaco.DRAGEA,
+		/*Produto prod = new Produto("Remédio forte", "Poderoso", EnumFormaFarmaco.DRAGEA,
 				"eu que fiz", "batata frita", "tonela cúbica", "42666404",
-				"numero aqui", "psicotropico", 120);
+				"numero aqui", "psicotropico", 120);*/
 
 		ProdutoDAO prodDAO = new ProdutoDAO();
 		

@@ -234,7 +234,6 @@ public class FormCliente extends JFrame {
 		cliente.setCelular(mskCelular.getText().replaceAll("\\D",""));
 		cliente.setDataNascimento((String)mskDataNasc.getText());
 		cliente.setTelefone(mskTelefone.getText().replaceAll("\\D",""));
-		
 		//combo
 		cliente.setTipoCliente((EnumCliente)cboTipoCliente.getSelectedItem());
 	}

@@ -15,7 +15,9 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 import br.ifsp.farmacia.control.produtos.ProdutoControl;
+import br.ifsp.farmacia.model.entities.ClasseTerapeutica;
 import br.ifsp.farmacia.model.entities.EnumFormaFarmaco;
+import br.ifsp.farmacia.model.entities.PrincipioAtivo;
 import br.ifsp.farmacia.model.entities.Produto;
 
 import javax.swing.JSpinner;
@@ -32,13 +34,14 @@ public class FormProduto extends JFrame {
 	private static JTextField txtNomeComercial;
 	private static JTextField txtApresentacao;
 	private static JTextField txtFabricante;
-	private static JTextField txtPrincipioAtivo;
 	private static JTextField txtUnidadeMedida;
 	private static JTextField txtRegistroMs;
 	private static JTextField txtCodigoBarras;
-	private static JTextField txtClasseTerapeutica;
 	private static JTextField txtPesquisar;
 	private static JComboBox<EnumFormaFarmaco> cboForma = new JComboBox<>();
+	private static JComboBox<ClasseTerapeutica> cboClasseTerapeutica = new JComboBox<>();
+	private static JComboBox<PrincipioAtivo> cboPrincipioAtivo = new JComboBox<>();
+	
 	private static JSpinner spnQuantidade;
 
 	/**
@@ -50,6 +53,7 @@ public class FormProduto extends JFrame {
 				try {
 					FormProduto frame = new FormProduto();
 					frame.setVisible(true);
+					//carregarComboBox();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -92,10 +96,35 @@ public class FormProduto extends JFrame {
 		lblFormaFarmaco.setBounds(10, 120, 78, 14);
 		contentPane.add(lblFormaFarmaco);
 
+		//comboBox TipoFarmaco
 		cboForma.setModel(new DefaultComboBoxModel<>(EnumFormaFarmaco.values())); 
 		cboForma.setBounds(115, 117, 149, 20);
 		contentPane.add(cboForma);
-
+		
+		//comboBox ClasseTerapeutica
+		JLabel lblClasseTerapeutica = new JLabel("Classe Terapeutica:");
+		lblClasseTerapeutica.setBounds(314, 71, 97, 14);
+		contentPane.add(lblClasseTerapeutica);
+		
+		cboClasseTerapeutica.setModel(new DefaultComboBoxModel<>());
+		cboClasseTerapeutica.setBounds(420, 71, 149, 20);
+		contentPane.add(cboClasseTerapeutica);
+		
+		//comboBox PrincipioAtivo
+		JLabel lblPrincipioAtivo = new JLabel("Principio Ativo:");
+		lblPrincipioAtivo.setBounds(10, 211, 78, 14);
+		contentPane.add(lblPrincipioAtivo);
+		
+		cboPrincipioAtivo.setModel(new DefaultComboBoxModel<>());
+		cboPrincipioAtivo.setBounds(110, 221, 149, 20);
+		contentPane.add(cboPrincipioAtivo);
+		
+		try {
+			carregarComboBox();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		JLabel lblFabricante = new JLabel("Fabricante:");
 		lblFabricante.setBounds(10, 165, 66, 14);
 		contentPane.add(lblFabricante);
@@ -104,15 +133,6 @@ public class FormProduto extends JFrame {
 		txtFabricante.setBounds(115, 162, 149, 20);
 		contentPane.add(txtFabricante);
 		txtFabricante.setColumns(10);
-
-		JLabel lblPrincipioAtivo = new JLabel("Principio Ativo:");
-		lblPrincipioAtivo.setBounds(10, 211, 78, 14);
-		contentPane.add(lblPrincipioAtivo);
-
-		txtPrincipioAtivo = new JTextField();
-		txtPrincipioAtivo.setBounds(115, 208, 149, 20);
-		contentPane.add(txtPrincipioAtivo);
-		txtPrincipioAtivo.setColumns(10);
 
 		JLabel lblUnidadeDeMedida = new JLabel("Unidade de Medida:");
 		lblUnidadeDeMedida.setBounds(10, 261, 97, 14);
@@ -141,15 +161,6 @@ public class FormProduto extends JFrame {
 		contentPane.add(txtCodigoBarras);
 		txtCodigoBarras.setColumns(10);
 
-		JLabel lblClasseTerapeutica = new JLabel("Classe Terapeutica:");
-		lblClasseTerapeutica.setBounds(314, 71, 97, 14);
-		contentPane.add(lblClasseTerapeutica);
-
-		txtClasseTerapeutica = new JTextField();
-		txtClasseTerapeutica.setBounds(421, 68, 136, 20);
-		contentPane.add(txtClasseTerapeutica);
-		txtClasseTerapeutica.setColumns(10);
-
 		JLabel lblQuantidade = new JLabel("Quantidade:");
 		lblQuantidade.setBounds(345, 120, 66, 14);
 		contentPane.add(lblQuantidade);
@@ -176,7 +187,6 @@ public class FormProduto extends JFrame {
 					Produto produto = new Produto();
 					popularMedicamento(produto);
 					ctProduto.cadastrarProduto(produto);
-
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -236,15 +246,28 @@ public class FormProduto extends JFrame {
 		btnPesquisar.setBounds(236, 389, 89, 23);
 		contentPane.add(btnPesquisar);
 	}
+	
+	public static void carregarComboBox() 
+			throws SQLException {
+		ProdutoControl ctProduto = new ProdutoControl();
+		
+		//TODO:Acho que daria para usar lambda
+		
+		for(PrincipioAtivo p: ctProduto.listarPrincipioAtivo())
+			cboPrincipioAtivo.addItem(p);
+		
+		for(ClasseTerapeutica c: ctProduto.listarClasseTerapeutica())
+			cboClasseTerapeutica.addItem(c);
+	}
 
 	public static void popularMedicamento(Produto prod) {
 		prod.setId(idProduto);
 		prod.setApresentacao(txtApresentacao.getText());
-		prod.setClasseTerapeutica(txtClasseTerapeutica.getText());
+		prod.setClasseTerapeutica((ClasseTerapeutica)cboClasseTerapeutica.getSelectedItem());
 		prod.setCodigoBarras(txtCodigoBarras.getText());
 		prod.setFabricante(txtFabricante.getText());
 		prod.setNomeComercial(txtNomeComercial.getText());
-		prod.setPrincipioAtivo(txtPrincipioAtivo.getText());
+		prod.setPrincipioAtivo((PrincipioAtivo)cboPrincipioAtivo.getSelectedItem());
 		prod.setRegistroMS(txtRegistroMs.getText());
 		prod.setUnidadeMedida(txtUnidadeMedida.getText());
 		prod.setFormaFarmaco((EnumFormaFarmaco) cboForma.getSelectedItem());

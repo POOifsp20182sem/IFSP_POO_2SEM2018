@@ -7,18 +7,19 @@ public class Produto {
 	private String apresentacao;
 	private EnumFormaFarmaco formaFarmaco;
 	private String fabricante; //TODO: Verificar necessidade
-	private String principioAtivo;
+
 	private String unidadeMedida; //TODO: verificar necessidade, caso necessario criar enumUnidadeMedida
 	//TODO: Verificar necessidade do campo "popular" 
 	//TODO: Verificar necessidade do campo "generico"
 	private String registroMS;
 	private String codigoBarras;
-	private String classeTerapeutica;
+	private PrincipioAtivo principioAtivo;
+	private ClasseTerapeutica classeTerapeutica;
 	private int qtde;
 
 	public Produto(String nomeComercial, String apresentacao, EnumFormaFarmaco formaFarmaco, String fabricante,
-			String principioAtivo, String unidadeMedida, String registroMS, String codigoBarras,
-			String classeTerapeutica, int qtde) {
+			PrincipioAtivo principioAtivo, String unidadeMedida, String registroMS, String codigoBarras,
+			ClasseTerapeutica classeTerapeutica, int qtde) {
 		super();
 		this.nomeComercial = nomeComercial;
 		this.apresentacao = apresentacao;
@@ -75,14 +76,6 @@ public class Produto {
 		this.fabricante = fabricante;
 	}
 
-	public String getPrincipioAtivo() {
-		return principioAtivo;
-	}
-
-	public void setPrincipioAtivo(String principioAtivo) {
-		this.principioAtivo = principioAtivo;
-	}
-
 	public String getUnidadeMedida() {
 		return unidadeMedida;
 	}
@@ -107,14 +100,6 @@ public class Produto {
 		this.codigoBarras = codigoBarras;
 	}
 
-	public String getClasseTerapeutica() {
-		return classeTerapeutica;
-	}
-
-	public void setClasseTerapeutica(String classeTerapeutica) {
-		this.classeTerapeutica = classeTerapeutica;
-	}
-
 	public int getQtde() {
 		return qtde;
 	}
@@ -122,6 +107,23 @@ public class Produto {
 	public void setQtde(int qtde) {
 		this.qtde = qtde;
 	}
+	
+	public PrincipioAtivo getPrincipioAtivo() {
+		return principioAtivo;
+	}
+
+	public void setPrincipioAtivo(PrincipioAtivo principioAtivo) {
+		this.principioAtivo = principioAtivo;
+	}
+
+	public ClasseTerapeutica getClasseTerapeutica() {
+		return classeTerapeutica;
+	}
+
+	public void setClasseTerapeutica(ClasseTerapeutica classeTerapeutica) {
+		this.classeTerapeutica = classeTerapeutica;
+	}
+	
 
 	@Override
 	public String toString() {
@@ -130,7 +132,5 @@ public class Produto {
 				+ ", unidadeMedida=" + unidadeMedida + ", registroMS=" + registroMS + ", codigoBarras=" + codigoBarras
 				+ ", classeTerapeutica=" + classeTerapeutica + ", qtde=" + qtde + "]";
 	}
-	
-	
 	
 }
