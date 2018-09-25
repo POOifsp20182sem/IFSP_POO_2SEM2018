@@ -6,5 +6,4 @@ public interface IClienteControl {
 	 * exemplo implementacao controller
 	 * http://www.gqferreira.com.br/artigos/ver/mvc-com-java-desktop-parte3
 	 */
-	
 }

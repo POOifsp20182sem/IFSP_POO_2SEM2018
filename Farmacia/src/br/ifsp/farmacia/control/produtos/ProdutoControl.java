@@ -6,7 +6,7 @@ import br.ifsp.farmacia.model.entities.*;
 
 public class ProdutoControl {
 
-	IProdutoDAO pd = new ProdutoDAO();
+	private ProdutoDAO pd = new ProdutoDAO();
 
 	public boolean cadastrarProduto(Produto prod) throws SQLException {
 		return pd.insertProduto(prod);

@@ -233,7 +233,7 @@ public class FormCliente extends JFrame {
 	
 	
 	public static void popularCliente() {
-		String tipo = cboTipo.values;
+		/*String tipo = cboTipo.values;
 		Cliente cliente = new Cliente();
 		cliente.setNome(txtNome.toString()); 
 		cliente.setCelular(mskCelular.toString());
@@ -242,7 +242,7 @@ public class FormCliente extends JFrame {
 		cliente.setDataNascimento(mskDataNascimento.toString());
 		cliente.setTelefone(mskTelefone.toString());
 		cliente.setTipoCliente(cliente.getTipoCliente());
-		cliente.setText(enu.getValue());
+		cliente.setText(enu.getValue());*/
 	}
 	
 	

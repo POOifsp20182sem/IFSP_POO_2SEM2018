@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -27,6 +29,8 @@ import java.awt.event.ActionEvent;
 public class FormProduto extends JFrame {
 
 	private JPanel contentPane;
+	//TODO: id é salva como textField até encontrar melhor alternativa
+	private static int idProduto;
 	private static JTextField txtNomeComercial;
 	private static JTextField txtApresentacao;
 	private static JTextField txtFabricante;
@@ -36,7 +40,9 @@ public class FormProduto extends JFrame {
 	private static JTextField txtCodigoBarras;
 	private static JTextField txtClasseTerapeutica;
 	private static JTextField txtPesquisar;
-
+	private static JComboBox<EnumFormaFarmaco> cboForma = new JComboBox<>();
+	private static JSpinner spnQuantidade;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -74,7 +80,7 @@ public class FormProduto extends JFrame {
 		contentPane.add(txtNomeComercial);
 		txtNomeComercial.setColumns(10);
 		
-		JLabel lblApresentao = new JLabel("Apresenta\u00E7\u00E3o:");
+		JLabel lblApresentao = new JLabel("Apresentação:");
 		lblApresentao.setBounds(10, 72, 91, 14);
 		contentPane.add(lblApresentao);
 		
@@ -87,8 +93,7 @@ public class FormProduto extends JFrame {
 		lblFormaFarmaco.setBounds(10, 120, 78, 14);
 		contentPane.add(lblFormaFarmaco);
 		
-		JComboBox cboForma = new JComboBox();
-		cboForma.setModel(new DefaultComboBoxModel(EnumFormaFarmaco.values()));
+		cboForma.setModel(new DefaultComboBoxModel<>(EnumFormaFarmaco.values())); 
 		cboForma.setBounds(115, 117, 149, 20);
 		contentPane.add(cboForma);
 		
@@ -105,7 +110,7 @@ public class FormProduto extends JFrame {
 		lblPrincipioAtivo.setBounds(10, 211, 78, 14);
 		contentPane.add(lblPrincipioAtivo);
 		
-		JTextField txtPrincipioAtivo = new JTextField();
+		txtPrincipioAtivo = new JTextField();
 		txtPrincipioAtivo.setBounds(115, 208, 149, 20);
 		contentPane.add(txtPrincipioAtivo);
 		txtPrincipioAtivo.setColumns(10);
@@ -128,7 +133,7 @@ public class FormProduto extends JFrame {
 		contentPane.add(txtRegistroMs);
 		txtRegistroMs.setColumns(10);
 		
-		JLabel lblCodigoDeBarras = new JLabel("C\u00F3digo de Barras:");
+		JLabel lblCodigoDeBarras = new JLabel("Código de Barras:");
 		lblCodigoDeBarras.setBounds(325, 21, 86, 14);
 		contentPane.add(lblCodigoDeBarras);
 		
@@ -150,7 +155,8 @@ public class FormProduto extends JFrame {
 		lblQuantidade.setBounds(345, 120, 66, 14);
 		contentPane.add(lblQuantidade);
 		
-		JSpinner spnQuantidade = new JSpinner();
+		SpinnerModel sm = new SpinnerNumberModel(0, 0, 100, 1);
+		spnQuantidade = new JSpinner(sm);
 		spnQuantidade.setBounds(421, 117, 42, 20);
 		contentPane.add(spnQuantidade);
 		
@@ -164,13 +170,13 @@ public class FormProduto extends JFrame {
 		txtPesquisar.setColumns(10);
 		
 		ProdutoControl ctProduto = new ProdutoControl();
-		Produto produto = new Produto();
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					popularMedicamento();
+					Produto produto = new Produto();
+					popularMedicamento(produto);
 					ctProduto.cadastrarProduto(produto);
 					
 				} catch (SQLException e1) {
@@ -185,7 +191,8 @@ public class FormProduto extends JFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					popularMedicamento();
+					Produto produto = new Produto();
+					popularMedicamento(produto);
 					ctProduto.deletarProduto(produto);
 					
 				} catch (SQLException e1) {
@@ -201,7 +208,8 @@ public class FormProduto extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					popularMedicamento();
+					Produto produto = new Produto();
+					popularMedicamento(produto);
 					ctProduto.atualizarProduto(produto);
 					
 				} catch (SQLException e1) {
@@ -228,17 +236,18 @@ public class FormProduto extends JFrame {
 		contentPane.add(btnPesquisar);
 	}
 	
-	public static void popularMedicamento() {
-		Produto prod = new Produto();
+	public static void popularMedicamento(Produto prod) {
+		prod.setId(idProduto);
 		prod.setApresentacao(txtApresentacao.toString());
 		prod.setClasseTerapeutica(txtClasseTerapeutica.toString());
 		prod.setCodigoBarras(txtCodigoBarras.toString());
 		prod.setFabricante(txtFabricante.toString());
-		prod.setFormaFarmaco(cboForma.toString());
 		prod.setNomeComercial(txtNomeComercial.toString());
 		prod.setPrincipioAtivo(txtPrincipioAtivo.toString());
-		prod.setQtde(spnQuantidade.toString());
 		prod.setRegistroMS(txtRegistroMs.toString());
 		prod.setUnidadeMedida(txtUnidadeMedida.toString());
+		prod.setFormaFarmaco((EnumFormaFarmaco) cboForma.getSelectedItem());
+		prod.setQtde((int) spnQuantidade.getValue());
 	}
+	
 }

@@ -1,7 +1,5 @@
 package br.ifsp.farmacia.control.clientes;
 
-import br.ifsp.farmacia.model.persistence.clientes.IClienteDAO;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -10,7 +8,7 @@ import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
 
 public class ClienteControl {
 	
-	IClienteDAO cd = new ClienteDAO();
+	ClienteDAO cd = new ClienteDAO();
 	
 	public boolean CadastrarCliente (Cliente cli) throws SQLException{
 		return cd.insertCliente(cli);

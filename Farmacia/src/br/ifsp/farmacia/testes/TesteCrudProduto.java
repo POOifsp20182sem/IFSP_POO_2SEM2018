@@ -13,14 +13,22 @@ public class TesteCrudProduto {
 
 		ProdutoDAO prodDAO = new ProdutoDAO();
 		
+		
+		for(EnumFormaFarmaco s : EnumFormaFarmaco.values()) {
+			System.out.println(s.getFormaFarmaco());
+		}
+		
+		
+		
+		/*
 		try {
 			//TODO:FormaFarmaco está sendo inserido em letras maiúsculas
-			/*
+			
 			prodDAO.insertProduto(prod);
 			
 			prod.setId(4);
 			prodDAO.updateProduto(prod);
-			*/
+			
 			
 			for(Produto p: prodDAO.selectProduto()) {
 				System.out.println(p.toString());
@@ -28,7 +36,7 @@ public class TesteCrudProduto {
 				
 		} catch (Exception e) {
 			e.getMessage();
-		}
+		}*/
 	}
 
 }
