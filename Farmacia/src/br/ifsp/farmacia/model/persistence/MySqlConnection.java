@@ -9,22 +9,16 @@ import java.sql.SQLException;
 public class MySqlConnection {
 
 	public static Connection getConnection()
-			throws SQLException {
-		DBProperties properties;
+			throws SQLException, IOException {
+		//DBProperties properties;
 		Connection connection = null;
 
-		try {
-			properties = new DBProperties();
+		connection = DriverManager.getConnection("jdbc:mysql://localhost/farmacia",
+				"root",
+			    "");
 
-			connection = DriverManager.getConnection(properties.getUrl(),
-					properties.getUser(),
-					properties.getPasswd());
-
-			if (connection == null)
-				throw new SQLException("Connection class could not be created.");
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
+		if (connection == null)
+			throw new SQLException("Connection class could not be created.");
 
 		return connection;
 	}

@@ -33,13 +33,17 @@ public class FormCliente extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField txtNome;
-	private static JTextField txtEndereco;
+	private static JTextField txtLogradouro;
+	private static JTextField txtNumero;
+	private static JTextField txtCidade;
+	private static JTextField txtBairro;
 	private static JTextField txtEmail;
 	private static JTextField txtPesquisar;
 	private static JFormattedTextField mskDataNasc;
 	private static JFormattedTextField mskTelefone;
 	private static JFormattedTextField mskCelular;
 	private static JComboBox<EnumCliente> cboTipoCliente = new JComboBox<>();
+
 	/**
 	 * Launch the application.
 	 */
@@ -81,7 +85,7 @@ public class FormCliente extends JFrame {
 		contentPane.add(lblTelefone);
 		
 		JLabel lblEndereco = new JLabel("Endere\u00E7o:");
-		lblEndereco.setBounds(10, 148, 63, 14);
+		lblEndereco.setBounds(10, 187, 52, 14);
 		contentPane.add(lblEndereco);
 		
 		JLabel lblCelular = new JLabel("Celular:");
@@ -89,15 +93,15 @@ public class FormCliente extends JFrame {
 		contentPane.add(lblCelular);
 		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(10, 186, 46, 14);
+		lblEmail.setBounds(10, 146, 46, 14);
 		contentPane.add(lblEmail);
 		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(10, 227, 46, 14);
+		lblTipo.setBounds(10, 273, 46, 14);
 		contentPane.add(lblTipo);
 		
 		JLabel lblDocumento = new JLabel("Documento:");
-		lblDocumento.setBounds(10, 274, 77, 14);
+		lblDocumento.setBounds(240, 273, 77, 14);
 		contentPane.add(lblDocumento);
 		
 		txtNome = new JTextField();
@@ -120,13 +124,18 @@ public class FormCliente extends JFrame {
 		mskCelular.setBounds(249, 101, 97, 20);
 		contentPane.add(mskCelular);
 		
-		txtEndereco = new JTextField();
-		txtEndereco.setBounds(66, 145, 128, 20);
-		contentPane.add(txtEndereco);
-		txtEndereco.setColumns(10);
+		txtLogradouro = new JTextField();
+		txtLogradouro.setBounds(83, 204, 136, 20);
+		contentPane.add(txtLogradouro);
+		txtLogradouro.setColumns(10);
+		
+		txtNumero = new JTextField();
+		txtNumero.setBounds(283, 204, 63, 20);
+		contentPane.add(txtNumero);
+		txtNumero.setColumns(10);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(53, 183, 141, 20);
+		txtEmail.setBounds(53, 143, 293, 20);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 		
@@ -136,13 +145,13 @@ public class FormCliente extends JFrame {
 		JFormattedTextField mskCnpj = new JFormattedTextField(forCnpj);
 		
 		
-		mskCpf.setBounds(97, 271, 116, 20);
+		mskCpf.setBounds(327, 270, 116, 20);
 		contentPane.add(mskCpf);
-		mskCnpj.setBounds(67, 299, 127, 20);
+		mskCnpj.setBounds(327, 298, 116, 20);
 		contentPane.add(mskCnpj);
 		
 		cboTipoCliente.setModel(new DefaultComboBoxModel<>(EnumCliente.values()));
-		cboTipoCliente.setBounds(53, 224, 124, 20);
+		cboTipoCliente.setBounds(53, 270, 124, 20);
 		contentPane.add(cboTipoCliente);
 		
 		ClienteControl ctCliente = new ClienteControl();
@@ -174,7 +183,7 @@ public class FormCliente extends JFrame {
 				}
 			}
 		});
-		btnAlterar.setBounds(390, 270, 89, 23);
+		btnAlterar.setBounds(507, 314, 89, 23);
 		contentPane.add(btnAlterar);
 		
 		JButton btnExcluir = new JButton("Excluir");
@@ -219,6 +228,32 @@ public class FormCliente extends JFrame {
 		txtPesquisar.setBounds(10, 349, 209, 20);
 		contentPane.add(txtPesquisar);
 		txtPesquisar.setColumns(10);
+		
+		JLabel lblLogradouro = new JLabel("Logradouro:");
+		lblLogradouro.setBounds(10, 207, 63, 14);
+		contentPane.add(lblLogradouro);
+		
+		JLabel lblNumero = new JLabel("Número:");
+		lblNumero.setBounds(237, 207, 46, 14);
+		contentPane.add(lblNumero);
+		
+		txtBairro = new JTextField();
+		txtBairro.setColumns(10);
+		txtBairro.setBounds(83, 235, 136, 20);
+		contentPane.add(txtBairro);
+		
+		txtCidade = new JTextField();
+		txtCidade.setColumns(10);
+		txtCidade.setBounds(283, 235, 63, 20);
+		contentPane.add(txtCidade);
+		
+		JLabel lblBairro = new JLabel("Bairro:");
+		lblBairro.setBounds(10, 238, 63, 14);
+		contentPane.add(lblBairro);
+		
+		JLabel lblCidade = new JLabel("Cidade:");
+		lblCidade.setBounds(237, 238, 46, 14);
+		contentPane.add(lblCidade);
 	}
 	
 	
@@ -228,7 +263,7 @@ public class FormCliente extends JFrame {
 		cliente.setNome(txtNome.getText()); 
 		cliente.setEmail(txtEmail.getText());
 		//TODO:25-09-2018:ed:Pode ser melhor esse endereco
-		cliente.setEndereco(new Endereco(txtEndereco.getText()));
+		cliente.setEndereco(new Endereco(txtLogradouro.getText(), txtNumero.getText(), txtBairro.getText(), txtCidade.getText()));
 		//Masks
 		//"\\D" remove todos os elementos que não sejam números   
 		cliente.setCelular(mskCelular.getText().replaceAll("\\D",""));

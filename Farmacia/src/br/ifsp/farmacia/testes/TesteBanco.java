@@ -15,7 +15,7 @@ public class TesteBanco {
 		end.setLogradouro("Irineu Bernardi");
 		end.setNumero("97");
 		end.setCidade("Monte Si�o");
-		end.setComplemento("");
+		end.setBairro("");
 		
 		LocalDate nascimento = LocalDate.of(1997, 12, 31);
          

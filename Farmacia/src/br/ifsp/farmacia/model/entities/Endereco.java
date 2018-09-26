@@ -4,7 +4,7 @@ public class Endereco {
 	private String logradouro;
 	private String numero;
 	private String cidade;
-	private String complemento;
+	private String bairro;
 
 	
 	public Endereco() {
@@ -12,13 +12,14 @@ public class Endereco {
 	}
 	//TODO:25-09-2018:ed:criei para simplificar a criação
 	//porém pode ser melhorado
-	public Endereco(String endereco) {
-		String [] strings = endereco.split(";");
-		this.logradouro = strings[0];
-		this.numero = strings[1];
-		this.cidade = strings[2];
-		this.complemento = strings[3];
+	
+	public Endereco(String logradouro, String numero, String bairro, String cidade) {
+		this.logradouro = logradouro;
+		this.numero = numero;
+		this.cidade = cidade;
+		this.bairro = bairro;
 	}
+	
 	
 	public String getLogradouro() {
 		return logradouro;
@@ -44,16 +45,16 @@ public class Endereco {
 		this.cidade = cidade;
 	}
 
-	public String getComplemento() {
-		return complemento;
+	public String getBairro() {
+		return bairro;
 	}
 
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
 	}
 
 	@Override
 	public String toString() {
-		return cidade + ", " + logradouro + ", " + numero + ", " + complemento; 
+		return cidade + ", " + logradouro + ", " + numero + ", " + bairro; 
 	}
 }

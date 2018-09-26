@@ -16,7 +16,7 @@ public class TesteCrudFuncionario {
 		end.setLogradouro("Irineu Bernardi");
 		end.setNumero("97");
 		end.setCidade("Monte Si�o");
-		end.setComplemento("");
+		end.setBairro("");
 
 		Funcionario func = new Funcionario("Xavier", LocalDate.of(1911, 4, 13) , end, "eder@gmail.com",
 				"77777777", "65794333548", 2000.50, EnumFuncionario.GERENTE, "194944444");
