@@ -332,17 +332,18 @@ DROP TABLE IF EXISTS `sessao`;
 CREATE TABLE `sessao` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `func_abertura_id` int(11) NOT NULL,
-  `func_fechamento_id` int(11) NOT NULL,
+  `func_fechamento_id` int(11) DEFAULT NULL,
   `saldo_inicial` double NOT NULL,
-  `saldo_final` double NOT NULL,
+  `saldo_final` double DEFAULT NULL,
   `data_abertura` datetime DEFAULT NULL,
   `data_fechamento` datetime DEFAULT NULL,
+  `status` enum('ABERTO','FECHADO') NOT NULL,
   PRIMARY KEY (`id`),
   KEY `func_abertura_id` (`func_abertura_id`),
   KEY `func_fechamento_id` (`func_fechamento_id`),
   CONSTRAINT `sessao_ibfk_1` FOREIGN KEY (`func_abertura_id`) REFERENCES `funcionario` (`id`),
   CONSTRAINT `sessao_ibfk_2` FOREIGN KEY (`func_fechamento_id`) REFERENCES `funcionario` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -351,6 +352,7 @@ CREATE TABLE `sessao` (
 
 LOCK TABLES `sessao` WRITE;
 /*!40000 ALTER TABLE `sessao` DISABLE KEYS */;
+INSERT INTO `sessao` VALUES (1,2,2,1000,2000,'0000-00-00 00:00:00','0000-00-00 00:00:00','FECHADO'),(2,2,NULL,1000,NULL,'2018-09-25 00:00:00','0000-00-00 00:00:00','FECHADO'),(4,2,NULL,1000,NULL,'2018-09-25 21:21:21',NULL,'FECHADO'),(5,2,NULL,1000,NULL,'2018-09-25 21:21:21',NULL,'FECHADO'),(6,2,NULL,1000,NULL,'2018-09-25 21:21:21',NULL,'ABERTO');
 /*!40000 ALTER TABLE `sessao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -690,6 +692,37 @@ BEGIN
 					cpf LIKE CONCAT('%', filter,'%')) AND ativo IS TRUE;
 	END IF;
 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `buscar_movimento` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_movimento`(
+IN filter varchar(50))
+BEGIN
+	IF filter LIKE '' THEN
+		SELECT id, sessao_id, pedido_id, descricao, data_movimento, valor_entrada, valor_saida, troco, saldo, forma_pagamento, nota_fiscal_id
+        FROM movimento;
+	ELSE
+    #Por enquanto a pesquisa vai ficar simples, posteriormente pesquisar por período
+		SELECT id, sessao_id, pedido_id, descricao, data_movimento, valor_entrada, valor_saida, troco, saldo, forma_pagamento, nota_fiscal_id
+			FROM movimento
+				WHERE
+					descricao LIKE CONCAT('%', filter,'%') OR
+					forma_pagamento LIKE CONCAT('%', filter,'%') OR
+					nota_fiscal_id LIKE CONCAT('%', filter,'%');
+	END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1053,6 +1086,81 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_movimento` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_movimento`(
+IN p_sessao_id int(11),
+IN p_pedido_id int(11),
+IN p_descricao varchar(50),
+IN p_data_movimento datetime,
+IN p_valor_entrada double,
+IN p_valor_saida double,
+IN p_troco double,
+IN p_saldo double,
+IN p_forma_pagamento enum('cartao','dinheiro'),
+IN p_nota_fiscal_id int(11)
+)
+BEGIN
+
+	INSERT INTO movimento (sessao_id, pedido_id, descricao, data_movimento, valor_entrada, valor_saida, troco, saldo, forma_pagamento, nota_fiscal_id) 
+    VALUES 
+    (
+    p_sessao_id,
+    p_pedido_id,
+    p_descricao,
+    p_data_movimento,
+    p_valor_entrada,
+    p_valor_saida,
+    p_troco, 
+    p_saldo,
+    p_forma_pagamento,
+    p_nota_fiscal_id
+    );
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `inserir_nota_fiscal` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_nota_fiscal`(
+IN p_numero_nf int(11),
+IN p_status_nf enum('AUTORIZADA','CANCELADA','PROCESSANDO'),
+IN p_chave_nf varchar(45),
+IN p_protocolo_nf	varchar(40)
+)
+BEGIN
+	INSERT INTO nota_fiscal (numero_nf, status_nf, chave_nf, protocolo_nf) 
+		VALUES
+        (
+        p_numero_nf,
+        p_status_nf,
+        p_chave_nf,
+        p_protocolo_nf
+        );
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `inserir_pedido` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1130,6 +1238,53 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `salvar_sessao` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `salvar_sessao`(
+IN p_func_abertura_id int(11),
+IN p_func_fechamento_id int(11),
+IN p_saldo_inicial double,
+IN p_saldo_final double,
+IN p_data_abertura datetime,
+IN p_data_fechamento datetime
+)
+BEGIN
+	set @last_id = (SELECT max(id) FROM sessao);
+
+	IF((SELECT `status` FROM sessao WHERE id = @last_id) LIKE 'FECHADO') THEN
+    
+		INSERT INTO sessao (func_abertura_id, saldo_inicial, data_abertura, status) 
+			VALUES 
+			(
+			p_func_abertura_id,
+			p_saldo_inicial,
+			p_data_abertura,
+			'ABERTO' 
+			);
+	ELSE
+		UPDATE sessao
+        SET
+			func_fechamento_id = p_func_fechamento_id,
+			saldo_final = p_saldo_final,
+			data_fechamento = p_data_fechamento,
+			status = 'FECHADO'
+            WHERE id = @last_id;
+    END IF;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1140,4 +1295,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-25 19:15:45
+-- Dump completed on 2018-09-26  0:12:51
