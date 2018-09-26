@@ -37,7 +37,10 @@ public class FormFuncionario extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField txtNome;
-	private static JTextField txtEndereco;
+	private static JTextField txtLogradouro;
+	private static JTextField txtNumero;
+	private static JTextField txtCidade;
+	private static JTextField txtBairro;
 	private static JTextField txtEmail;
 	private static JFormattedTextField mskDataNasc;
 	private static JFormattedTextField mskTelefone;
@@ -88,108 +91,128 @@ public class FormFuncionario extends JFrame {
 		contentPane.add(lblTelefone);
 		
 		JLabel lblEndereco = new JLabel("Endere\u00E7o:");
-		lblEndereco.setBounds(10, 148, 63, 14);
+		lblEndereco.setBounds(10, 280, 63, 14);
 		contentPane.add(lblEndereco);
 		
 		JLabel lblCelular = new JLabel("Celular:");
-		lblCelular.setBounds(204, 104, 46, 14);
+		lblCelular.setBounds(215, 104, 46, 14);
 		contentPane.add(lblCelular);
 		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(10, 186, 46, 14);
+		lblEmail.setBounds(10, 147, 46, 14);
 		contentPane.add(lblEmail);
 		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(10, 227, 46, 14);
+		lblTipo.setBounds(10, 228, 46, 14);
 		contentPane.add(lblTipo);
 		
-		JLabel lblDocumento = new JLabel("Documento:");
-		lblDocumento.setBounds(10, 274, 77, 14);
-		contentPane.add(lblDocumento);
+		JLabel lblCpf = new JLabel("CPF:");
+		lblCpf.setBounds(215, 228, 34, 14);
+		contentPane.add(lblCpf);
 		
 		JTextField txtNome = new JTextField();
-		txtNome.setBounds(59, 19, 124, 20);
+		txtNome.setBounds(59, 19, 322, 20);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
 		
 		MaskFormatter forData = new MaskFormatter("##/##/####");
 		JFormattedTextField mskDataNasc = new JFormattedTextField(forData);
-		mskDataNasc.setBounds(117, 60, 77, 20);
+		mskDataNasc.setBounds(117, 60, 66, 20);
 		contentPane.add(mskDataNasc);
 		
 		MaskFormatter forTelefone = new MaskFormatter("(##) ####-####");
 		JFormattedTextField mskTelefone = new JFormattedTextField(forTelefone);
-		mskTelefone.setBounds(67, 101, 110, 20);
+		mskTelefone.setBounds(73, 101, 110, 20);
 		contentPane.add(mskTelefone);
 		
 		MaskFormatter forCelular = new MaskFormatter("(##) #####-####");
 		JFormattedTextField mskCelular = new JFormattedTextField(forCelular);
-		mskCelular.setBounds(249, 101, 97, 20);
+		mskCelular.setBounds(284, 101, 97, 20);
 		contentPane.add(mskCelular);
 		
-		JTextField txtEndereco = new JTextField();
-		txtEndereco.setBounds(66, 145, 128, 20);
-		contentPane.add(txtEndereco);
-		txtEndereco.setColumns(10);
+		txtLogradouro = new JTextField();
+		txtLogradouro.setBounds(83, 310, 166, 20);
+		contentPane.add(txtLogradouro);
+		txtLogradouro.setColumns(10);
 		
 		JTextField txtEmail = new JTextField();
-		txtEmail.setBounds(53, 183, 141, 20);
+		txtEmail.setBounds(53, 144, 328, 20);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		JComboBox cboTipo = new JComboBox();
 		cboTipo.setModel(new DefaultComboBoxModel(EnumFuncionario.values()));
-		cboTipo.setBounds(53, 224, 141, 20);
+		cboTipo.setBounds(53, 225, 120, 20);
 		contentPane.add(cboTipo);
 		
 		MaskFormatter forCpf = new MaskFormatter("###.###.###-##");
 		JFormattedTextField mskCpf = new JFormattedTextField(forCpf);
-		mskCpf.setBounds(82, 268, 112, 20);
+		mskCpf.setBounds(269, 225, 112, 20);
 		
 		MaskFormatter forCnpj = new MaskFormatter("##.###.###/####-##");
-		JFormattedTextField mskCnpj = new JFormattedTextField(forCnpj);
-		mskCnpj.setBounds(82, 295, 150, 20);
 		
 		
 		contentPane.add(mskCpf);
-		contentPane.add(mskCnpj);
 		
 		JLabel lblSalario = new JLabel("Sal\u00E1rio:");
-		lblSalario.setBounds(10, 342, 46, 14);
+		lblSalario.setBounds(215, 63, 46, 14);
 		contentPane.add(lblSalario);
 		
 		MaskFormatter forSalario = new MaskFormatter("R$ ####,##");
 		JFormattedTextField mskSalario = new JFormattedTextField(forSalario);
-		mskSalario.setBounds(67, 339, 110, 20);
+		mskSalario.setBounds(271, 60, 110, 20);
 		contentPane.add(mskSalario);
 		
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
 		lblUsurio.setLabelFor(this);
 		lblUsurio.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblUsurio.setBounds(153, 53, 40, 14);
+		lblUsurio.setBounds(10, 185, 40, 14);
 		contentPane.add(lblUsurio);
 		
 		txtUser = new JTextField();
-		txtUser.setBounds(250, 53, 144, 20);
+		txtUser.setBounds(63, 182, 110, 20);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setLabelFor(this);
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblSenha.setBounds(159, 150, 34, 14);
+		lblSenha.setBounds(204, 185, 34, 14);
 		contentPane.add(lblSenha);
 		
 		pswSenha = new JPasswordField();
-		pswSenha.setBounds(250, 150, 144, 20);
+		pswSenha.setBounds(247, 182, 134, 20);
 		contentPane.add(pswSenha);
+		
+		txtNumero = new JTextField();
+		txtNumero.setBounds(318, 310, 63, 20);
+		contentPane.add(txtNumero);
+		txtNumero.setColumns(10);
+		
+		txtBairro = new JTextField();
+		txtBairro.setColumns(10);
+		txtBairro.setBounds(83, 341, 136, 20);
+		contentPane.add(txtBairro);
+		
+		txtCidade = new JTextField();
+		txtCidade.setColumns(10);
+		txtCidade.setBounds(283, 341, 98, 20);
+		contentPane.add(txtCidade);
+		
+		JLabel lblBairro = new JLabel("Bairro:");
+		lblBairro.setBounds(10, 344, 63, 14);
+		contentPane.add(lblBairro);
+		
+		JLabel lblCidade = new JLabel("Cidade:");
+		lblCidade.setBounds(237, 344, 46, 14);
+		contentPane.add(lblCidade);
 		
 		JLabel lblPesquisar = new JLabel("Pesquisar:");
 		lblPesquisar.setBounds(10, 393, 66, 14);
 		contentPane.add(lblPesquisar);
 		
 		JTextField txtPesquisar = new JTextField();
-		txtPesquisar.setBounds(78, 390, 136, 20);
+		txtPesquisar.setBounds(78, 390, 193, 20);
 		contentPane.add(txtPesquisar);
 		txtPesquisar.setColumns(10);
 		
@@ -254,14 +277,22 @@ public class FormFuncionario extends JFrame {
 				}
 			}
 		});
-		btnPesquisar.setBounds(236, 389, 89, 23);
+		btnPesquisar.setBounds(292, 389, 89, 23);
 		contentPane.add(btnPesquisar);
+		
+		JLabel lblLogradouro = new JLabel("Logradouro:");
+		lblLogradouro.setBounds(10, 313, 63, 14);
+		contentPane.add(lblLogradouro);
+		
+		JLabel lblNmero = new JLabel("N\u00FAmero:");
+		lblNmero.setBounds(262, 313, 46, 14);
+		contentPane.add(lblNmero);
 	}
 	
 	public static void popularFuncionarios(Funcionario func) {
 		func.setNome(txtNome.getText()); 
 		func.setEmail(txtEmail.getText());
-		func.setEndereco(new Endereco(txtEndereco.getText()));
+		func.setEndereco(new Endereco(txtLogradouro.getText(), txtNumero.getText(), txtBairro.getText(), txtCidade.getText()));
 		func.setCelular(mskCelular.getText().replaceAll("\\D",""));
 		func.setDataNascimento((String)mskDataNasc.getText());
 		func.setTelefone(mskTelefone.getText().replaceAll("\\D",""));
