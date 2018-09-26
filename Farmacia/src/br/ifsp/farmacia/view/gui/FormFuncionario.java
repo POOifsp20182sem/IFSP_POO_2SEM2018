@@ -37,8 +37,10 @@ public class FormFuncionario extends JFrame {
 
 	private JPanel contentPane;
 	private static JTextField txtNome;
-	private static JTextField txtEndereco;
-	private static JTextField txtEmail;
+	private static JTextField txtLogradouro;
+	private static JTextField txtNumero;
+	private static JTextField txtCidade;
+	private static JTextField txtBairro;	private static JTextField txtEmail;
 	private static JFormattedTextField mskDataNasc;
 	private static JFormattedTextField mskTelefone;
 	private static JFormattedTextField mskCelular;
@@ -256,12 +258,38 @@ public class FormFuncionario extends JFrame {
 		});
 		btnPesquisar.setBounds(236, 389, 89, 23);
 		contentPane.add(btnPesquisar);
+		
+		JLabel lblLogradouro = new JLabel("Logradouro:");
+		lblLogradouro.setBounds(10, 207, 63, 14);
+		contentPane.add(lblLogradouro);
+		
+		JLabel lblNumero = new JLabel("Número:");
+		lblNumero.setBounds(237, 207, 46, 14);
+		contentPane.add(lblNumero);
+		
+		txtBairro = new JTextField();
+		txtBairro.setColumns(10);
+		txtBairro.setBounds(83, 235, 136, 20);
+		contentPane.add(txtBairro);
+		
+		txtCidade = new JTextField();
+		txtCidade.setColumns(10);
+		txtCidade.setBounds(283, 235, 63, 20);
+		contentPane.add(txtCidade);
+		
+		JLabel lblBairro = new JLabel("Bairro:");
+		lblBairro.setBounds(10, 238, 63, 14);
+		contentPane.add(lblBairro);
+		
+		JLabel lblCidade = new JLabel("Cidade:");
+		lblCidade.setBounds(237, 238, 46, 14);
+		contentPane.add(lblCidade);
 	}
 	
 	public static void popularFuncionarios(Funcionario func) {
 		func.setNome(txtNome.getText()); 
 		func.setEmail(txtEmail.getText());
-		func.setEndereco(new Endereco(txtEndereco.getText()));
+		func.setEndereco(new Endereco(txtLogradouro.getText(), txtNumero.getText(), txtBairro.getText(), txtCidade.getText()));
 		func.setCelular(mskCelular.getText().replaceAll("\\D",""));
 		func.setDataNascimento((String)mskDataNasc.getText());
 		func.setTelefone(mskTelefone.getText().replaceAll("\\D",""));

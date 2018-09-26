@@ -127,7 +127,7 @@ public class MenuPrincipal extends JFrame {
 		
 		btnVenda.addActionListener((e) -> {	
 			try {
-				Venda formVenda = new Venda();
+				FormVenda formVenda = new FormVenda();
 				//aqui o menu é apenas ocultado
 				//MenuPrincipal.this.setVisible(false);
 				//torna o form visível

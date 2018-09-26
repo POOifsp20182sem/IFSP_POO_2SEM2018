@@ -2,8 +2,12 @@ package br.ifsp.farmacia.view.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,8 +23,12 @@ import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JFormattedTextField;
+import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
+import br.ifsp.farmacia.control.vendas.VendaControl;
+import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.Venda;
 
-public class Venda extends JFrame {
+public class FormVenda extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtValorTotal;
@@ -36,7 +44,7 @@ public class Venda extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Venda frame = new Venda();
+					FormVenda frame = new FormVenda();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,8 +57,9 @@ public class Venda extends JFrame {
 	 * Create the frame.
 	 * @throws FileNotFoundException 
 	 * @throws ParseException 
+	 * @throws SQLException 
 	 */
-	public Venda() throws FileNotFoundException, ParseException {
+	public FormVenda() throws FileNotFoundException, ParseException, SQLException {
 		setTitle("Venda");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 525, 390);
@@ -64,6 +73,15 @@ public class Venda extends JFrame {
 		contentPane.add(lblCliente);
 		
 		JComboBox cboCliente = new JComboBox();
+		//teste
+		ClienteDAO cliDAO = new ClienteDAO();
+		Cliente cli = new Cliente();
+	     ArrayList<Cliente> lista = cliDAO.selectCliente();
+	     cboCliente.addItem("");  
+	     for(int i=0;i<lista.size();i++){
+	         cboCliente.addItem(lista.get(i).getNome());
+	     }
+	     //ate aqui
 		cboCliente.setBounds(69, 27, 211, 20);
 		contentPane.add(cboCliente);
 		
@@ -71,7 +89,20 @@ public class Venda extends JFrame {
 		btnRemover.setBounds(410, 157, 89, 23);
 		contentPane.add(btnRemover);
 		
+		VendaControl ctVenda = new VendaControl();
+		
 		JButton btnConcluir = new JButton("Concluir");
+		btnConcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Venda ven = new Venda();
+					popularVenda(ven);
+					ctVenda.cadastrarVenda(ven);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnConcluir.setBounds(410, 191, 89, 23);
 		contentPane.add(btnConcluir);
 		
@@ -152,5 +183,9 @@ public class Venda extends JFrame {
 		txtTroco.setColumns(10);
 		txtTroco.setBounds(413, 273, 86, 20);
 		contentPane.add(txtTroco);
+	}
+	
+	public static void popularVenda(Venda ven) {
+		
 	}
 }
