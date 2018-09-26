@@ -40,12 +40,8 @@ public class FormFuncionario extends JFrame {
 	private static JTextField txtLogradouro;
 	private static JTextField txtNumero;
 	private static JTextField txtCidade;
-<<<<<<< HEAD
-	private static JTextField txtBairro;	private static JTextField txtEmail;
-=======
 	private static JTextField txtBairro;
 	private static JTextField txtEmail;
->>>>>>> bb7971287694870f1fa38dad378a763ba1c48881
 	private static JFormattedTextField mskDataNasc;
 	private static JFormattedTextField mskTelefone;
 	private static JFormattedTextField mskCelular;
@@ -203,14 +199,6 @@ public class FormFuncionario extends JFrame {
 		txtCidade.setBounds(283, 341, 98, 20);
 		contentPane.add(txtCidade);
 		
-		JLabel lblBairro = new JLabel("Bairro:");
-		lblBairro.setBounds(10, 344, 63, 14);
-		contentPane.add(lblBairro);
-		
-		JLabel lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(237, 344, 46, 14);
-		contentPane.add(lblCidade);
-		
 		JLabel lblPesquisar = new JLabel("Pesquisar:");
 		lblPesquisar.setBounds(10, 393, 66, 14);
 		contentPane.add(lblPesquisar);
@@ -285,7 +273,6 @@ public class FormFuncionario extends JFrame {
 		contentPane.add(btnPesquisar);
 		
 		JLabel lblLogradouro = new JLabel("Logradouro:");
-<<<<<<< HEAD
 		lblLogradouro.setBounds(10, 207, 63, 14);
 		contentPane.add(lblLogradouro);
 		
@@ -310,14 +297,12 @@ public class FormFuncionario extends JFrame {
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setBounds(237, 238, 46, 14);
 		contentPane.add(lblCidade);
-=======
 		lblLogradouro.setBounds(10, 313, 63, 14);
 		contentPane.add(lblLogradouro);
 		
 		JLabel lblNmero = new JLabel("N\u00FAmero:");
 		lblNmero.setBounds(262, 313, 46, 14);
 		contentPane.add(lblNmero);
->>>>>>> bb7971287694870f1fa38dad378a763ba1c48881
 	}
 	
 	public static void popularFuncionarios(Funcionario func) {
