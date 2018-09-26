@@ -85,7 +85,7 @@ public class MenuPrincipal extends JFrame {
 		//usando lambda para simplificar
 		btnFuncionario.addActionListener((e) -> {	
 			try {
-				Funcionario formFuncionario = new Funcionario();
+				FormFuncionario formFuncionario = new FormFuncionario();
 				//aqui o menu é apenas ocultado
 				//MenuPrincipal.this.setVisible(false);
 				//torna o form visível

@@ -16,6 +16,8 @@ public class Funcionario extends Pessoa {
 		this.setSalario(salario);
 		this.setTipoFuncionario(tipoFuncionario);
 	}
+	
+	public Funcionario() {}
 
 	public double getSalario() {
 		return salario;

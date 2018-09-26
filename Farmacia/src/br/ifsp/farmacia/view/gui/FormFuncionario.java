@@ -1,26 +1,50 @@
 package br.ifsp.farmacia.view.gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
+import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.Endereco;
+import br.ifsp.farmacia.model.entities.EnumCliente;
 import br.ifsp.farmacia.model.entities.EnumFuncionario;
+import br.ifsp.farmacia.model.entities.Funcionario;
+import br.ifsp.farmacia.control.funcionarios.FuncionarioControl;;
 
-//TODO:25-09-2018:ed:por favor renomear para seguir o padrão
-public class Funcionario extends JFrame {
+public class FormFuncionario extends JFrame {
 
 	private JPanel contentPane;
+	private static JTextField txtNome;
+	private static JTextField txtEndereco;
+	private static JTextField txtEmail;
+	private static JFormattedTextField mskDataNasc;
+	private static JFormattedTextField mskTelefone;
+	private static JFormattedTextField mskCelular;
+	private static JComboBox<EnumCliente> cboTipo = new JComboBox<>();
+	private static JTextField txtUser;
+	private static JPasswordField pswSenha;
 
 	/**
 	 * Launch the application.
@@ -29,7 +53,7 @@ public class Funcionario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Funcionario frame = new Funcionario();
+					FormFuncionario frame = new FormFuncionario();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +66,7 @@ public class Funcionario extends JFrame {
 	 * Create the frame.
 	 * @throws ParseException 
 	 */
-	public Funcionario() throws ParseException {
+	public FormFuncionario() throws ParseException {
 		setTitle("Funcion\u00E1rio");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 588, 468);
@@ -139,6 +163,27 @@ public class Funcionario extends JFrame {
 		mskSalario.setBounds(67, 339, 110, 20);
 		contentPane.add(mskSalario);
 		
+		JLabel lblUsurio = new JLabel("Usu\u00E1rio:");
+		lblUsurio.setLabelFor(this);
+		lblUsurio.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblUsurio.setBounds(153, 53, 40, 14);
+		contentPane.add(lblUsurio);
+		
+		txtUser = new JTextField();
+		txtUser.setBounds(250, 53, 144, 20);
+		contentPane.add(txtUser);
+		txtUser.setColumns(10);
+		
+		JLabel lblSenha = new JLabel("Senha:");
+		lblSenha.setLabelFor(this);
+		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblSenha.setBounds(159, 150, 34, 14);
+		contentPane.add(lblSenha);
+		
+		pswSenha = new JPasswordField();
+		pswSenha.setBounds(250, 150, 144, 20);
+		contentPane.add(pswSenha);
+		
 		JLabel lblPesquisar = new JLabel("Pesquisar:");
 		lblPesquisar.setBounds(10, 393, 66, 14);
 		contentPane.add(lblPesquisar);
@@ -148,20 +193,78 @@ public class Funcionario extends JFrame {
 		contentPane.add(txtPesquisar);
 		txtPesquisar.setColumns(10);
 		
+		FuncionarioControl ctFunc = new FuncionarioControl();
+		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				try {
+					Funcionario func = new Funcionario();
+					popularFuncionarios(func);
+					ctFunc.cadastrarFuncionario(func);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnSalvar.setBounds(468, 384, 89, 23);
 		contentPane.add(btnSalvar);
 		
 		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Funcionario func = new Funcionario();
+					popularFuncionarios(func);
+					ctFunc.excluirFuncionario(func);
+				}
+				catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnExcluir.setBounds(468, 271, 89, 23);
 		contentPane.add(btnExcluir);
 		
 		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						Funcionario func = new Funcionario();
+						popularFuncionarios(func);
+						ctFunc.atualizarFuncionario(func);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
 		btnAlterar.setBounds(468, 321, 89, 23);
 		contentPane.add(btnAlterar);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ArrayList func = ctFunc.listarFuncionarios(txtPesquisar.getText());
+					JList list = new JList((ListModel) func);
+					list.setBounds(425, 284, 109, -263);
+					contentPane.add(list);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnPesquisar.setBounds(236, 389, 89, 23);
 		contentPane.add(btnPesquisar);
+	}
+	
+	public static void popularFuncionarios(Funcionario func) {
+		func.setNome(txtNome.getText()); 
+		func.setEmail(txtEmail.getText());
+		func.setEndereco(new Endereco(txtEndereco.getText()));
+		func.setCelular(mskCelular.getText().replaceAll("\\D",""));
+		func.setDataNascimento((String)mskDataNasc.getText());
+		func.setTelefone(mskTelefone.getText().replaceAll("\\D",""));
+		func.setTipoFuncionario((EnumFuncionario)cboTipo.getSelectedItem());
 	}
 }
