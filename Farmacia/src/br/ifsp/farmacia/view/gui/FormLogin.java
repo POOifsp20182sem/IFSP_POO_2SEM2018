@@ -80,12 +80,12 @@ public class FormLogin extends JFrame {
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener((e) -> {
 				LoginControl loginControl = new LoginControl();
-				Login login = new Login(txtUser.getText(), pswSenha.getPassword().toString());
+				Login login = new Login(txtUser.getText(),new String(pswSenha.getPassword()));
 				try {
 					if(loginControl.validarLogin(login)) {
-						MenuPrincipal menuPrincipal = new MenuPrincipal();
+						FormMenuPrincipal menuPrincipal = new FormMenuPrincipal();
 						//o ideial � fechar o login
-						FormLogin.this.setVisible(false);
+						FormLogin.this.dispose();
 						//torna o form vis�vel
 						menuPrincipal.setVisible(true);
 					}

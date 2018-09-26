@@ -42,12 +42,11 @@ public class LoginDAO implements ILoginDAO{
 			//no acesso
 			if(outputValue) {
 				System.out.println("Acesso permitido!");
-			}
-			else {
-				System.out.println("Acesso negado!");
 				return true;
 			}
-			
+			else 
+				System.out.println("Acesso negado!");
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -5,7 +5,11 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 import java.sql.SQLException;
+=======
+import java.sql.ResultSet;
+>>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -18,24 +22,36 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+
+import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.Produto;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JFormattedTextField;
+<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
 import br.ifsp.farmacia.control.vendas.VendaControl;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Venda;
+=======
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+>>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 
 public class FormVenda extends JFrame {
 
+	private static JComboBox cboMedicamento;
+	private static JComboBox cboCliente;
+	private static JTextField txtTroco;
 	private JPanel contentPane;
 	private JTextField txtValorTotal;
 	private JTextField txtDesconto;
-	private JTextField txtValorFinal;
-	private JTextField txtValorPago;
-	private JTextField txtTroco;
+	private static JTextField txtValorFinal;
+	private static JTextField txtValorPago;
 
 	/**
 	 * Launch the application.
@@ -59,7 +75,11 @@ public class FormVenda extends JFrame {
 	 * @throws ParseException 
 	 * @throws SQLException 
 	 */
+<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 	public FormVenda() throws FileNotFoundException, ParseException, SQLException {
+=======
+	public FormVenda() throws FileNotFoundException, ParseException {
+>>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 		setTitle("Venda");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 525, 390);
@@ -72,6 +92,7 @@ public class FormVenda extends JFrame {
 		lblCliente.setBounds(10, 30, 46, 14);
 		contentPane.add(lblCliente);
 		
+<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 		JComboBox cboCliente = new JComboBox();
 		//teste
 		ClienteDAO cliDAO = new ClienteDAO();
@@ -82,6 +103,9 @@ public class FormVenda extends JFrame {
 	         cboCliente.addItem(lista.get(i).getNome());
 	     }
 	     //ate aqui
+=======
+		cboCliente = new JComboBox();
+>>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 		cboCliente.setBounds(69, 27, 211, 20);
 		contentPane.add(cboCliente);
 		
@@ -93,6 +117,7 @@ public class FormVenda extends JFrame {
 		
 		JButton btnConcluir = new JButton("Concluir");
 		btnConcluir.addActionListener(new ActionListener() {
+<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Venda ven = new Venda();
@@ -101,6 +126,10 @@ public class FormVenda extends JFrame {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+=======
+			public void actionPerformed(ActionEvent arg0) {
+				troco();
+>>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 			}
 		});
 		btnConcluir.setBounds(410, 191, 89, 23);
@@ -110,7 +139,7 @@ public class FormVenda extends JFrame {
 		lblMedicamento.setBounds(10, 75, 93, 14);
 		contentPane.add(lblMedicamento);
 		
-		JComboBox cboMedicamento = new JComboBox();
+		cboMedicamento = new JComboBox();
 		cboMedicamento.setBounds(113, 72, 167, 20);
 		contentPane.add(cboMedicamento);
 		
@@ -149,12 +178,50 @@ public class FormVenda extends JFrame {
 		contentPane.add(lblFormaPagamento);
 		
 		JRadioButton rdbtnDinheiro = new JRadioButton("Dinheiro");
+		rdbtnDinheiro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if((rdbtnDinheiro.isSelected() == true) && (cboCliente.getSelectedItem() == null)) {
+					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.05; 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					 txtDesconto.setText(String.valueOf(desconto));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+				}
+				else if((rdbtnDinheiro.isSelected() == true) && (cboCliente.getSelectedItem() != null)) {
+					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					 txtDesconto.setText(String.valueOf(desconto));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+				}
+			}
+		});
 		rdbtnDinheiro.setBounds(31, 200, 109, 23);
 		contentPane.add(rdbtnDinheiro);
 		
 		JRadioButton rdbtnCarto = new JRadioButton("Cart\u00E3o");
+		rdbtnCarto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if((rdbtnCarto.isSelected() == true) && (cboCliente.getSelectedItem() == null)) { 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText());
+					 txtDesconto.setText(String.valueOf(0));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+					 
+				}
+				else if((rdbtnCarto.isSelected() == true) && (cboCliente.getSelectedItem() != null)) {
+					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					 txtDesconto.setText(String.valueOf(desconto));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+				}
+			}
+		});
 		rdbtnCarto.setBounds(155, 200, 109, 23);
 		contentPane.add(rdbtnCarto);
+		
+		ButtonGroup btnGroup = new ButtonGroup();
+		
+		btnGroup.add(rdbtnDinheiro);
+		btnGroup.add(rdbtnCarto);
+		
 		
 		JLabel lblData = new JLabel("Data:");
 		lblData.setBounds(306, 30, 40, 14);
@@ -185,7 +252,18 @@ public class FormVenda extends JFrame {
 		contentPane.add(txtTroco);
 	}
 	
+<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 	public static void popularVenda(Venda ven) {
 		
+=======
+	public static void popularVenda() {
+		Produto produto  = (Produto) cboMedicamento.getSelectedItem();
+		Cliente cliente = (Cliente) cboCliente.getSelectedItem();
+	}
+	
+	public static void troco() {
+		double troco = Double.parseDouble(txtValorPago.getText()) -  Double.parseDouble(txtValorFinal.getText());
+		txtTroco.setText(String.valueOf(troco));
+>>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 	}
 }
