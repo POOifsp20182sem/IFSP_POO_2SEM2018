@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.sun.glass.events.WindowEvent;
+//import com.sun.glass.events.WindowEvent;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -15,9 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.awt.event.ActionEvent;
+
 
 public class FormLogin extends JFrame {
 
@@ -85,9 +84,9 @@ public class FormLogin extends JFrame {
 				try {
 					if(loginControl.validarLogin(login)) {
 						MenuPrincipal menuPrincipal = new MenuPrincipal();
-						//o ideial é fechar o login
+						//o ideial ï¿½ fechar o login
 						FormLogin.this.setVisible(false);
-						//torna o form visível
+						//torna o form visï¿½vel
 						menuPrincipal.setVisible(true);
 					}
 				} catch (SQLException e1) {

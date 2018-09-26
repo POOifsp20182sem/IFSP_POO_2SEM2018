@@ -13,7 +13,7 @@ public class MySqlConnection {
 
 		connection = DriverManager.getConnection("jdbc:mysql://localhost/farmacia",
 				"root",
-				"vincentmalloy");
+				"");
 
 		if (connection == null)
 			throw new SQLException("Connection class could not be created.");

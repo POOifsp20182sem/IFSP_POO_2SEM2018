@@ -50,7 +50,6 @@ public class Venda extends JFrame {
 	 * @throws FileNotFoundException 
 	 * @throws ParseException 
 	 */
-	@SuppressWarnings("serial")
 	public Venda() throws FileNotFoundException, ParseException {
 		setTitle("Venda");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
