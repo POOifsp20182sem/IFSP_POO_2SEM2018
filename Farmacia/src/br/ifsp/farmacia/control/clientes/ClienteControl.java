@@ -29,4 +29,8 @@ public class ClienteControl {
 	public ArrayList<Cliente> listarCliente () throws SQLException {
 		return cd.selectCliente();
 	}
+
+	public Cliente buscarCliente(int id) throws SQLException {
+		return cd.buscarCliente(id);
+	}
 }

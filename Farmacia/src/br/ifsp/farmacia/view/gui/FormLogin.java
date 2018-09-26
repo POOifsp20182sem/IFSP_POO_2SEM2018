@@ -80,7 +80,7 @@ public class FormLogin extends JFrame {
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener((e) -> {
 				LoginControl loginControl = new LoginControl();
-				Login login = new Login(txtUser.getText(), pswSenha.getPassword().toString());
+				Login login = new Login(txtUser.getText(),new String(pswSenha.getPassword()));
 				try {
 					if(loginControl.validarLogin(login)) {
 						FormMenuPrincipal menuPrincipal = new FormMenuPrincipal();
