@@ -3,6 +3,7 @@ package br.ifsp.farmacia.view.gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
 import java.text.ParseException;
 
 import javax.swing.JFrame;
@@ -27,16 +28,16 @@ import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Venda extends JFrame {
+public class FormVenda extends JFrame {
 
 	private static JComboBox cboMedicamento;
 	private static JComboBox cboCliente;
+	private static JTextField txtTroco;
 	private JPanel contentPane;
 	private JTextField txtValorTotal;
 	private JTextField txtDesconto;
-	private JTextField txtValorFinal;
-	private JTextField txtValorPago;
-	private JTextField txtTroco;
+	private static JTextField txtValorFinal;
+	private static JTextField txtValorPago;
 
 	/**
 	 * Launch the application.
@@ -45,7 +46,7 @@ public class Venda extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Venda frame = new Venda();
+					FormVenda frame = new FormVenda();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +60,7 @@ public class Venda extends JFrame {
 	 * @throws FileNotFoundException 
 	 * @throws ParseException 
 	 */
-	public Venda() throws FileNotFoundException, ParseException {
+	public FormVenda() throws FileNotFoundException, ParseException {
 		setTitle("Venda");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 525, 390);
@@ -81,6 +82,11 @@ public class Venda extends JFrame {
 		contentPane.add(btnRemover);
 		
 		JButton btnConcluir = new JButton("Concluir");
+		btnConcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				troco();
+			}
+		});
 		btnConcluir.setBounds(410, 191, 89, 23);
 		contentPane.add(btnConcluir);
 		
@@ -204,5 +210,10 @@ public class Venda extends JFrame {
 	public static void popularVenda() {
 		Produto produto  = (Produto) cboMedicamento.getSelectedItem();
 		Cliente cliente = (Cliente) cboCliente.getSelectedItem();
+	}
+	
+	public static void troco() {
+		double troco = Double.parseDouble(txtValorPago.getText()) -  Double.parseDouble(txtValorFinal.getText());
+		txtTroco.setText(String.valueOf(troco));
 	}
 }

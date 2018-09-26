@@ -83,9 +83,9 @@ public class FormLogin extends JFrame {
 				Login login = new Login(txtUser.getText(), pswSenha.getPassword().toString());
 				try {
 					if(loginControl.validarLogin(login)) {
-						MenuPrincipal menuPrincipal = new MenuPrincipal();
+						FormMenuPrincipal menuPrincipal = new FormMenuPrincipal();
 						//o ideial � fechar o login
-						FormLogin.this.setVisible(false);
+						FormLogin.this.dispose();
 						//torna o form vis�vel
 						menuPrincipal.setVisible(true);
 					}

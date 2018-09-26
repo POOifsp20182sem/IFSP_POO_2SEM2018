@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.awt.Color;
 
-public class MenuPrincipal extends JFrame {
+public class FormMenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
 
@@ -30,7 +30,7 @@ public class MenuPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MenuPrincipal frame = new MenuPrincipal();
+					FormMenuPrincipal frame = new FormMenuPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class MenuPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MenuPrincipal() {
+	public FormMenuPrincipal() {
 		setTitle("Inicio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 496, 380);
@@ -65,7 +65,7 @@ public class MenuPrincipal extends JFrame {
 			try {
 				FormCliente formCliente = new FormCliente();
 				//aqui o menu é apenas ocultado
-				//MenuPrincipal.this.setVisible(false);
+				//FormMenuPrincipal.this.dispose();
 				//torna o form visível
 				formCliente.setVisible(true);
 			} catch (Exception e1) {
@@ -127,7 +127,7 @@ public class MenuPrincipal extends JFrame {
 		
 		btnVenda.addActionListener((e) -> {	
 			try {
-				Venda formVenda = new Venda();
+				FormVenda formVenda = new FormVenda();
 				//aqui o menu é apenas ocultado
 				//MenuPrincipal.this.setVisible(false);
 				//torna o form visível
