@@ -37,31 +37,7 @@ public class Venda {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public String getStrDataNascimento() {
-		return this.data.getDayOfMonth() + "." +
-				this.data.getMonthValue() + "." +
-				this.data.getYear();
-	}
 	
-	public String getDataNascFormatado() {
-		return this.data.getYear() + "-" +
-				this.data.getMonthValue() + "-" +
-				this.data.getDayOfMonth();
-	}
-	
-	public void setDataNascimento(Date data) {
-		this.data = data;
-	}
-	
-	public void setDataNascimento(String data) {
-		String [] strings = data.split("/"); 
-		int dia,mes,ano;
-		dia = Integer.parseInt(strings[0]);
-		mes = Integer.parseInt(strings[1]);
-		ano = Integer.parseInt(strings[2]);
-		this.data = Date.of(ano, mes, dia);
-	}
-
 	public int getIdCliente() {
 		return idCliente;
 	}

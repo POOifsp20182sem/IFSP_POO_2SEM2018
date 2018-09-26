@@ -1,15 +1,11 @@
 package br.ifsp.farmacia.view.gui;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 import java.sql.SQLException;
-=======
 import java.sql.ResultSet;
->>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -32,15 +28,12 @@ import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JFormattedTextField;
-<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
 import br.ifsp.farmacia.control.vendas.VendaControl;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Venda;
-=======
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
->>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 
 public class FormVenda extends JFrame {
 
@@ -75,11 +68,8 @@ public class FormVenda extends JFrame {
 	 * @throws ParseException 
 	 * @throws SQLException 
 	 */
-<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
+
 	public FormVenda() throws FileNotFoundException, ParseException, SQLException {
-=======
-	public FormVenda() throws FileNotFoundException, ParseException {
->>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 		setTitle("Venda");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 525, 390);
@@ -92,7 +82,6 @@ public class FormVenda extends JFrame {
 		lblCliente.setBounds(10, 30, 46, 14);
 		contentPane.add(lblCliente);
 		
-<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 		JComboBox cboCliente = new JComboBox();
 		//teste
 		ClienteDAO cliDAO = new ClienteDAO();
@@ -103,9 +92,8 @@ public class FormVenda extends JFrame {
 	         cboCliente.addItem(lista.get(i).getNome());
 	     }
 	     //ate aqui
-=======
+
 		cboCliente = new JComboBox();
->>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 		cboCliente.setBounds(69, 27, 211, 20);
 		contentPane.add(cboCliente);
 		
@@ -117,19 +105,16 @@ public class FormVenda extends JFrame {
 		
 		JButton btnConcluir = new JButton("Concluir");
 		btnConcluir.addActionListener(new ActionListener() {
-<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
+
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Venda ven = new Venda();
 					popularVenda(ven);
 					ctVenda.cadastrarVenda(ven);
+					troco();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-=======
-			public void actionPerformed(ActionEvent arg0) {
-				troco();
->>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 			}
 		});
 		btnConcluir.setBounds(410, 191, 89, 23);
@@ -250,13 +235,10 @@ public class FormVenda extends JFrame {
 		txtTroco.setColumns(10);
 		txtTroco.setBounds(413, 273, 86, 20);
 		contentPane.add(txtTroco);
+
 	}
-	
-<<<<<<< HEAD:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
-	public static void popularVenda(Venda ven) {
 		
-=======
-	public static void popularVenda() {
+	public static void popularVenda(Venda ven) {
 		Produto produto  = (Produto) cboMedicamento.getSelectedItem();
 		Cliente cliente = (Cliente) cboCliente.getSelectedItem();
 	}
@@ -264,6 +246,5 @@ public class FormVenda extends JFrame {
 	public static void troco() {
 		double troco = Double.parseDouble(txtValorPago.getText()) -  Double.parseDouble(txtValorFinal.getText());
 		txtTroco.setText(String.valueOf(troco));
->>>>>>> 26437a5c24de6eba4320707ae23bd6e3c1437ecf:Farmacia/src/br/ifsp/farmacia/view/gui/FormVenda.java
 	}
 }
