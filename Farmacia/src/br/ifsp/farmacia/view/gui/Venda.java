@@ -14,14 +14,23 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+
+import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.Produto;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JFormattedTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Venda extends JFrame {
 
+	private static JComboBox cboMedicamento;
+	private static JComboBox cboCliente;
 	private JPanel contentPane;
 	private JTextField txtValorTotal;
 	private JTextField txtDesconto;
@@ -63,7 +72,7 @@ public class Venda extends JFrame {
 		lblCliente.setBounds(10, 30, 46, 14);
 		contentPane.add(lblCliente);
 		
-		JComboBox cboCliente = new JComboBox();
+		cboCliente = new JComboBox();
 		cboCliente.setBounds(69, 27, 211, 20);
 		contentPane.add(cboCliente);
 		
@@ -79,7 +88,7 @@ public class Venda extends JFrame {
 		lblMedicamento.setBounds(10, 75, 93, 14);
 		contentPane.add(lblMedicamento);
 		
-		JComboBox cboMedicamento = new JComboBox();
+		cboMedicamento = new JComboBox();
 		cboMedicamento.setBounds(113, 72, 167, 20);
 		contentPane.add(cboMedicamento);
 		
@@ -118,12 +127,50 @@ public class Venda extends JFrame {
 		contentPane.add(lblFormaPagamento);
 		
 		JRadioButton rdbtnDinheiro = new JRadioButton("Dinheiro");
+		rdbtnDinheiro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if((rdbtnDinheiro.isSelected() == true) && (cboCliente.getSelectedItem() == null)) {
+					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.05; 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					 txtDesconto.setText(String.valueOf(desconto));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+				}
+				else if((rdbtnDinheiro.isSelected() == true) && (cboCliente.getSelectedItem() != null)) {
+					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					 txtDesconto.setText(String.valueOf(desconto));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+				}
+			}
+		});
 		rdbtnDinheiro.setBounds(31, 200, 109, 23);
 		contentPane.add(rdbtnDinheiro);
 		
 		JRadioButton rdbtnCarto = new JRadioButton("Cart\u00E3o");
+		rdbtnCarto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if((rdbtnCarto.isSelected() == true) && (cboCliente.getSelectedItem() == null)) { 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText());
+					 txtDesconto.setText(String.valueOf(0));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+					 
+				}
+				else if((rdbtnCarto.isSelected() == true) && (cboCliente.getSelectedItem() != null)) {
+					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
+					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					 txtDesconto.setText(String.valueOf(desconto));
+					 txtValorFinal.setText(String.valueOf(valorFinal));
+				}
+			}
+		});
 		rdbtnCarto.setBounds(155, 200, 109, 23);
 		contentPane.add(rdbtnCarto);
+		
+		ButtonGroup btnGroup = new ButtonGroup();
+		
+		btnGroup.add(rdbtnDinheiro);
+		btnGroup.add(rdbtnCarto);
+		
 		
 		JLabel lblData = new JLabel("Data:");
 		lblData.setBounds(306, 30, 40, 14);
@@ -152,5 +199,10 @@ public class Venda extends JFrame {
 		txtTroco.setColumns(10);
 		txtTroco.setBounds(413, 273, 86, 20);
 		contentPane.add(txtTroco);
+	}
+	
+	public static void popularVenda() {
+		Produto produto  = (Produto) cboMedicamento.getSelectedItem();
+		Cliente cliente = (Cliente) cboCliente.getSelectedItem();
 	}
 }
