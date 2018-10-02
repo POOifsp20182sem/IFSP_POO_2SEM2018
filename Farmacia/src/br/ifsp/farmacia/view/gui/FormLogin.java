@@ -1,6 +1,6 @@
 package br.ifsp.farmacia.view.gui;
 
-import br.ifsp.farmacia.control.login.LoginControl;
+import br.ifsp.farmacia.control.LoginControl;
 import br.ifsp.farmacia.model.entities.Login;
 import java.awt.EventQueue;
 import javax.swing.JFrame;

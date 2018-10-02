@@ -2,7 +2,7 @@ package br.ifsp.farmacia.testes;
 
 import br.ifsp.farmacia.model.entities.EnumFormaFarmaco;
 import br.ifsp.farmacia.model.entities.Produto;
-import br.ifsp.farmacia.model.persistence.produtos.ProdutoDAO;
+import br.ifsp.farmacia.model.persistence.ProdutoDAO;
 
 public class TesteCrudProduto {
 

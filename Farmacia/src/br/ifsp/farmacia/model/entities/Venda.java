@@ -7,14 +7,14 @@ import java.util.Date;
 public class Venda {
 	
 	private int id;
-	private Date data = new Date(System.currentTimeMillis());  
+	private String data; 
 	private int idCliente;
 	private int idFuncionario;
 	private double total, desconto;
 	
 	public Venda() {}
 	
-	public Venda(Date data, int idCliente, int idFuncionario, double total, double desconto) {
+	public Venda(String data, int idCliente, int idFuncionario, double total, double desconto) {
 		this.data = data;
 		this.idCliente = idCliente;
 		this.idFuncionario = idFuncionario;
@@ -30,14 +30,16 @@ public class Venda {
 		this.id = id;
 	}
 
-	public Date getData() {
+	
+	
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
-	
+
 	public int getIdCliente() {
 		return idCliente;
 	}

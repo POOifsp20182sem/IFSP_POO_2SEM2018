@@ -15,9 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
-import br.ifsp.farmacia.control.clientes.ClienteControl;
+import br.ifsp.farmacia.control.ClienteControl;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Endereco;
 import br.ifsp.farmacia.model.entities.EnumCliente;
@@ -57,6 +58,8 @@ public class FormListaClientes extends JFrame{
 	}
 
 	private void criaJanela() {
+		setTitle("Lista Clientes");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		btnInserir = new JButton("Inserir");
 		btnExcluir = new JButton("Excluir");
 		btnEditar = new JButton("Editar");
@@ -71,12 +74,11 @@ public class FormListaClientes extends JFrame{
 		painelFundo.add(BorderLayout.SOUTH, painelBotoes);
 
 		getContentPane().add(painelFundo);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(500, 320);
 		setVisible(true);
 		btnInserir.addActionListener(new BtnInserirListener());
 		btnEditar.addActionListener(new BtnEditarListener());
-		//btnExcluir.addActionListener(new BtnExcluirListener());
+		btnExcluir.addActionListener(new BtnExcluirListener());
 	}
 
 	/***
@@ -97,7 +99,6 @@ public class FormListaClientes extends JFrame{
 	}
 
 	private class BtnEditarListener implements ActionListener{
-
 		public void actionPerformed(ActionEvent e) {
 			int selectedRow = -1;
 			selectedRow = tabela.getSelectedRow();
@@ -112,7 +113,23 @@ public class FormListaClientes extends JFrame{
 			}else
 				JOptionPane.showMessageDialog(null, "Selecione uma linha para atualizar.");
 		}
-
+	} 
+	
+	private class BtnExcluirListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			int selectedRow = -1;
+			selectedRow = tabela.getSelectedRow();
+			if(selectedRow >= 0) {
+				try {
+					int id = (int) tabela.getValueAt(selectedRow, 0);
+					FormCliente.excluirCliente(id);
+					modelo.removeRow(selectedRow);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}else
+				JOptionPane.showMessageDialog(null, "Selecione uma linha para excluir.");
+		}
 	} 
 
 	private void criaTabela() throws SQLException {
@@ -135,11 +152,12 @@ public class FormListaClientes extends JFrame{
 		tabela.getColumnModel().getColumn(6).setPreferredWidth(10);
 		tabela.getColumnModel().getColumn(7).setPreferredWidth(10);
 		tabela.getColumnModel().getColumn(8).setPreferredWidth(10);
+		
 		//popular tabela
 		popularDados(modelo);
 
 		//TODO:26-09-2018:ed:campo id aparece, porém não pode ser
-		//retirado uma vez que existem várias excecoes
+		//retirado uma vez que existem várias excecoes associadas
 		//tabela.removeColumn(tabela.getColumnModel().getColumn(0));
 	}
 
@@ -161,5 +179,19 @@ public class FormListaClientes extends JFrame{
 					c.getDataNascimento()
 			});
 		}
+	}
+	
+	public static void addCliente(DefaultTableModel modelo,Cliente c) {
+		modelo.addRow(new Object[]{
+				c.getId(),
+				c.getNome(),
+				c.getEmail(),
+				c.getEndereco(),
+				c.getTelefone(),
+				c.getCelular(),
+				c.getTipoCliente(),
+				c.getDocumento(),
+				c.getDataNascimento()
+		});
 	}
 }

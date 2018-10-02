@@ -63,7 +63,7 @@ public class FormMenuPrincipal extends JFrame {
 		//usando lambda para simplificar
 		btnCliente.addActionListener((e) -> {	
 			try {
-				FormCliente formCliente = new FormCliente();
+				FormListaClientes formCliente = new FormListaClientes();
 				//aqui o menu é apenas ocultado
 				//FormMenuPrincipal.this.dispose();
 				//torna o form visível

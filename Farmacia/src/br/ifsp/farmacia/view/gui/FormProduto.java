@@ -14,7 +14,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-import br.ifsp.farmacia.control.produtos.ProdutoControl;
+import br.ifsp.farmacia.control.ProdutoControl;
 import br.ifsp.farmacia.model.entities.ClasseTerapeutica;
 import br.ifsp.farmacia.model.entities.EnumFormaFarmaco;
 import br.ifsp.farmacia.model.entities.PrincipioAtivo;

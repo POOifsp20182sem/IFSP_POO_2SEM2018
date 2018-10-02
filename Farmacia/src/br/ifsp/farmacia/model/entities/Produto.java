@@ -127,10 +127,7 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "Produto [id=" + id + ", nomeComercial=" + nomeComercial + ", apresentacao=" + apresentacao
-				+ ", formaFarmaco=" + formaFarmaco + ", fabricante=" + fabricante + ", principioAtivo=" + principioAtivo
-				+ ", unidadeMedida=" + unidadeMedida + ", registroMS=" + registroMS + ", codigoBarras=" + codigoBarras
-				+ ", classeTerapeutica=" + classeTerapeutica + ", qtde=" + qtde + "]";
+		return this.getNomeComercial();
 	}
 	
 }

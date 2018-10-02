@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Endereco;
 import br.ifsp.farmacia.model.entities.EnumCliente;
-import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
+import br.ifsp.farmacia.model.persistence.ClienteDAO;
 
 public class TesteClienteDAO {
 

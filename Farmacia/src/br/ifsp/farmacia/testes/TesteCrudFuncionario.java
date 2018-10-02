@@ -2,10 +2,10 @@ package br.ifsp.farmacia.testes;
 
 import java.time.LocalDate;
 
-import br.ifsp.farmacia.model.persistence.funcionarios.FuncionarioDAO;
 import br.ifsp.farmacia.model.entities.Endereco;
 import br.ifsp.farmacia.model.entities.EnumFuncionario;
 import br.ifsp.farmacia.model.entities.Funcionario;
+import br.ifsp.farmacia.model.persistence.FuncionarioDAO;
 
 public class TesteCrudFuncionario {
 

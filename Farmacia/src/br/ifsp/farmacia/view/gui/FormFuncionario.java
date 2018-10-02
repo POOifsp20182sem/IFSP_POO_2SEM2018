@@ -26,22 +26,22 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
+import br.ifsp.farmacia.control.FuncionarioControl;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Endereco;
 import br.ifsp.farmacia.model.entities.EnumCliente;
 import br.ifsp.farmacia.model.entities.EnumFuncionario;
-import br.ifsp.farmacia.model.entities.Funcionario;
-import br.ifsp.farmacia.control.funcionarios.FuncionarioControl;;
+import br.ifsp.farmacia.model.entities.Funcionario;;
 
 public class FormFuncionario extends JFrame {
 
 	private JPanel contentPane;
-	private static JTextField txtNome;
-	private static JTextField txtLogradouro;
-	private static JTextField txtNumero;
-	private static JTextField txtCidade;
-	private static JTextField txtBairro;
-	private static JTextField txtEmail;
+	private static JTextField txtNome =  new JTextField();
+	private static JTextField txtLogradouro =  new JTextField();
+	private static JTextField txtNumero =  new JTextField();
+	private static JTextField txtCidade =  new JTextField();
+	private static JTextField txtBairro =  new JTextField();
+	private static JTextField txtEmail =  new JTextField();
 	private static JFormattedTextField mskDataNasc;
 	private static JFormattedTextField mskTelefone;
 	private static JFormattedTextField mskCelular;
@@ -70,7 +70,7 @@ public class FormFuncionario extends JFrame {
 	 * @throws ParseException 
 	 */
 	public FormFuncionario() throws ParseException {
-		setTitle("Funcion\u00E1rio");
+		setTitle("Funcionário");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 588, 468);
 		contentPane = new JPanel();
@@ -199,6 +199,14 @@ public class FormFuncionario extends JFrame {
 		txtCidade.setBounds(283, 341, 98, 20);
 		contentPane.add(txtCidade);
 		
+		JLabel lblBairro = new JLabel("Bairro:");
+		lblBairro.setBounds(10, 344, 63, 14);
+		contentPane.add(lblBairro);
+		
+		JLabel lblCidade = new JLabel("Cidade:");
+		lblCidade.setBounds(237, 344, 46, 14);
+		contentPane.add(lblCidade);
+		
 		JLabel lblPesquisar = new JLabel("Pesquisar:");
 		lblPesquisar.setBounds(10, 393, 66, 14);
 		contentPane.add(lblPesquisar);
@@ -273,30 +281,6 @@ public class FormFuncionario extends JFrame {
 		contentPane.add(btnPesquisar);
 		
 		JLabel lblLogradouro = new JLabel("Logradouro:");
-		lblLogradouro.setBounds(10, 207, 63, 14);
-		contentPane.add(lblLogradouro);
-		
-		JLabel lblNumero = new JLabel("Número:");
-		lblNumero.setBounds(237, 207, 46, 14);
-		contentPane.add(lblNumero);
-		
-		txtBairro = new JTextField();
-		txtBairro.setColumns(10);
-		txtBairro.setBounds(83, 235, 136, 20);
-		contentPane.add(txtBairro);
-		
-		txtCidade = new JTextField();
-		txtCidade.setColumns(10);
-		txtCidade.setBounds(283, 235, 63, 20);
-		contentPane.add(txtCidade);
-		
-		JLabel lblBairro = new JLabel("Bairro:");
-		lblBairro.setBounds(10, 238, 63, 14);
-		contentPane.add(lblBairro);
-		
-		JLabel lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(237, 238, 46, 14);
-		contentPane.add(lblCidade);
 		lblLogradouro.setBounds(10, 313, 63, 14);
 		contentPane.add(lblLogradouro);
 		

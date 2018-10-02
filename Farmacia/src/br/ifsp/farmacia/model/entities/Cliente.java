@@ -55,8 +55,7 @@ public class Cliente extends Pessoa {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", tipoCliente=" + tipoCliente + ", especial=" + especial + ", celular=" + celular
-				+ "]";
+		return this.getNome();
 	}
 	
 }

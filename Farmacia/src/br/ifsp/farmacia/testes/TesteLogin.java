@@ -1,7 +1,7 @@
 package br.ifsp.farmacia.testes;
 
 import br.ifsp.farmacia.model.entities.Login;
-import br.ifsp.farmacia.model.persistence.login.LoginDAO;
+import br.ifsp.farmacia.model.persistence.LoginDAO;
 
 public class TesteLogin {
 

@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import br.ifsp.farmacia.control.VendaControl;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Produto;
 
@@ -28,8 +29,9 @@ import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
 import javax.swing.JFormattedTextField;
-import br.ifsp.farmacia.model.persistence.clientes.ClienteDAO;
-import br.ifsp.farmacia.control.vendas.VendaControl;
+
+import br.ifsp.farmacia.model.persistence.ClienteDAO;
+import br.ifsp.farmacia.model.persistence.ProdutoDAO;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Venda;
 import java.awt.event.ActionListener;
@@ -45,6 +47,10 @@ public class FormVenda extends JFrame {
 	private JTextField txtDesconto;
 	private static JTextField txtValorFinal;
 	private static JTextField txtValorPago;
+	private JTable dtListaMedicamentos;
+
+	String[] cabecalho = {"MEDICAMENTO","QUANTIDADE","PRECO"};
+	String[] dados = new String[3];
 
 	/**
 	 * Launch the application.
@@ -77,12 +83,12 @@ public class FormVenda extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblCliente = new JLabel("Cliente:");
 		lblCliente.setBounds(10, 30, 46, 14);
 		contentPane.add(lblCliente);
-		
-		JComboBox cboCliente = new JComboBox();
+
+		/*JComboBox cboCliente = new JComboBox();
 		//teste
 		ClienteDAO cliDAO = new ClienteDAO();
 		Cliente cli = new Cliente();
@@ -90,19 +96,26 @@ public class FormVenda extends JFrame {
 	     cboCliente.addItem("");  
 	     for(int i=0;i<lista.size();i++){
 	         cboCliente.addItem(lista.get(i).getNome());
-	     }
-	     //ate aqui
+	     }*/
+		//ate aqui
 
 		cboCliente = new JComboBox();
 		cboCliente.setBounds(69, 27, 211, 20);
 		contentPane.add(cboCliente);
-		
+
+		ClienteDAO cliDao = new ClienteDAO();
+
+		for (Cliente cli :  cliDao.selectCliente()) {
+			cboCliente.addItem(cli);
+		}
+
+
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setBounds(410, 157, 89, 23);
 		contentPane.add(btnRemover);
-		
+
 		VendaControl ctVenda = new VendaControl();
-		
+
 		JButton btnConcluir = new JButton("Concluir");
 		btnConcluir.addActionListener(new ActionListener() {
 
@@ -119,117 +132,150 @@ public class FormVenda extends JFrame {
 		});
 		btnConcluir.setBounds(410, 191, 89, 23);
 		contentPane.add(btnConcluir);
-		
+
 		JLabel lblMedicamento = new JLabel("Medicamento:");
 		lblMedicamento.setBounds(10, 75, 93, 14);
 		contentPane.add(lblMedicamento);
-		
+
 		cboMedicamento = new JComboBox();
 		cboMedicamento.setBounds(113, 72, 167, 20);
 		contentPane.add(cboMedicamento);
-		
+
+		ProdutoDAO proDao = new ProdutoDAO();
+		for (Produto pro : proDao.selectProduto()) {
+			cboMedicamento.addItem(pro);
+		}
+
 		JLabel lblValorTotal = new JLabel("Valor Total:");
 		lblValorTotal.setBounds(10, 248, 68, 14);
 		contentPane.add(lblValorTotal);
-		
+
 		JLabel lblDesconto = new JLabel("Desconto:");
 		lblDesconto.setBounds(10, 273, 68, 14);
 		contentPane.add(lblDesconto);
-		
+
 		JLabel lblValorFinal = new JLabel("Valor Final:");
 		lblValorFinal.setBounds(10, 300, 68, 14);
 		contentPane.add(lblValorFinal);
-		
+
 		txtValorTotal = new JTextField();
 		txtValorTotal.setEditable(false);
 		txtValorTotal.setBounds(88, 248, 86, 20);
 		contentPane.add(txtValorTotal);
 		txtValorTotal.setColumns(10);
-		
+
 		txtDesconto = new JTextField();
 		txtDesconto.setEditable(false);
 		txtDesconto.setBounds(88, 273, 86, 20);
 		contentPane.add(txtDesconto);
 		txtDesconto.setColumns(10);
-		
+
 		txtValorFinal = new JTextField();
 		txtValorFinal.setEditable(false);
 		txtValorFinal.setBounds(88, 300, 86, 20);
 		contentPane.add(txtValorFinal);
 		txtValorFinal.setColumns(10);
-		
+
 		JLabel lblFormaPagamento = new JLabel("Forma Pagamento:");
 		lblFormaPagamento.setBounds(10, 179, 115, 14);
 		contentPane.add(lblFormaPagamento);
-		
+
 		JRadioButton rdbtnDinheiro = new JRadioButton("Dinheiro");
 		rdbtnDinheiro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if((rdbtnDinheiro.isSelected() == true) && (cboCliente.getSelectedItem() == null)) {
-					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.05; 
-					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
-					 txtDesconto.setText(String.valueOf(desconto));
-					 txtValorFinal.setText(String.valueOf(valorFinal));
+					double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.05; 
+					double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+					txtDesconto.setText(String.valueOf(desconto));
+					txtValorFinal.setText(String.valueOf(valorFinal));
 				}
 				else if((rdbtnDinheiro.isSelected() == true) && (cboCliente.getSelectedItem() != null)) {
-					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
-					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
-					 txtDesconto.setText(String.valueOf(desconto));
-					 txtValorFinal.setText(String.valueOf(valorFinal));
+					try { 
+						double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
+						double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+						txtDesconto.setText(String.valueOf(desconto));
+						txtValorFinal.setText(String.valueOf(valorFinal));
+					} catch (Exception ex) {}
 				}
 			}
 		});
 		rdbtnDinheiro.setBounds(31, 200, 109, 23);
 		contentPane.add(rdbtnDinheiro);
-		
+
+		dtListaMedicamentos = new JTable();
+		dtListaMedicamentos.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+						"Medicamento", "Quantidade", "Quantidade"
+				}
+				) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			Class[] columnTypes = new Class[] {
+					String.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		dtListaMedicamentos.getColumnModel().getColumn(1).setPreferredWidth(80);
+		dtListaMedicamentos.setBounds(10, 80, 400, 100);
+		contentPane.add(dtListaMedicamentos);
+
 		JRadioButton rdbtnCarto = new JRadioButton("Cart\u00E3o");
 		rdbtnCarto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if((rdbtnCarto.isSelected() == true) && (cboCliente.getSelectedItem() == null)) { 
-					 double valorFinal = Double.parseDouble(txtValorTotal.getText());
-					 txtDesconto.setText(String.valueOf(0));
-					 txtValorFinal.setText(String.valueOf(valorFinal));
-					 
+					double valorFinal = Double.parseDouble(txtValorTotal.getText());
+					txtDesconto.setText(String.valueOf(0));
+					txtValorFinal.setText(String.valueOf(valorFinal));
+
 				}
 				else if((rdbtnCarto.isSelected() == true) && (cboCliente.getSelectedItem() != null)) {
-					 double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
-					 double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
-					 txtDesconto.setText(String.valueOf(desconto));
-					 txtValorFinal.setText(String.valueOf(valorFinal));
+					try {
+						double desconto = Double.parseDouble(txtValorTotal.getText()) * 0.15; 
+						double valorFinal = Double.parseDouble(txtValorTotal.getText()) - desconto;
+						txtDesconto.setText(String.valueOf(desconto));
+						txtValorFinal.setText(String.valueOf(valorFinal));
+					} catch (Exception ex) {
+					}
 				}
 			}
 		});
 		rdbtnCarto.setBounds(155, 200, 109, 23);
 		contentPane.add(rdbtnCarto);
-		
+
 		ButtonGroup btnGroup = new ButtonGroup();
-		
+
 		btnGroup.add(rdbtnDinheiro);
 		btnGroup.add(rdbtnCarto);
-		
-		
+
+
 		JLabel lblData = new JLabel("Data:");
 		lblData.setBounds(306, 30, 40, 14);
 		contentPane.add(lblData);
-		
+
 		MaskFormatter forData = new MaskFormatter("##/##/####");
 		JFormattedTextField mskData = new JFormattedTextField(forData);
 		mskData.setBounds(338, 27, 71, 20);
 		contentPane.add(mskData);
-		
+
 		JLabel lblValorPago = new JLabel("Valor Pago:");
 		lblValorPago.setBounds(338, 248, 71, 14);
 		contentPane.add(lblValorPago);
-		
+
 		JLabel lblTroco = new JLabel("Troco:");
 		lblTroco.setBounds(338, 273, 71, 14);
 		contentPane.add(lblTroco);
-		
+
 		txtValorPago = new JTextField();
 		txtValorPago.setColumns(10);
 		txtValorPago.setBounds(413, 248, 86, 20);
 		contentPane.add(txtValorPago);
-		
+
 		txtTroco = new JTextField();
 		txtTroco.setEditable(false);
 		txtTroco.setColumns(10);
@@ -237,12 +283,12 @@ public class FormVenda extends JFrame {
 		contentPane.add(txtTroco);
 
 	}
-		
+
 	public static void popularVenda(Venda ven) {
 		Produto produto  = (Produto) cboMedicamento.getSelectedItem();
 		Cliente cliente = (Cliente) cboCliente.getSelectedItem();
 	}
-	
+
 	public static void troco() {
 		double troco = Double.parseDouble(txtValorPago.getText()) -  Double.parseDouble(txtValorFinal.getText());
 		txtTroco.setText(String.valueOf(troco));

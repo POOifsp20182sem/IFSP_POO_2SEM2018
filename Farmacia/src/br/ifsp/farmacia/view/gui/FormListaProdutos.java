@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import br.ifsp.farmacia.control.produtos.ProdutoControl;
+import br.ifsp.farmacia.control.ProdutoControl;
 import br.ifsp.farmacia.model.entities.Produto;
 
 public class FormListaProdutos extends JFrame {

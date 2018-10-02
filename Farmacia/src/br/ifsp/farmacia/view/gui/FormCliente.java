@@ -10,14 +10,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JList;
-
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-import br.ifsp.farmacia.control.clientes.ClienteControl;
+import br.ifsp.farmacia.control.ClienteControl;
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.entities.Endereco;
 import br.ifsp.farmacia.model.entities.EnumCliente;
@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 public class FormCliente extends JFrame {
 
 	private JPanel contentPane;
-	private static int id = -1;
+	private static int idCliente = -1;
 	private static JTextField txtNome;
 	private static JTextField txtLogradouro;
 	private static JTextField txtNumero;
@@ -177,11 +177,16 @@ public class FormCliente extends JFrame {
 				try {
 					Cliente cliente = new Cliente();
 					popularCliente(cliente);
-					if(id > 0) {
-						cliente.setId(id);
-						ctCliente.AtualizarCliente(cliente);
-					}else
-						ctCliente.CadastrarCliente(cliente);
+					if(idCliente > 0) {
+						cliente.setId(idCliente);
+						if(ctCliente.AtualizarCliente(cliente)) {
+							JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!");
+						}
+					}else {
+						if(ctCliente.CadastrarCliente(cliente)) {
+							JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+						}
+						}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -189,25 +194,6 @@ public class FormCliente extends JFrame {
 		});
 		btnSalvar.setBounds(507, 348, 89, 23);
 		contentPane.add(btnSalvar);
-
-		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					Cliente cliente = new Cliente();
-					//TODO: pode ter um método específico, 
-					//uma vez que é preciso pegar somente o id
-					popularCliente(cliente);
-					ctCliente.DeletarCliente(cliente);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnExcluir.setBounds(507, 270, 89, 23);
-		contentPane.add(btnExcluir);
-
 		/*
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
@@ -277,6 +263,7 @@ public class FormCliente extends JFrame {
 		cliente.setCelular(mskCelular.getText().replaceAll("\\D",""));
 		cliente.setDataNascimento((String)mskDataNasc.getText());
 		cliente.setTelefone(mskTelefone.getText().replaceAll("\\D",""));
+		
 		if(cliente.getTipoCliente().equals(EnumCliente.FISICA))
 			cliente.setDocumento(mskCpf.getText().replaceAll("\\D", ""));
 		else
@@ -285,7 +272,7 @@ public class FormCliente extends JFrame {
 
 	public static void popularForm(Cliente cli) {
 		String [] strs = cli.getEndereco().toString().split(",");
-		id = cli.getId();
+		idCliente = cli.getId();
 		txtNome.setText(cli.getNome());
 		txtCidade.setText(strs[0]);
 		txtLogradouro.setText(strs[1]);
@@ -308,9 +295,24 @@ public class FormCliente extends JFrame {
 	
 	public static Cliente buscarCliente(int id) throws SQLException {
 		ClienteControl ctCliente = new ClienteControl();
-		
 		Cliente cli = ctCliente.buscarCliente(id);
-		
 		return cli;
 	}
+	
+	public static boolean excluirCliente(int id) {
+		ClienteControl ctCliente = new ClienteControl();
+		try {
+			Cliente cliente = new Cliente();
+			cliente.setId(id);
+			if(ctCliente.DeletarCliente(cliente)) {
+				JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
+			}else {
+				JOptionPane.showMessageDialog(null, "Erro ao excluir");
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return false;
+	}
+	
 }
