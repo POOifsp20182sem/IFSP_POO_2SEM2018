@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 import br.ifsp.farmacia.model.entities.Cliente;
 import br.ifsp.farmacia.model.persistence.ClienteDAO;
+import br.ifsp.farmacia.model.persistence.IClienteDAO;
 
 public class ClienteControl {
 	
-	ClienteDAO cd = new ClienteDAO();
+	IClienteDAO cd = new ClienteDAO();
 	
 	public boolean CadastrarCliente (Cliente cli) throws SQLException{
 		return cd.insertCliente(cli);

@@ -12,4 +12,5 @@ public interface IClienteDAO {
 	public boolean deleteCliente(Cliente cli) throws SQLException;
 	public ArrayList<Cliente> selectCliente(String filter) throws SQLException;
 	public ArrayList<Cliente> selectCliente() throws SQLException;
+	public Cliente buscarCliente(int id) throws SQLException;
 }

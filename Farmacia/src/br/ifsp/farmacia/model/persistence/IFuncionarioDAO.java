@@ -11,4 +11,5 @@ public interface IFuncionarioDAO {
 	public boolean deleteFuncionario(Funcionario func)throws SQLException;
 	public ArrayList<Funcionario> selectFuncionario(String filter)throws SQLException;
 	public ArrayList<Funcionario> selectFuncionario()throws SQLException;
+	public Funcionario buscarFuncionario(int id) throws SQLException;
 }

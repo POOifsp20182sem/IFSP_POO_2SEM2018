@@ -29,5 +29,9 @@ public class FuncionarioControl {
 	public ArrayList<Funcionario> listarFuncionarios(String filtro) throws SQLException {
 		return fd.selectFuncionario(filtro);
 	}
+	
+	public Funcionario buscarFuncionario(int id) throws SQLException{
+		return fd.buscarFuncionario(id);
+	}
 
 }

@@ -2,9 +2,15 @@ package br.ifsp.farmacia.model.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import br.ifsp.farmacia.model.entities.Endereco;
+import br.ifsp.farmacia.model.entities.EnumCliente;
+import br.ifsp.farmacia.model.entities.EnumFuncionario;
 import br.ifsp.farmacia.model.entities.Funcionario;
 
 public class FuncionarioDAO implements IFuncionarioDAO{
@@ -113,14 +119,99 @@ public class FuncionarioDAO implements IFuncionarioDAO{
 
 	@Override
 	public ArrayList<Funcionario> selectFuncionario(String filter) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		try {
+			String query = "{call buscar_funcionarios(?)}";
+			
+			conn = MySqlConnection.getConnection();
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, filter);
+			
+			ResultSet resultado = ps.executeQuery();
+			ArrayList<Funcionario> funList = new ArrayList<Funcionario>();
+			
+			while(resultado.next()) {
+				Funcionario f = new Funcionario();
+				f.setId(resultado.getInt("id"));
+				f.setNome(resultado.getString("nome"));
+				f.setEmail(resultado.getString("email"));
+				String [] strs = resultado.getString("endereco").toString().split(",");
+				f.setEndereco(new Endereco(strs[0], strs[1], strs[2], strs[3]));
+				f.setTelefone(resultado.getString("telefone"));
+				f.setCelular(resultado.getString("celular"));
+				f.setDocumento(resultado.getString("cpf"));
+				f.setDataNascimento(LocalDate.parse(resultado.getString("data_nascimento"), dtf));
+				f.setTipoFuncionario(
+						(resultado.getString("tipo_funcionario").
+								equalsIgnoreCase(EnumFuncionario.ATENDENTE.toString()))? 
+										EnumFuncionario.ATENDENTE:EnumFuncionario.GERENTE);
+				f.setSalario(resultado.getDouble("salario"));
+				
+				funList.add(f);
+			}
+			conn.close();
+			
+			return funList;
+					
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public ArrayList<Funcionario> selectFuncionario() throws SQLException {
-		// TODO Auto-generated method stub
+		return selectFuncionario("");
+	}
+	
+	public Funcionario buscarFuncionario(int id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		try {
+			String query = "SELECT * FROM funcionario WHERE id = ?";
+			
+			conn = MySqlConnection.getConnection();
+			ps = conn.prepareStatement(query);
+			
+			ps.setInt(1, id);
+			
+			ResultSet resultado = ps.executeQuery();
+			
+			while(resultado.next()) {
+				Funcionario f = new Funcionario();
+				f.setId(resultado.getInt("id"));
+				f.setNome(resultado.getString("nome"));
+				f.setEmail(resultado.getString("email"));
+				String [] strs = resultado.getString("endereco").toString().split(",");
+				f.setEndereco(new Endereco(strs[0], strs[1], strs[2], strs[3]));
+				f.setTelefone(resultado.getString("telefone"));
+				f.setCelular(resultado.getString("celular"));
+				f.setDocumento(resultado.getString("cpf"));
+				f.setDataNascimento(LocalDate.parse(resultado.getString("data_nascimento"), dtf));
+				f.setTipoFuncionario(
+						(resultado.getString("tipo_funcionario").
+								equalsIgnoreCase(EnumFuncionario.ATENDENTE.toString()))? 
+										EnumFuncionario.ATENDENTE:EnumFuncionario.GERENTE);
+				f.setSalario(resultado.getDouble("salario"));
+				
+				return f;
+			}
+		conn.close();			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 }
+
