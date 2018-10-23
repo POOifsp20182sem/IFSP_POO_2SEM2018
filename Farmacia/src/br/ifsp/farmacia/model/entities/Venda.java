@@ -1,23 +1,19 @@
 package br.ifsp.farmacia.model.entities;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-
 public class Venda {
 	
 	private int id;
 	private String data; 
-	private int idCliente;
-	private int idFuncionario;
+	private Cliente cliente;
+	private Funcionario funcionario;
 	private double total, desconto;
 	
 	public Venda() {}
 	
-	public Venda(String data, int idCliente, int idFuncionario, double total, double desconto) {
+	public Venda(String data, Cliente cliente, Funcionario funcionario, double total, double desconto) {
 		this.data = data;
-		this.idCliente = idCliente;
-		this.idFuncionario = idFuncionario;
+		this.cliente = cliente;
+		this.funcionario = funcionario;
 		this.total = total;
 		this.desconto = desconto;
 	}
@@ -29,8 +25,6 @@ public class Venda {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	
 	
 	public String getData() {
 		return data;
@@ -39,21 +33,21 @@ public class Venda {
 	public void setData(String data) {
 		this.data = data;
 	}
-
-	public int getIdCliente() {
-		return idCliente;
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public int getIdFuncionario() {
-		return idFuncionario;
+	public Funcionario getFuncionario() {
+		return funcionario;
 	}
 
-	public void setIdFuncionario(int idFuncionario) {
-		this.idFuncionario = idFuncionario;
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 
 	public double getTotal() {
@@ -71,11 +65,12 @@ public class Venda {
 	public void setDesconto(double desconto) {
 		this.desconto = desconto;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "pedido [id=" + id + ", data_compra=" + data + ", cliente_id=" + idCliente + ", funcionario_id=" + idFuncionario
-				+ ", total=" + total + ", desconto=" + desconto +"]";
-	}
+		return "Venda [id = " + id + ", data = " + data + ", cliente = " + cliente.getNome() +
+				", funcionario = " + funcionario.getNome()
+				+ ", total = " + total + ", desconto = " + desconto + "]";
+	}	
 
 }

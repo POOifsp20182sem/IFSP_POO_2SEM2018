@@ -71,6 +71,18 @@ public abstract class Pessoa {
 		this.endereco = endereco;
 	}
 	
+	//TODO: Criado para auxiliar no retorno dos dados do banco
+	public void setEndereco(String endereco) {
+		String[] strings = endereco.split(",");
+		String logradouro, numero, bairro, cidade;
+		
+		logradouro = strings[0];
+		numero = strings[1];
+		bairro = strings[2];
+		cidade = strings[3];
+		this.endereco = new Endereco(logradouro, numero, bairro, cidade);	
+	}
+	
 	public String getEmail() {
 		return email;
 	}

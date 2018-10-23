@@ -4,14 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import br.ifsp.farmacia.model.entities.ClasseTerapeutica;
-import br.ifsp.farmacia.model.entities.Produto;
+import br.ifsp.farmacia.model.entities.Cliente;
+import br.ifsp.farmacia.model.entities.Funcionario;
 import br.ifsp.farmacia.model.entities.Venda;
 
 public class VendaDAO implements IVendaDAO{
@@ -22,15 +17,16 @@ public class VendaDAO implements IVendaDAO{
 		PreparedStatement ps = null;
 		try {
 			
-			String query = "{call inserir_movimento(?, ?, ?, ?)}"; 
+			String query = "{call inserir_pedido(?, ?, ?, ?, ?)}"; 
 			// TODO: ver com base no mysql
 			conn = MySqlConnection.getConnection();
 			ps = conn.prepareStatement(query);		
 
-			ps.setInt(1, ven.getIdCliente());
-			ps.setInt(2, ven.getIdFuncionario());
-			ps.setDouble(3, ven.getTotal());
-			ps.setDouble(4, ven.getDesconto());
+			ps.setInt(1, ven.getCliente().getId());
+			ps.setInt(2, ven.getFuncionario().getId());
+			ps.setDouble(3, ven.getDesconto());
+			ps.setDouble(4, ven.getTotal());
+			ps.setString(5, ven.getData());
 
 			if(ps.executeUpdate() == 0) {
 				System.out.println("Erro ao inserir!");
@@ -54,15 +50,17 @@ public class VendaDAO implements IVendaDAO{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
-			String query = "{call inserir_produto( ?, ?, ?, ?)}"; 
+			String query = "{call alterar_pedido(?, ?, ?, ?, ?, ?)}"; 
 
 			conn = MySqlConnection.getConnection();
 			ps = conn.prepareStatement(query);		
 
-			ps.setInt(2, ven.getIdCliente());
-			ps.setInt(3, ven.getIdFuncionario());
-			ps.setDouble(4, ven.getTotal());
-			ps.setDouble(5, ven.getDesconto());
+			ps.setInt(1, ven.getId());
+			ps.setInt(2, ven.getCliente().getId());
+			ps.setInt(3, ven.getFuncionario().getId());
+			ps.setDouble(4, ven.getDesconto());
+			ps.setDouble(5, ven.getTotal());
+			ps.setString(6, ven.getData());
 			
 		if(ps.executeUpdate() == 0) {
 			System.out.println("Erro ao alterar!");
@@ -90,13 +88,13 @@ public class VendaDAO implements IVendaDAO{
 			conn = MySqlConnection.getConnection();
 			ps = conn.prepareStatement(query);		
 			
-			ps.setInt(0, ven.getId());
+			ps.setInt(1, ven.getId());
 
 			if(ps.executeUpdate() == 0) {
-				System.out.println("Erro ao alterar!");
+				System.out.println("Erro ao excluir!");
 			}
 			else {
-				System.out.println("Dado alterado com sucesso!");
+				System.out.println("Dado excluído com sucesso!");
 				return true;
 			}
 			
@@ -128,12 +126,21 @@ public class VendaDAO implements IVendaDAO{
 			while(result.next()) {
 				ven = new Venda();
 				
-				ven.setId(result.getInt("id"));
-				ven.setIdCliente(result.getInt("apresentacao"));
+				Cliente cli = new Cliente();
+				Funcionario fun = new Funcionario();
 				
-				ven.setIdFuncionario(result.getInt("fabricante"));
-				ven.setTotal(result.getDouble("unidade_medida"));
-				ven.setDesconto(result.getDouble("registro_ms"));
+				cli.setId(result.getInt("cliente_id"));
+				cli.setNome(result.getString("nome"));
+				
+				fun.setId(result.getInt("funcionario_id"));
+				fun.setNome(result.getString("nome_fun"));
+				
+				ven.setId(result.getInt("id"));
+				ven.setCliente(cli);				
+				ven.setFuncionario(fun);
+				ven.setTotal(result.getDouble("total"));
+				ven.setDesconto(result.getDouble("desconto"));
+				ven.setData(result.getString("data_compra"));
 
 				listVendas.add(ven);
 			}
@@ -155,16 +162,33 @@ public class VendaDAO implements IVendaDAO{
 		Venda ven = new Venda();
 		
 		try {
-			String query = "{call buscar_pedidos()}"; 
+			String query = "{call buscar_pedidos(?)}"; 
 			conn = MySqlConnection.getConnection();
 			ps = conn.prepareStatement(query);		
+			
+			ps.setString(1, "");
 			
 			ResultSet result = ps.executeQuery();
 			
 			while(result.next()) {
 				ven = new Venda();
+				
+				Cliente cli = new Cliente();
+				Funcionario fun = new Funcionario();
+				
+				cli.setId(result.getInt("cliente_id"));
+				cli.setNome(result.getString("nome"));
+				
+				fun.setId(result.getInt("funcionario_id"));
+				fun.setNome(result.getString("nome_fun"));
+				
 				ven.setId(result.getInt("id"));
-				ven.setIdCliente(result.getInt("cliente_id"));
+				ven.setCliente(cli);				
+				ven.setFuncionario(fun);
+				ven.setTotal(result.getDouble("total"));
+				ven.setDesconto(result.getDouble("desconto"));
+				ven.setData(result.getString("data_compra"));
+				
 				listVendas.add(ven);
 			}
 			
@@ -175,7 +199,5 @@ public class VendaDAO implements IVendaDAO{
 		}
 		return listVendas;
 	}
-	
-	
 
 }
