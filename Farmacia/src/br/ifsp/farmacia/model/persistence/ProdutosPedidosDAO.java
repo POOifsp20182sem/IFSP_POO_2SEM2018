@@ -103,8 +103,8 @@ public class ProdutosPedidosDAO implements IProdutosPedidosDAO {
 			ps.setInt(2, produtoPedido.getVenda().getId());
 			ps.setInt(3, produtoPedidoNew.getProduto().getId());
 			ps.setInt(4, produtoPedidoNew.getVenda().getId());
-			ps.setInt(5, produtoPedido.getQuantidade());
-			ps.setDouble(6, produtoPedido.getValorItem());
+			ps.setInt(5, produtoPedidoNew.getQuantidade());
+			ps.setDouble(6, produtoPedidoNew.getValorItem());
 			
 			if(ps.executeUpdate() == 0)
 				System.out.println("Erro ao alterar.");

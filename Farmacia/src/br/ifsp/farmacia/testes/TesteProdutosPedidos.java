@@ -16,7 +16,7 @@ public class TesteProdutosPedidos {
 		Produto produto = new Produto();
 		Venda venda = new Venda();
 		
-		produto.setId(5);
+		produto.setId(7);
 		venda.setId(7);
 		
 		pp.setProduto(produto);
@@ -29,14 +29,14 @@ public class TesteProdutosPedidos {
 		
 		//System.out.println(ppDao.removeProdutoPedido(pp));
 		
-		/*ProdutosPedidos pp2 = new ProdutosPedidos();
+		ProdutosPedidos pp2 = new ProdutosPedidos();
 		
 		pp2.setProduto(produto);
 		pp2.setVenda(venda);
-		pp2.setQuantidade(4);
+		pp2.setQuantidade(2);
 		pp2.setValorItem(pp.getQuantidade() * 3.8);
 		
-		System.out.println(ppDao.updateProdutoPedido(pp, pp2));*/
+		System.out.println(ppDao.updateProdutoPedido(pp, pp2));
 	}
 
 }
