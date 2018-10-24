@@ -135,6 +135,7 @@ CREATE TABLE `itens_pedido` (
 
 LOCK TABLES `itens_pedido` WRITE;
 /*!40000 ALTER TABLE `itens_pedido` DISABLE KEYS */;
+INSERT INTO `itens_pedido` VALUES (6,7,4,15.2),(7,7,2,15.2);
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1136,4 +1137,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-24  2:09:41
+-- Dump completed on 2018-10-24 13:29:35
